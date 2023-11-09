@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.middleagent.config.DefaultConfig;
 import com.example.middleagent.config.WebUtilsConfig;
+import com.example.middleagent.indicator.CoolIndicatorLayout;
 import com.example.middleagent.popwindow.TopPopWindow;
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.utilsgather.ui.StatusBarUtil;
@@ -246,10 +247,19 @@ public class OpenWebActivity extends AppCompatActivity {
     }
 
     private void goUrl() {
-        mAgentWeb = AgentWeb.with(this)
-                .setAgentWebParent((LinearLayout)findViewById(R.id.middleagent_ll_web_root), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
-                .useDefaultIndicator()
-                .setWebChromeClient(mWebChromeClient)
+        AgentWeb.IndicatorBuilder indicatorBuilder = AgentWeb.with(this)
+                .setAgentWebParent((LinearLayout)findViewById(R.id.middleagent_ll_web_root), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        AgentWeb.CommonBuilder commonBuilder;
+        if (webConfig.isUseCoolIndicator()) {
+            commonBuilder = indicatorBuilder.setCustomIndicator(new CoolIndicatorLayout(OpenWebActivity.this));
+        } else if (webConfig.getIndicatorColor() != -1){
+            commonBuilder = indicatorBuilder.useDefaultIndicator(webConfig.getIndicatorColor());
+        } else {
+            commonBuilder = indicatorBuilder.useDefaultIndicator();
+        }
+
+        mAgentWeb = commonBuilder.setWebChromeClient(mWebChromeClient)
                 .setWebViewClient(mWebViewClient)
                 .createAgentWeb()
                 .ready()

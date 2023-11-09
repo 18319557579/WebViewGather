@@ -40,9 +40,27 @@ public class WebUtilsConfig implements Parcelable {
     //状态栏文字颜色是否是深色
     private boolean isStateBarTextColorDark;
 
-    @Override
-    public int describeContents() {
-        return 0;
+    //指示器是否使用酷的样式
+    private boolean useCoolIndicator = false;
+    //指示器的颜色
+    private int indicatorColor = -1;
+
+    public boolean isUseCoolIndicator() {
+        return useCoolIndicator;
+    }
+
+    public WebUtilsConfig setUseCoolIndicator(boolean useCoolIndicator) {
+        this.useCoolIndicator = useCoolIndicator;
+        return this;
+    }
+
+    public int getIndicatorColor() {
+        return indicatorColor;
+    }
+
+    public WebUtilsConfig setIndicatorColor(int indicatorColor) {
+        this.indicatorColor = indicatorColor;
+        return this;
     }
 
     public String getBackText() {
@@ -164,6 +182,11 @@ public class WebUtilsConfig implements Parcelable {
     }
 
     @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.backText);
         dest.writeByte(this.showBackText ? (byte) 1 : (byte) 0);
@@ -178,6 +201,8 @@ public class WebUtilsConfig implements Parcelable {
         dest.writeInt(this.titleTextColor);
         dest.writeInt(this.backTextColor);
         dest.writeByte(this.isStateBarTextColorDark ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.useCoolIndicator ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.indicatorColor);
     }
 
     public void readFromParcel(Parcel source) {
@@ -194,6 +219,8 @@ public class WebUtilsConfig implements Parcelable {
         this.titleTextColor = source.readInt();
         this.backTextColor = source.readInt();
         this.isStateBarTextColorDark = source.readByte() != 0;
+        this.useCoolIndicator = source.readByte() != 0;
+        this.indicatorColor = source.readInt();
     }
 
     public WebUtilsConfig() {
@@ -213,9 +240,11 @@ public class WebUtilsConfig implements Parcelable {
         this.titleTextColor = in.readInt();
         this.backTextColor = in.readInt();
         this.isStateBarTextColorDark = in.readByte() != 0;
+        this.useCoolIndicator = in.readByte() != 0;
+        this.indicatorColor = in.readInt();
     }
 
-    public static final Parcelable.Creator<WebUtilsConfig> CREATOR = new Parcelable.Creator<WebUtilsConfig>() {
+    public static final Creator<WebUtilsConfig> CREATOR = new Creator<WebUtilsConfig>() {
         @Override
         public WebUtilsConfig createFromParcel(Parcel source) {
             return new WebUtilsConfig(source);

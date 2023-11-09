@@ -19,6 +19,7 @@ public class DefaultConfig {
                 .setShowTitleView(true)
                 .setTitleBackgroundColor(R.color.app_theme_color_green)
                 .setTitleBackgroundRes(-1)
-                .setTitleLineColor(-1);
+                .setTitleLineColor(-1)
+                .setUseCoolIndicator(true);
     }
 }

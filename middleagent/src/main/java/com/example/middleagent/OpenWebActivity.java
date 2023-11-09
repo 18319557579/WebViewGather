@@ -138,6 +138,12 @@ public class OpenWebActivity extends AppCompatActivity {
                 topPopWindow.showAaDropDownView(ivMoreView);
             }
         });
+        mTitleBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void cleanCookies() {

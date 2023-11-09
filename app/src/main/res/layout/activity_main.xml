@@ -27,37 +27,4 @@
         android:layout_marginTop="10dp"
         android:text="打开默认配置WebView"/>
 
-    <!--<ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/triangle_fill"/>
-    <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Hello World!"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@drawable/polygon1"/>
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="100dp"
-        android:background="@drawable/polygon3"/>
-
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/triangle_arrows"/>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/triangle_max"/>-->
-
-
-  </LinearLayout>
+</LinearLayout>

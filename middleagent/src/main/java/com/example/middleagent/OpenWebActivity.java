@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.middleagent.config.DefaultConfig;
 import com.example.middleagent.config.WebUtilsConfig;
+import com.example.middleagent.popwindow.TopPopWindow;
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.utilsgather.ui.StatusBarUtil;
 import com.example.utilsgather.version.VersionCodeUtil;
@@ -101,6 +102,8 @@ public class OpenWebActivity extends AppCompatActivity {
         setContentView(R.layout.activity_open_web);
 
         findView();
+        addViewListener();
+
         cleanCookies();
         parseExtra();
         statusBarAndTitle();
@@ -114,6 +117,27 @@ public class OpenWebActivity extends AppCompatActivity {
         ivMore = findViewById(R.id.middleagent_more_web);
         llWebTitle = findViewById(R.id.middleagent_ll_web_title);
         titleLine = findViewById(R.id.middleagent_line_divider);
+    }
+
+    private void addViewListener() {
+        ivMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View ivMoreView) {
+                TopPopWindow topPopWindow = new TopPopWindow(OpenWebActivity.this, new TopPopWindow.OnTopItemClickListener() {
+                    @Override
+                    public void onItemClick(View v) {
+                        if (v.getId() == R.id.tv_01) {
+                            LogUtil.d("按钮1被点击");
+                        } else if (v.getId() == R.id.tv_02) {
+                            LogUtil.d("按钮2被点击");
+                        } else if (v.getId() == R.id.tv_03) {
+                            LogUtil.d("按钮3被点击");
+                        }
+                    }
+                });
+                topPopWindow.showAaDropDownView(ivMoreView);
+            }
+        });
     }
 
     private void cleanCookies() {

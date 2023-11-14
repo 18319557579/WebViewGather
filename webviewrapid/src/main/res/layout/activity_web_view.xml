@@ -39,6 +39,43 @@
                 android:layout_height="wrap_content"
                 android:text="pauseTimers"
                 android:textSize="10sp"/>
+            <Button
+                android:id="@+id/webviewrapid_btn_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="canGoBack"
+                android:textSize="10sp"/>
+            <Button
+                android:id="@+id/webviewrapid_btn_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="canGoForward"
+                android:textSize="10sp"/>
+            <Button
+                android:id="@+id/webviewrapid_btn_7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="goBack"
+                android:textSize="10sp"/>
+
+            <Button
+                android:id="@+id/webviewrapid_btn_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="goForward"
+                android:textSize="10sp"/>
+            <Button
+                android:id="@+id/webviewrapid_btn_9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="打印列表"
+                android:textSize="10sp"/>
+            <Button
+                android:id="@+id/webviewrapid_btn_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"/>
+
         </LinearLayout>
     </HorizontalScrollView>
 

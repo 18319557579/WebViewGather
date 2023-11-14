@@ -1,12 +1,17 @@
 package com.example.webviewrapid;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebBackForwardList;
+import android.webkit.WebHistoryItem;
 import android.widget.FrameLayout;
 
 
 import com.example.utilsgather.lifecycle_callback.CallbackActivity;
+import com.example.utilsgather.logcat.LogUtil;
 import com.example.utilsgather.ui.ScreenFunctionUtils;
 import com.example.webviewrapid.base.BaseWebView;
 import com.example.webviewrapid.databinding.ActivityWebViewBinding;
@@ -64,6 +69,54 @@ public class WebViewActivity extends CallbackActivity {
             @Override
             public void onClick(View v) {
                 mWebView.pauseTimers();
+            }
+        });
+        findViewById(R.id.webviewrapid_btn_5).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogUtil.d("判断是否能返回 " + mWebView.canGoBack());
+                LogUtil.d("判断是否真正能返回 " + mWebView.canGoBackReal());
+            }
+        });
+        findViewById(R.id.webviewrapid_btn_6).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogUtil.d("判断是否能前进 " + mWebView.canGoForward());
+            }
+        });
+
+        mBinding.webviewrapidBtn7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWebView.goBack();
+                LogUtil.d("调用了goBack ");
+            }
+        });
+        mBinding.webviewrapidBtn8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWebView.goForward();
+                LogUtil.d("调用了goForward ");
+            }
+        });
+        mBinding.webviewrapidBtn9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebBackForwardList webBackForwardList = mWebView.copyBackForwardList();
+                for (int i = 0; i < webBackForwardList.getSize(); i++) {
+                    WebHistoryItem webHistoryItem = webBackForwardList.getItemAtIndex(i);
+                    LogUtil.d("index：" + i + ", webHistoryItem:" + webHistoryItem.getUrl() + " | " +
+                            webHistoryItem.getOriginalUrl() + " | " + webHistoryItem.getTitle() + " | " +
+                            webHistoryItem.getFavicon());
+
+                    String host = Uri.parse(webHistoryItem.getUrl()).getHost();
+                    LogUtil.d("打印host：" + host);
+                    if (TextUtils.isEmpty(host)) {
+                        LogUtil.d("该页面是空的页面");
+                    }
+
+                }
+
             }
         });
 

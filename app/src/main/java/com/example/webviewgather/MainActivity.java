@@ -11,7 +11,7 @@ import android.widget.RadioGroup;
 
 import com.example.middleagent.OpenWebActivity;
 import com.example.webviewrapid.WebViewActivity;
-import com.example.webviewrapid.webview_manager.WebViewBuilder;
+import com.example.webviewrapid.webview_manager.WebViewManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_prepare_webview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebViewBuilder.doPrepare(MainActivity.this);
+                WebViewManager.doPrepare(MainActivity.this);
             }
         });
     }

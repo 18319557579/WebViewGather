@@ -2,32 +2,28 @@ package com.example.webviewrapid.webview_manager;
 
 import android.content.Context;
 import android.content.MutableContextWrapper;
-import android.os.Build;
 import android.os.Looper;
 import android.os.MessageQueue;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.webkit.WebView;
 
 import com.example.utilsgather.logcat.LogUtil;
+import com.example.webviewrapid.base.BaseWebView;
 import com.example.webviewrapid.webview_settings.WebSettingsConfiguration;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
 
-public enum WebViewBuilder {
+public enum WebViewManager {
     INSTANCE;
 
     public static void doPrepare(Context context) {
         INSTANCE.prepare(context);
     }
 
-    public static WebView doObtain(Context context) {
+    public static BaseWebView doObtain(Context context) {
         return INSTANCE.obtain(context);
     }
 
-    public static void doRecycle(WebView webView) {
+    public static void doRecycle(BaseWebView webView) {
         INSTANCE.recycle(webView);
     }
 
@@ -36,13 +32,13 @@ public enum WebViewBuilder {
     }
 
 
-    private final ArrayList<WebView> webViewCache = new ArrayList<>();
+    private final ArrayList<BaseWebView> webViewCache = new ArrayList<>();
 
     /**
      * WebView的创建
      */
-    private WebView create(Context context) {
-        WebView webView = new WebView(context);
+    private BaseWebView create(Context context) {
+        BaseWebView webView = new BaseWebView(context);
         WebSettingsConfiguration.buildSettings(webView);
         return webView;
     }
@@ -66,12 +62,12 @@ public enum WebViewBuilder {
     /**
      * 获得WebView的实例（如果列表里面已经有则直接用，否则新建一个）
      */
-    public WebView obtain(Context context) {
+    public BaseWebView obtain(Context context) {
         //在准备完成了之后应该不会为空了
         if (webViewCache.isEmpty()) {
             webViewCache.add(create(new MutableContextWrapper(context)));
         }
-        WebView webView = webViewCache.remove(0);
+        BaseWebView webView = webViewCache.remove(0);
         MutableContextWrapper mutableContextWrapper = (MutableContextWrapper) webView.getContext();
         mutableContextWrapper.setBaseContext(context);
         webView.clearHistory();
@@ -79,7 +75,7 @@ public enum WebViewBuilder {
         return webView;
     }
 
-    public void recycle(WebView webView) {
+    public void recycle(BaseWebView webView) {
         webView.stopLoading();
         webView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
         webView.clearHistory();
@@ -100,7 +96,7 @@ public enum WebViewBuilder {
     }
 
     public void destroy() {
-        for (WebView webView : webViewCache) {
+        for (BaseWebView webView : webViewCache) {
             webView.removeAllViews();
             webView.destroy();
         }

@@ -6,10 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".WebViewActivity">
 
+    <HorizontalScrollView
+        android:id="@+id/webviewrapid_sv_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/webviewrapid_btn_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="onResume"
+                android:textSize="10sp"/>
+            <Button
+                android:id="@+id/webviewrapid_btn_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="onPause"
+                android:textSize="10sp"/>
+
+            <Button
+                android:id="@+id/webviewrapid_btn_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="resumeTimers"
+                android:textSize="10sp"/>
+            <Button
+                android:id="@+id/webviewrapid_btn_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="pauseTimers"
+                android:textSize="10sp"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+
     <FrameLayout
         android:id="@+id/webviewrapid_rl_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/webviewrapid_sv_head"/>
 
 
 </RelativeLayout>

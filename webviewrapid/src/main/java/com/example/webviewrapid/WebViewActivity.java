@@ -3,6 +3,7 @@ package com.example.webviewrapid;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebBackForwardList;
@@ -141,5 +142,14 @@ public class WebViewActivity extends CallbackActivity {
         super.onPause();
         mWebView.onPause();
         mWebView.pauseTimers();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBackReal()) {
+            mWebView.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

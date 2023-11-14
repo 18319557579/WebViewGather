@@ -5,3 +5,4 @@ include ':middleagent'
 //引入自己的工具库
 include(":utilsgather")
 project(":utilsgather").projectDir = new File("C:/Users/hsf/AndroidStudioProjects/UtilsGather/utilsgather")
+include ':webviewrapid'

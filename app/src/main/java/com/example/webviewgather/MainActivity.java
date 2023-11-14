@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.example.middleagent.OpenWebActivity;
+import com.example.webviewrapid.WebViewActivity;
+import com.example.webviewrapid.webview_manager.WebViewBuilder;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,5 +52,20 @@ public class MainActivity extends AppCompatActivity {
         });
 
         rg.check(R.id.rb_one);
+
+        findViewById(R.id.btn_jump_rapid).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.btn_prepare_webview).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebViewBuilder.doPrepare(MainActivity.this);
+            }
+        });
     }
 }

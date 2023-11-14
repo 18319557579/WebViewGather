@@ -53,9 +53,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_jump_rapid).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
-                intent.putExtra(BaseWebViewActivity.KEY_URL, getUrl());
-                startActivity(intent);
+                WebViewActivity.start(MainActivity.this, getUrl());
             }
         });
 

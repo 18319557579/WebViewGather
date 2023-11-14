@@ -1,5 +1,7 @@
 package com.example.webviewrapid;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -24,6 +26,15 @@ public class WebViewActivity extends BaseWebViewActivity {
 
     private ActivityWebViewBinding mBinding;
     private BaseWebView mWebView;
+
+    /**
+     * 跳转WebViewActivity
+     */
+    public static void start(Context context, String url) {
+        Intent intent = new Intent(context, WebViewActivity.class);
+        intent.putExtra(BaseWebViewActivity.KEY_URL, url);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

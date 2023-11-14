@@ -15,11 +15,12 @@ import com.example.utilsgather.lifecycle_callback.CallbackActivity;
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.utilsgather.ui.ScreenFunctionUtils;
 import com.example.webviewrapid.base.BaseWebView;
+import com.example.webviewrapid.base_activity.BaseWebViewActivity;
 import com.example.webviewrapid.databinding.ActivityWebViewBinding;
 import com.example.webviewrapid.webview_manager.WebViewManager;
 import com.example.webviewrapid.webview_settings.WebSettingsConfiguration;
 
-public class WebViewActivity extends CallbackActivity {
+public class WebViewActivity extends BaseWebViewActivity {
 
     private ActivityWebViewBinding mBinding;
     private BaseWebView mWebView;
@@ -40,8 +41,7 @@ public class WebViewActivity extends CallbackActivity {
         mBinding.webviewrapidRlContainer.addView(webView);
 
         WebSettingsConfiguration.buildSettings(webView);
-
-        webView.loadUrl("https://m.jd.com/");
+        webView.loadUrl(getTargetUrl());
 
 
         initView();

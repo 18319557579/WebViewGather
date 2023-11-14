@@ -11,16 +11,19 @@ import android.widget.RadioGroup;
 
 import com.example.middleagent.OpenWebActivity;
 import com.example.webviewrapid.WebViewActivity;
+import com.example.webviewrapid.base_activity.BaseWebViewActivity;
 import com.example.webviewrapid.webview_manager.WebViewManager;
 
 public class MainActivity extends AppCompatActivity {
+
+    private EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final EditText editText = findViewById(R.id.ed_url);
+        editText = findViewById(R.id.ed_url);
 
         RadioGroup rg = findViewById(R.id.rg_parent);
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -41,13 +44,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.tv_open).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String urlTarget;
-                if (!TextUtils.isEmpty(editText.getText())) {
-                    urlTarget = editText.getText().toString();
-                } else {
-                    urlTarget = editText.getHint().toString();
-                }
-                OpenWebActivity.openWebView(MainActivity.this, urlTarget);
+                OpenWebActivity.openWebView(MainActivity.this, getUrl());
             }
         });
 
@@ -57,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
+                intent.putExtra(BaseWebViewActivity.KEY_URL, getUrl());
                 startActivity(intent);
             }
         });
@@ -67,5 +65,15 @@ public class MainActivity extends AppCompatActivity {
                 WebViewManager.doPrepare(MainActivity.this);
             }
         });
+    }
+
+    private String getUrl() {
+        String urlTarget;
+        if (!TextUtils.isEmpty(editText.getText())) {
+            urlTarget = editText.getText().toString();
+        } else {
+            urlTarget = editText.getHint().toString();
+        }
+        return urlTarget;
     }
 }

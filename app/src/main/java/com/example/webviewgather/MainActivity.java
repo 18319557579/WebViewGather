@@ -34,7 +34,11 @@ public class MainActivity extends AppCompatActivity {
                 } else if (checkedId == R.id.rb_two) {
                     editText.setHint("https://m.jd.com/");
                 } else if (checkedId == R.id.rb_three) {
-                    editText.setHint("");
+                    editText.setHint("https://www.google.com");
+                } else if (checkedId == R.id.rb_four) {
+                    editText.setHint("https://m.weibo.cn");
+                } else if (checkedId == R.id.rb_five) {
+                    editText.setHint("file:///android_asset/myjs.html");
                 }
             }
         });

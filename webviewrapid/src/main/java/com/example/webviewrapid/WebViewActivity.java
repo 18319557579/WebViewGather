@@ -51,7 +51,6 @@ public class WebViewActivity extends BaseWebViewActivity {
         webView.setLayoutParams(params);
         mBinding.webviewrapidRlContainer.addView(webView);
 
-        WebSettingsConfiguration.buildSettings(webView);
         webView.loadUrl(getTargetUrl());
 
 
@@ -129,6 +128,24 @@ public class WebViewActivity extends BaseWebViewActivity {
 
                 }
 
+            }
+        });
+        mBinding.webviewrapidBtn10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWebView.zoomOut();
+            }
+        });
+        mBinding.webviewrapidBtn11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWebView.zoomIn();
+            }
+        });
+        mBinding.webviewrapidBtn12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWebView.zoomBy(1.1F);
             }
         });
 

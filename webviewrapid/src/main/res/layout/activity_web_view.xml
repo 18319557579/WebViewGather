@@ -14,6 +14,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/webviewrapid_btn_12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text="放大1.1倍"/>
+
+            <Button
+                android:id="@+id/webviewrapid_btn_11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text="放大"/>
+
+            <Button
+                android:id="@+id/webviewrapid_btn_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text="缩小"/>
+
             <Button
                 android:id="@+id/webviewrapid_btn_1"
                 android:layout_width="wrap_content"
@@ -69,11 +91,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="打印列表"
-                android:textSize="10sp"/>
-            <Button
-                android:id="@+id/webviewrapid_btn_10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textSize="10sp"/>
 
         </LinearLayout>

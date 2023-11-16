@@ -4,16 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    >
+    android:orientation="vertical"
+    android:gravity="center">
 
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="我居然出错啦"
         android:textSize="22sp"
         android:gravity="center"
         android:textColor="#696969"
         />
+
+    <Button
+        android:id="@+id/middleagent_btn_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="点击这里进行刷新"/>
 
 </LinearLayout>

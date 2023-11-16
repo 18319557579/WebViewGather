@@ -45,6 +45,11 @@ public class WebUtilsConfig implements Parcelable {
     //指示器的颜色
     private int indicatorColor = -1;
 
+    //错误页面的layout
+    private int errorLayoutId = -1;
+    //点击刷新的id
+    private int clickRefreshResId = -1;
+
     public int getErrorLayoutId() {
         return errorLayoutId;
     }
@@ -54,8 +59,7 @@ public class WebUtilsConfig implements Parcelable {
         return this;
     }
 
-    //错误页面的id
-    private int errorLayoutId = -1;
+
 
     public boolean isUseCoolIndicator() {
         return useCoolIndicator;
@@ -193,6 +197,15 @@ public class WebUtilsConfig implements Parcelable {
         return this;
     }
 
+    public int getClickRefreshResId() {
+        return clickRefreshResId;
+    }
+
+    public WebUtilsConfig setClickRefreshResId(int clickRefreshResId) {
+        this.clickRefreshResId = clickRefreshResId;
+        return this;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -216,6 +229,7 @@ public class WebUtilsConfig implements Parcelable {
         dest.writeByte(this.useCoolIndicator ? (byte) 1 : (byte) 0);
         dest.writeInt(this.indicatorColor);
         dest.writeInt(this.errorLayoutId);
+        dest.writeInt(this.clickRefreshResId);
     }
 
     public void readFromParcel(Parcel source) {
@@ -235,6 +249,7 @@ public class WebUtilsConfig implements Parcelable {
         this.useCoolIndicator = source.readByte() != 0;
         this.indicatorColor = source.readInt();
         this.errorLayoutId = source.readInt();
+        this.clickRefreshResId = source.readInt();
     }
 
     public WebUtilsConfig() {
@@ -257,6 +272,7 @@ public class WebUtilsConfig implements Parcelable {
         this.useCoolIndicator = in.readByte() != 0;
         this.indicatorColor = in.readInt();
         this.errorLayoutId = in.readInt();
+        this.clickRefreshResId = in.readInt();
     }
 
     public static final Creator<WebUtilsConfig> CREATOR = new Creator<WebUtilsConfig>() {

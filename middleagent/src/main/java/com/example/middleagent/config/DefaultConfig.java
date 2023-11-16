@@ -21,7 +21,8 @@ public class DefaultConfig {
                 .setTitleBackgroundRes(-1)
                 .setTitleLineColor(-1)
                 .setUseCoolIndicator(true)
-                .setErrorLayoutId(R.layout.middleagent_error_page);
+                .setErrorLayoutId(R.layout.middleagent_error_page)
+                .setClickRefreshResId(R.id.middleagent_btn_refresh);
 
     }
 }

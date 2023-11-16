@@ -20,6 +20,8 @@ public class DefaultConfig {
                 .setTitleBackgroundColor(R.color.app_theme_color_green)
                 .setTitleBackgroundRes(-1)
                 .setTitleLineColor(-1)
-                .setUseCoolIndicator(true);
+                .setUseCoolIndicator(true)
+                .setErrorLayoutId(R.layout.middleagent_error_page);
+
     }
 }

@@ -261,6 +261,7 @@ public class OpenWebActivity extends AppCompatActivity {
 
         mAgentWeb = commonBuilder.setWebChromeClient(mWebChromeClient)
                 .setWebViewClient(mWebViewClient)
+                .setMainFrameErrorView(webConfig.getErrorLayoutId(), -1)
                 .createAgentWeb()
                 .ready()
                 .go(currentUrl);

@@ -1,15 +1,25 @@
 package com.example.webviewrapid.client;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewStub;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 
+import com.example.utilsgather.context.ContextUtil;
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.webviewrapid.R;
 
@@ -24,7 +34,7 @@ public class RapidWebViewClient extends WebViewClient {
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
         String url = request.getUrl().toString();
         LogUtil.d("获取跳转的url：" + url);
-        LogUtil.d("RapidWebViewClient-Intercept", "shouldOverrideUrlLoading 当前的线程信息：" + Thread.currentThread());
+        LogUtil.d("RapidWebViewClient", "shouldOverrideUrlLoading 当前的线程信息：" + Thread.currentThread());
         return false;
     }
 
@@ -32,7 +42,7 @@ public class RapidWebViewClient extends WebViewClient {
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
         super.onPageStarted(view, url, favicon);
         LogUtil.d("回调onPageStarted " + url);
-        LogUtil.d("RapidWebViewClient-Intercept", "onPageStarted 当前的线程信息：" + Thread.currentThread());
+        LogUtil.d("RapidWebViewClient", "onPageStarted 当前的线程信息：" + Thread.currentThread());
     }
 
     /**
@@ -43,7 +53,7 @@ public class RapidWebViewClient extends WebViewClient {
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
         LogUtil.d("回调onPageFinished " + url);
-        LogUtil.d("RapidWebViewClient-Intercept", "onPageFinished 当前的线程信息：" + Thread.currentThread());
+        LogUtil.d("RapidWebViewClient", "onPageFinished 当前的线程信息：" + Thread.currentThread());
     }
 
     /**
@@ -64,8 +74,8 @@ public class RapidWebViewClient extends WebViewClient {
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
         String url = request.getUrl().toString();
-        LogUtil.d("RapidWebViewClient-Intercept", "打算拦截请求？ " + url);
-        LogUtil.d("RapidWebViewClient-Intercept", "shouldInterceptRequest 当前的线程信息：" + Thread.currentThread());
+        LogUtil.d("RapidWebViewClient", "打算拦截请求？ " + url);
+        LogUtil.d("RapidWebViewClient", "shouldInterceptRequest 当前的线程信息：" + Thread.currentThread());
 
         //如果是百度标题那个Logo的Url，那么用本地的图片进行替换
         if (url.equals("https://www.baidu.com/img/flexible/logo/plus_logo_web_2.png")) {
@@ -93,6 +103,44 @@ public class RapidWebViewClient extends WebViewClient {
     public void onLoadResource(WebView view, String url) {
         super.onLoadResource(view, url);
 
-        LogUtil.d("RapidWebViewClient-Intercept", "onLoadResource的url：" + url);
+        LogUtil.d("RapidWebViewClient", "onLoadResource的url：" + url);
     }
+
+    @Override
+    public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            LogUtil.i( "RapidWebViewClient", "onReceivedError:" + error.getDescription() + " code:" + error.getErrorCode() + " failingUrl:" + request.getUrl().toString() + " getUrl:" + view.getUrl() + " getOriginalUrl:" + view.getOriginalUrl());
+        }
+        //用这种方式的会造成死循环，用户从错误页面返回后，由于出错，又会回到这个页面
+//        view.loadUrl("file:///android_asset/webviewrapid_error_handle.html");
+
+
+        //todo 这里存在一个bug，包括AgentWeb都存在该bug，就是长按后可以
+        Activity activity = ContextUtil.getCurrentActivity();
+        FrameLayout frameLayoutContainer = activity.findViewById(R.id.webviewrapid_rl_container);
+
+        LayoutInflater mLayoutInflater = LayoutInflater.from(activity);
+        View errorView = mLayoutInflater.inflate(R.layout.webviewrapid_error_layout, null, false);
+
+        ViewStub mViewStub = (ViewStub) activity.findViewById(R.id.webviewrapid_id_error_viewstub);
+        final int index = frameLayoutContainer.indexOfChild(mViewStub);
+        frameLayoutContainer.removeViewInLayout(mViewStub);
+
+        frameLayoutContainer.addView(errorView, index, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        errorView.setVisibility(View.VISIBLE);
+        errorView.findViewById(R.id.middleagent_btn_reload).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                view.reload();
+            }
+        });
+    }
+
+    /*void hideErrorLayout() {
+        View mView = null;
+        if ((mView = this.findViewById(R.id.mainframe_error_container_id)) != null) {
+            mView.setVisibility(View.GONE);
+        }
+    }*/
 }

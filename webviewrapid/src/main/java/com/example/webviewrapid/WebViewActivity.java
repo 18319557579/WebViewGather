@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebHistoryItem;
 import android.widget.FrameLayout;
@@ -50,6 +51,11 @@ public class WebViewActivity extends BaseWebViewActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT);
         webView.setLayoutParams(params);
         mBinding.webviewrapidRlContainer.addView(webView);
+
+        //这里添加一手ViewStub，用于给后面的错误页面进行占位
+        ViewStub viewStub = new ViewStub(this);
+        viewStub.setId(R.id.webviewrapid_id_error_viewstub);
+        mBinding.webviewrapidRlContainer.addView(viewStub, params);
 
         webView.loadUrl(getTargetUrl());
 

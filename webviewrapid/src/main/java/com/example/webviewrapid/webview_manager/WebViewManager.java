@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.webviewrapid.base.BaseWebView;
+import com.example.webviewrapid.client.RapidWebViewClient;
 import com.example.webviewrapid.webview_settings.WebSettingsConfiguration;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public enum WebViewManager {
     private BaseWebView create(Context context) {
         BaseWebView webView = new BaseWebView(context);
         WebSettingsConfiguration.buildSettings(webView);
+        webView.setWebViewClient(new RapidWebViewClient());
         return webView;
     }
 

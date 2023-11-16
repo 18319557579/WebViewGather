@@ -33,8 +33,9 @@ public class WebSettingsConfiguration {
 //        //缓存使用默认
 //        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
 //
-//        //不能访问文件
-//        webSettings.setAllowFileAccess(false);
+        //设置是否能访问文件（对file:///android_asset和file:// android_res不影响）
+        //todo 访问文件这一块还需要实践
+        webSettings.setAllowFileAccess(false);
 //
 //        //支持通过JS打开新窗口
 //        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);

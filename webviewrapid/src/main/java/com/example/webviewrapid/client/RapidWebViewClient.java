@@ -2,25 +2,32 @@ package com.example.webviewrapid.client;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.net.http.SslError;
 import android.os.Build;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
+import com.example.utilsgather.context.ApplicationGlobal;
 import com.example.utilsgather.context.ContextUtil;
 import com.example.utilsgather.logcat.LogUtil;
+import com.example.utilsgather.package_info.PackageInfoUtil;
 import com.example.webviewrapid.R;
 
 import java.io.InputStream;
@@ -33,9 +40,16 @@ public class RapidWebViewClient extends WebViewClient {
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
         String url = request.getUrl().toString();
-        LogUtil.d("获取跳转的url：" + url);
+        LogUtil.d("shouldOverrideUrlLoading 获取跳转的url：" + url);
         LogUtil.d("RapidWebViewClient", "shouldOverrideUrlLoading 当前的线程信息：" + Thread.currentThread());
-        return false;
+
+        if (url.startsWith("http://") || url.startsWith("https://")) {
+            return false;
+        }
+
+        Toast.makeText(ApplicationGlobal.getInstance(), "是否跳转到：" + PackageInfoUtil.getAppNameByUrl(url), Toast.LENGTH_SHORT).show();
+
+        return true;
     }
 
     @Override
@@ -77,7 +91,7 @@ public class RapidWebViewClient extends WebViewClient {
         LogUtil.d("RapidWebViewClient", "打算拦截请求？ " + url);
         LogUtil.d("RapidWebViewClient", "shouldInterceptRequest 当前的线程信息：" + Thread.currentThread());
 
-        //如果是百度标题那个Logo的Url，那么用本地的图片进行替换
+        /*//如果是百度标题那个Logo的Url，那么用本地的图片进行替换
         if (url.equals("https://www.baidu.com/img/flexible/logo/plus_logo_web_2.png")) {
             try {
                 InputStream is = view.getContext().getResources().openRawResource(R.raw.webviewrapid_set_meal) ;
@@ -90,7 +104,7 @@ public class RapidWebViewClient extends WebViewClient {
                 throw new RuntimeException(e);
             }
 
-        }
+        }*/
 
 
         return super.shouldInterceptRequest(view, request);
@@ -143,4 +157,41 @@ public class RapidWebViewClient extends WebViewClient {
             mView.setVisibility(View.GONE);
         }
     }*/
+
+    /**
+     * SSL证书校验错误
+     */
+    @Override
+    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+        LogUtil.d("SSL证书校验错误 " + error.getUrl() + " | " + error.getPrimaryError());
+        new AlertDialog.Builder(view.getContext())
+                .setTitle("提示")
+                .setMessage("当前网站安全证书已过期或不可信\n是否继续浏览?")
+                .setPositiveButton("继续浏览", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        handler.proceed();
+                    }
+                })
+                .setNegativeButton("返回上一页", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        handler.cancel();
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    /**
+     * 我也发现这玩意的回调基本在onPageStarted之后，onPageFinished之前，如果onPageFinished被回调两次，那么它也会
+     * 跟着回调两次相同的URL
+     */
+    @Override
+    public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
+        super.doUpdateVisitedHistory(view, url, isReload);
+        LogUtil.d("doUpdateVisitedHistory被回调，url：" + url + ", isReload: " + isReload);
+    }
 }

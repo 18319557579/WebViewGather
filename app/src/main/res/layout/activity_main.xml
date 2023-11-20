@@ -44,6 +44,7 @@
 
     </RadioGroup>
 
+<!--
     <EditText
         android:id="@+id/ed_url"
         android:layout_width="match_parent"
@@ -52,6 +53,21 @@
         android:padding="10dp"
         android:textColor="#333333"
         android:textSize="14sp"/>
+-->
+
+    <com.fz.compoundtext.ClearTextInputEditText
+        android:id="@+id/ed_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColor="#333333"
+        android:background="#E8E8E8"
+        android:textSize="14sp"
+
+        android:layout_marginTop="10dp"
+
+        app:ct_cancel="@drawable/uioperate_clear_text"/>
+
 
     <Button
         android:id="@+id/tv_open"

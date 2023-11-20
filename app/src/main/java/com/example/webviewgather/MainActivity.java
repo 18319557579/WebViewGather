@@ -30,15 +30,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.rb_one) {
-                    editText.setHint("https://www.baidu.com");
+                    editText.setText("https://www.baidu.com");
                 } else if (checkedId == R.id.rb_two) {
-                    editText.setHint("https://m.jd.com/");
+                    editText.setText("https://m.jd.com/");
                 } else if (checkedId == R.id.rb_three) {
-                    editText.setHint("https://www.google.com");
+                    editText.setText("https://www.google.com");
                 } else if (checkedId == R.id.rb_four) {
-                    editText.setHint("https://m.weibo.cn");
+                    editText.setText("https://m.weibo.cn");
                 } else if (checkedId == R.id.rb_five) {
-                    editText.setHint("file:///android_asset/myjs.html");
+                    editText.setText("file:///android_asset/myjs.html");
                 }
             }
         });
@@ -70,11 +70,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getUrl() {
-        String urlTarget;
+        String urlTarget = null;
         if (!TextUtils.isEmpty(editText.getText())) {
             urlTarget = editText.getText().toString();
-        } else {
-            urlTarget = editText.getHint().toString();
         }
         return urlTarget;
     }

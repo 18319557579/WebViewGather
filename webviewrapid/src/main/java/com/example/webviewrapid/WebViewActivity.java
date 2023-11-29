@@ -16,7 +16,8 @@ import android.widget.FrameLayout;
 
 import com.example.utilsgather.lifecycle_callback.CallbackActivity;
 import com.example.utilsgather.logcat.LogUtil;
-import com.example.utilsgather.ui.ScreenFunctionUtils;
+
+import com.example.utilsgather.ui.screen.ScreenFunctionUtils;
 import com.example.webviewrapid.base.BaseWebView;
 import com.example.webviewrapid.base_activity.BaseWebViewActivity;
 import com.example.webviewrapid.databinding.ActivityWebViewBinding;

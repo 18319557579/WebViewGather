@@ -19,16 +19,22 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
+import com.example.floatlayer.FloatLayoutManager;
+import com.example.floatlayer.layer.FloatLayer;
 import com.example.utilsgather.context.ApplicationGlobal;
 import com.example.utilsgather.context.ContextUtil;
+import com.example.utilsgather.jump.JumpActivityUtils;
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.utilsgather.package_info.PackageInfoUtil;
 import com.example.webviewrapid.R;
+import com.example.webviewrapid.WebViewActivity;
+import com.example.webviewrapid.floatlayer.JumpFloatLayerParams;
 
 import java.io.InputStream;
 
@@ -47,7 +53,21 @@ public class RapidWebViewClient extends WebViewClient {
             return false;
         }
 
-        Toast.makeText(ApplicationGlobal.getInstance(), "是否跳转到：" + PackageInfoUtil.getAppNameByUrl(url), Toast.LENGTH_SHORT).show();
+        WebViewActivity webViewActivity = (WebViewActivity) ContextUtil.getCurrentActivity();
+
+        FloatLayer floatLayer = new FloatLayer(webViewActivity.webViewFrameLayout, R.layout.medi_tiny_message_bar);
+        String appName = PackageInfoUtil.getAppNameByUrl(url);
+        ((TextView) floatLayer.findView(R.id.flla_jump_title_tv)).setText(String.format("允许网站打开 %s 吗？", appName));
+        ((TextView) floatLayer.findView(R.id.fila_jump_confirm_tv)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JumpActivityUtils.startApp(view.getContext(), url);
+                floatLayer.dismissMaybeAnim();  //这里不使用出场动画
+            }
+        });
+
+        //todo 1.如果手机里没有该应用，应该怎么处理 2.还是遇到很多看起来是无效的url
+        FloatLayoutManager.getInstance().show(JumpFloatLayerParams.getJumpConfig(), floatLayer, JumpFloatLayerParams.jumpLabel, 0);
 
         return true;
     }
@@ -129,7 +149,7 @@ public class RapidWebViewClient extends WebViewClient {
 //        view.loadUrl("file:///android_asset/webviewrapid_error_handle.html");
 
 
-        //todo 这里存在一个bug，包括AgentWeb都存在该bug，就是长按后可以
+        //todo 这里存在一个bug，包括AgentWeb都存在该bug，就是长按后可以选择到地下的内容
         Activity activity = ContextUtil.getCurrentActivity();
         FrameLayout frameLayoutContainer = activity.findViewById(R.id.webviewrapid_rl_container);
 

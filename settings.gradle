@@ -6,3 +6,7 @@ include ':middleagent'
 include(":utilsgather")
 project(":utilsgather").projectDir = new File("C:/Users/hsf/AndroidStudioProjects/UtilsGather/utilsgather")
 include ':webviewrapid'
+
+//引入FloatLayer库
+include(":floatlayer")
+project(":floatlayer").projectDir = new File("C:/Users/hsf/ProjectCodes/codes_of_mine/DialogGather/floatlayer")

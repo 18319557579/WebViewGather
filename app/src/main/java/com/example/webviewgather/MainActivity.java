@@ -54,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
 
         rg.check(R.id.rb_one);
 
+        findViewById(R.id.btn_prepare_webview).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebViewManager.doPrepare(MainActivity.this);
+            }
+        });
         findViewById(R.id.btn_jump_rapid).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,12 +67,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.btn_prepare_webview).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                WebViewManager.doPrepare(MainActivity.this);
-            }
-        });
     }
 
     private String getUrl() {

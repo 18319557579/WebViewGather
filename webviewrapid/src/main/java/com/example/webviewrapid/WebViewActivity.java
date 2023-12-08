@@ -29,6 +29,8 @@ public class WebViewActivity extends BaseWebViewActivity {
     private ActivityWebViewBinding mBinding;
     private BaseWebView mWebView;
 
+    public FrameLayout webViewFrameLayout;
+
     /**
      * 跳转WebViewActivity
      */
@@ -43,6 +45,7 @@ public class WebViewActivity extends BaseWebViewActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivityWebViewBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
+        this.webViewFrameLayout = mBinding.webviewrapidRlContainer;
 
         ScreenFunctionUtils.hideActionBar(this);
 

@@ -158,7 +158,13 @@ public class WebViewActivity extends BaseWebViewActivity {
                 mWebView.zoomBy(1.1F);
             }
         });
-
+        mBinding.webviewrapidBtn20.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //调用clearHistory后，它可以将除了当前以外的页面都干掉。因此也就无法前进，或者返回了
+                mWebView.clearHistory();
+            }
+        });
 
     }
 

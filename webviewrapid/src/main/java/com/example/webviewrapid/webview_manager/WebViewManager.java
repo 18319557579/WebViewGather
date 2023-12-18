@@ -2,9 +2,13 @@ package com.example.webviewrapid.webview_manager;
 
 import android.content.Context;
 import android.content.MutableContextWrapper;
+import android.net.Uri;
 import android.os.Looper;
 import android.os.MessageQueue;
+import android.text.TextUtils;
 import android.view.ViewGroup;
+import android.webkit.WebBackForwardList;
+import android.webkit.WebHistoryItem;
 
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.webviewrapid.base.BaseWebView;
@@ -70,6 +74,22 @@ public enum WebViewManager {
             webViewCache.add(create(new MutableContextWrapper(context)));
         }
         BaseWebView webView = webViewCache.remove(0);
+
+        WebBackForwardList webBackForwardList = webView.copyBackForwardList();
+        for (int i = 0; i < webBackForwardList.getSize(); i++) {
+            WebHistoryItem webHistoryItem = webBackForwardList.getItemAtIndex(i);
+            LogUtil.d("index：" + i + ", webHistoryItem:" + webHistoryItem.getUrl() + " | " +
+                    webHistoryItem.getOriginalUrl() + " | " + webHistoryItem.getTitle() + " | " +
+                    webHistoryItem.getFavicon());
+
+            String host = Uri.parse(webHistoryItem.getUrl()).getHost();
+            LogUtil.d("打印host：" + host);
+            if (TextUtils.isEmpty(host)) {
+                LogUtil.d("该页面是空的页面");
+            }
+
+        }
+
         MutableContextWrapper mutableContextWrapper = (MutableContextWrapper) webView.getContext();
         mutableContextWrapper.setBaseContext(context);
         webView.clearHistory();

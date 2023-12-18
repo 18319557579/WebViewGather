@@ -19,6 +19,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <RadioButton
+                android:id="@+id/rb_six"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="公司"/>
+            <RadioButton
                 android:id="@+id/rb_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,11 +48,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="原生静态页面"/>
-            <RadioButton
-                android:id="@+id/rb_six"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="公司"/>
         </RadioGroup>
     </HorizontalScrollView>
 

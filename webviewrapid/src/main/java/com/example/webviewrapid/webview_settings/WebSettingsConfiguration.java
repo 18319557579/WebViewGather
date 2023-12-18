@@ -31,34 +31,34 @@ public class WebSettingsConfiguration {
         webSettings.setDisplayZoomControls(false);
 //
 //        //缓存使用默认
-//        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
 //
         //设置是否能访问文件（对file:///android_asset和file:// android_res不影响）
         //todo 访问文件这一块还需要实践
         webSettings.setAllowFileAccess(false);
 //
 //        //支持通过JS打开新窗口
-//        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
 //
 //        //卧槽，设置为false后，图片都不会加载了。
-//        webSettings.setLoadsImagesAutomatically(true);
+        webSettings.setLoadsImagesAutomatically(true);
 //
 //        //设置编码格式
-//        webSettings.setDefaultTextEncodingName("UTF-8");
+        webSettings.setDefaultTextEncodingName("UTF-8");
 //
-//        //允许让网站使用localStorage
-//        webSettings.setDomStorageEnabled(true);
+//        //允许让网站使用localStorage（开启这里后，让公司的h5可以正常运行了）
+        webSettings.setDomStorageEnabled(true);
 //
 //        //允许让网站使用浏览器
-//        webSettings.setDatabaseEnabled(true);
+        webSettings.setDatabaseEnabled(true);
 //
 //        //不保存密码
 //        webSettings.setSavePassword(false);
-//
-//        webSettings.setAllowFileAccessFromFileURLs(false);
-//        webSettings.setAllowUniversalAccessFromFileURLs(false);
-//
-//        webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+
+        webSettings.setAllowFileAccessFromFileURLs(false);
+        webSettings.setAllowUniversalAccessFromFileURLs(false);
+
+        webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
     }
 
 }

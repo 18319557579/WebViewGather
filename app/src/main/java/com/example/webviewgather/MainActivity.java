@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        rg.check(R.id.rb_one);
+        rg.check(R.id.rb_six);
 
         findViewById(R.id.btn_prepare_webview).setOnClickListener(new View.OnClickListener() {
             @Override

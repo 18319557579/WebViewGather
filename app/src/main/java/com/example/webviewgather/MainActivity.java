@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
                     editText.setText("https://m.weibo.cn");
                 } else if (checkedId == R.id.rb_five) {
                     editText.setText("file:///android_asset/myjs.html");
+                } else if (checkedId == R.id.rb_six) {
+                    editText.setText("https://www.128bet.cc/?pl_props=go0Xk5Gn8lcJD3SveyJjaHRfY29kZSI6IjY0NzIwNzg2In0=");
                 }
             }
         });

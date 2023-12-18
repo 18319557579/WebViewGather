@@ -10,39 +10,47 @@
     android:paddingHorizontal="16dp"
     android:gravity="center_vertical">
 
-    <RadioGroup
-        android:id="@+id/rg_parent"
+    <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <RadioButton
-            android:id="@+id/rb_one"
-            android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioGroup
+            android:id="@+id/rg_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="百度"/>
-        <RadioButton
-            android:id="@+id/rb_two"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="京东"/>
-        <RadioButton
-            android:id="@+id/rb_three"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="谷歌"/>
-        <RadioButton
-            android:id="@+id/rb_four"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="微博"/>
-        <RadioButton
-            android:id="@+id/rb_five"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="原生"/>
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/rb_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="百度"/>
+            <RadioButton
+                android:id="@+id/rb_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="京东"/>
+            <RadioButton
+                android:id="@+id/rb_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="谷歌"/>
+            <RadioButton
+                android:id="@+id/rb_four"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微博"/>
+            <RadioButton
+                android:id="@+id/rb_five"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="原生静态页面"/>
+            <RadioButton
+                android:id="@+id/rb_six"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="公司"/>
+        </RadioGroup>
+    </HorizontalScrollView>
 
-
-    </RadioGroup>
 
 <!--
     <EditText

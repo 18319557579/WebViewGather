@@ -3,14 +3,19 @@ package com.example.webviewgather;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.webkit.WebBackForwardList;
+import android.webkit.WebHistoryItem;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.example.middleagent.OpenWebActivity;
+import com.example.utilsgather.logcat.LogUtil;
 import com.example.webviewrapid.WebViewActivity;
+import com.example.webviewrapid.base.BaseWebView;
 import com.example.webviewrapid.base_activity.BaseWebViewActivity;
 import com.example.webviewrapid.webview_manager.WebViewManager;
 
@@ -69,6 +74,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.btn_check_stack).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BaseWebView webView = WebViewManager.getCurrent();
+                WebBackForwardList webBackForwardList = webView.copyBackForwardList();
+                for (int i = 0; i < webBackForwardList.getSize(); i++) {
+                    WebHistoryItem webHistoryItem = webBackForwardList.getItemAtIndex(i);
+                    LogUtil.d("index：" + i + ", webHistoryItem:" + webHistoryItem.getUrl() + " | " +
+                            webHistoryItem.getOriginalUrl() + " | " + webHistoryItem.getTitle() + " | " +
+                            webHistoryItem.getFavicon());
+
+                    String host = Uri.parse(webHistoryItem.getUrl()).getHost();
+                    LogUtil.d("打印host：" + host);
+                    if (TextUtils.isEmpty(host)) {
+                        LogUtil.d("该页面是空的页面");
+                    }
+
+                }
+            }
+        });
     }
 
     private String getUrl() {

@@ -82,19 +82,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="打开默认配置WebView"/>
+        android:text="打开默认配置WebView(middleagent)"/>
+
 
     <Button
         android:id="@+id/btn_prepare_webview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="先进行准备"/>
-
+        android:text="先进行准备" />
 
     <Button
         android:id="@+id/btn_jump_rapid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="跳转到快速WebView"/>
+
+    <Button
+        android:id="@+id/btn_check_stack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="查看当前WebView的栈"/>
+
 
 </LinearLayout>

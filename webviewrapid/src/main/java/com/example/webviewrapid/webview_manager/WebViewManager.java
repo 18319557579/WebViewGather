@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebHistoryItem;
 
+import com.example.utilsgather.handler.HandlerUI;
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.webviewrapid.base.BaseWebView;
 import com.example.webviewrapid.client.RapidWebViewClient;
@@ -38,6 +39,10 @@ public enum WebViewManager {
 
 
     private final ArrayList<BaseWebView> webViewCache = new ArrayList<>();
+
+    public static BaseWebView getCurrent() {
+        return INSTANCE.webViewCache.get(0);
+    }
 
     /**
      * WebView的创建

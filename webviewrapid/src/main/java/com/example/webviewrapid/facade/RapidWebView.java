@@ -29,6 +29,14 @@ public class RapidWebView {
         theWebView.loadUrl(url);
     }
 
+    public boolean canGoBackReal() {
+        return theWebView.canGoBackReal();
+    }
+
+    public void goBack() {
+        theWebView.goBack();
+    }
+
 //----------------------------------------------Builder-------------------------------------------------
 
     public static Builder with(@NonNull AppCompatActivity activity) {

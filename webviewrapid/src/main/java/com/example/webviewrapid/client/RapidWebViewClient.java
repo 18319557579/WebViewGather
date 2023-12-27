@@ -53,9 +53,10 @@ public class RapidWebViewClient extends WebViewClient {
             return false;
         }
 
-        WebViewActivity webViewActivity = (WebViewActivity) ContextUtil.getCurrentActivity();
+//        WebViewActivity webViewActivity = (WebViewActivity) ContextUtil.getCurrentActivity();
+        ViewGroup parent = (ViewGroup) view.getParent();
 
-        FloatLayer floatLayer = new FloatLayer(webViewActivity.webViewFrameLayout, R.layout.medi_tiny_message_bar);
+        FloatLayer floatLayer = new FloatLayer((FrameLayout) parent, R.layout.medi_tiny_message_bar);
         String appName = PackageInfoUtil.getAppNameByUrl(url);
         ((TextView) floatLayer.findView(R.id.flla_jump_title_tv)).setText(String.format("允许网站打开 %s 吗？", appName));
         ((TextView) floatLayer.findView(R.id.fila_jump_confirm_tv)).setOnClickListener(new View.OnClickListener() {

@@ -14,9 +14,9 @@ import android.widget.RadioGroup;
 
 import com.example.middleagent.OpenWebActivity;
 import com.example.utilsgather.logcat.LogUtil;
+import com.example.webviewrapid.facade.RapidWebView;
 import com.example.webviewrapid.WebViewActivity;
 import com.example.webviewrapid.base.BaseWebView;
-import com.example.webviewrapid.base_activity.BaseWebViewActivity;
 import com.example.webviewrapid.webview_manager.WebViewManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -92,6 +92,15 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
+            }
+        });
+
+        findViewById(R.id.btn_load_url).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PracticeActivity.class);
+                intent.putExtra(PracticeActivity.TAG, getUrl());
+                startActivity(intent);
             }
         });
     }

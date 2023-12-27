@@ -9,10 +9,10 @@
     android:orientation="vertical"
     android:id="@+id/ll_out_container">
 
-    <Button
+<!--    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="头部的按钮"/>
+        android:text="头部的按钮"/>-->
 
 
 </LinearLayout>

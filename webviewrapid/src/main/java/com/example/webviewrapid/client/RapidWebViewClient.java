@@ -39,6 +39,13 @@ import com.example.webviewrapid.floatlayer.JumpFloatLayerParams;
 import java.io.InputStream;
 
 public class RapidWebViewClient extends WebViewClient {
+
+    private WebViewClientCallback webViewClientCallback = null;
+
+    public void setWebViewClientCallback(WebViewClientCallback webViewClientCallback) {
+        this.webViewClientCallback = webViewClientCallback;
+    }
+
     /**
      * 我发现在webView.loadUrl()加载的url是不会回调到这里的，说白了这里就是在WebView中点击的链接才会在这里进行回调，给开发者一个控制的机会
      * 无论回调true/false，都将会把该url交给webview进行处理，而不是跳转到其他的浏览器（前提是setWebViewClient被调用）
@@ -89,6 +96,10 @@ public class RapidWebViewClient extends WebViewClient {
         super.onPageFinished(view, url);
         LogUtil.d("回调onPageFinished " + url);
         LogUtil.d("RapidWebViewClient", "onPageFinished 当前的线程信息：" + Thread.currentThread());
+
+        if (webViewClientCallback != null) {
+            webViewClientCallback.onPageFinished();
+        }
     }
 
     /**

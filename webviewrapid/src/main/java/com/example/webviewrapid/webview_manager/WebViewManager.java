@@ -50,7 +50,7 @@ public enum WebViewManager {
     private BaseWebView create(Context context) {
         BaseWebView webView = new BaseWebView(context);
         WebSettingsConfiguration.buildSettings(webView);
-        webView.setWebViewClient(new RapidWebViewClient());
+//        webView.setWebViewClient(new RapidWebViewClient());
         return webView;
     }
 

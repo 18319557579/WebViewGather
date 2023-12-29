@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.webviewrapid.base.BaseWebView;
+import com.example.webviewrapid.client.RapidWebViewClient;
+import com.example.webviewrapid.client.WebViewClientCallback;
 import com.example.webviewrapid.webview_manager.WebViewManager;
 
 public class RapidWebView {
@@ -16,6 +18,11 @@ public class RapidWebView {
     public RapidWebView(Builder builder) {
         FrameLayout parentLayout = new FrameLayout(builder.mActivity);
         theWebView = WebViewManager.doObtain(builder.mActivity);
+
+        RapidWebViewClient rapidWebViewClient = new RapidWebViewClient();
+        rapidWebViewClient.setWebViewClientCallback(builder.mWebViewClientCallback);
+        theWebView.setWebViewClient(rapidWebViewClient);
+
         parentLayout.addView(theWebView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         builder.mWebContainer.addView(parentLayout, builder.mLayoutParams);
@@ -47,6 +54,7 @@ public class RapidWebView {
         private AppCompatActivity mActivity;  //加载WebView的Activity
         private ViewGroup mWebContainer;
         private ViewGroup.LayoutParams mLayoutParams;
+        private WebViewClientCallback mWebViewClientCallback;
 
         public Builder(AppCompatActivity activity) {
             mActivity = activity;
@@ -55,6 +63,11 @@ public class RapidWebView {
         public Builder setWebParent(@NonNull ViewGroup webContainer, ViewGroup.LayoutParams layoutParams) {
             this.mWebContainer = webContainer;
             this.mLayoutParams = layoutParams;
+            return this;
+        }
+
+        public Builder setWebViewClientCallback(WebViewClientCallback webViewClientCallback) {
+            this.mWebViewClientCallback = webViewClientCallback;
             return this;
         }
 

@@ -2,10 +2,14 @@ package com.example.webviewgather;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.ValueCallback;
+import android.webkit.WebBackForwardList;
+import android.webkit.WebHistoryItem;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,6 +57,26 @@ public class JSWithAndroidActivity extends AppCompatActivity {
                 });
             }
         });
+        findViewById(R.id.btn_operation_3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebBackForwardList webBackForwardList = rapidWebView.getRealWebView().copyBackForwardList();
+                for (int i = 0; i < webBackForwardList.getSize(); i++) {
+                    WebHistoryItem webHistoryItem = webBackForwardList.getItemAtIndex(i);
+                    LogUtil.d("index：" + i + ", webHistoryItem:" + webHistoryItem.getUrl() + " | " +
+                            webHistoryItem.getOriginalUrl() + " | " + webHistoryItem.getTitle() + " | " +
+                            webHistoryItem.getFavicon());
+
+                    String host = Uri.parse(webHistoryItem.getUrl()).getHost();
+                    LogUtil.d("打印host：" + host);
+                    if (TextUtils.isEmpty(host)) {
+                        LogUtil.d("该页面是空的页面");
+                    }
+
+                }
+            }
+        });
+
 
     }
 

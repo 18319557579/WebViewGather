@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.view.KeyEvent;
@@ -37,6 +38,9 @@ import com.example.webviewrapid.WebViewActivity;
 import com.example.webviewrapid.floatlayer.JumpFloatLayerParams;
 
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Queue;
 
 public class RapidWebViewClient extends WebViewClient {
 
@@ -56,8 +60,19 @@ public class RapidWebViewClient extends WebViewClient {
         LogUtil.d("shouldOverrideUrlLoading 获取跳转的url：" + url);
         LogUtil.d("RapidWebViewClient", "shouldOverrideUrlLoading 当前的线程信息：" + Thread.currentThread());
 
-        if (url.startsWith("http://") || url.startsWith("https://")) {
+        Uri uri = request.getUrl();
+        String scheme = uri.getScheme();
+        if ("http".equals(scheme) || "https".equals(scheme)) {
             return false;
+        }
+        else if ("daisyscheme".equals(scheme)) {  //这里专门是用于测试Js使用document.location调用Android的
+            LogUtil.d("Android响应到了JS的调用");
+            if ("daisyhost".equals(uri.getHost())) {
+                for (String queryKey : uri.getQueryParameterNames()) {
+                    LogUtil.d("key: " + queryKey + ", value: " + uri.getQueryParameter(queryKey));
+                }
+            }
+            return true;
         }
 
 //        WebViewActivity webViewActivity = (WebViewActivity) ContextUtil.getCurrentActivity();

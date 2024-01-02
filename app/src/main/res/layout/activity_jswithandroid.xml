@@ -21,15 +21,23 @@
                 android:id="@+id/btn_operation_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="使用loalUrl"
+                android:text="JS调用Android 使用loalUrl"
                 android:textAllCaps="false"/>
 
             <Button
                 android:id="@+id/btn_operation_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="使用evaluateJavaScript"
+                android:text="JS调用Android 使用evaluateJavaScript"
                 android:textAllCaps="false"/>
+
+            <Button
+                android:id="@+id/btn_operation_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="打印栈"
+                android:textAllCaps="false"/>
+
 
 
         </LinearLayout>

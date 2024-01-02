@@ -43,6 +43,9 @@ public class RapidWebView {
     public void evaluateJavascript(String script, ValueCallback<String> resultCallback) {
         theWebView.evaluateJavascript(script, resultCallback);
     }
+    public BaseWebView getRealWebView() {
+        return theWebView;
+    }
 
     public boolean canGoBackReal() {
         return theWebView.canGoBackReal();

@@ -19,7 +19,7 @@ public class RapidWebChromeClient extends WebChromeClient {
     public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
         Uri uri = Uri.parse(message);
         String scheme = uri.getScheme();
-        if ("daisyscheme".equals(scheme)) {
+        if ("daisyscheme".equals(scheme)) {  //这里专门是用于测试Js使用prompt()调用Android的.其实用onConsoleMessage来实现也是同理的
             LogUtil.d("Android响应到了JS的调用");
             if ("daisyhost".equals(uri.getHost())) {
                 for (String queryKey : uri.getQueryParameterNames()) {

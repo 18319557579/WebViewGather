@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.utilsgather.ui.screen.ScreenFunctionUtils;
+import com.example.webviewgather.interaction.JSCallAndroidObject;
 import com.example.webviewrapid.facade.RapidWebView;
 
 public class JSWithAndroidActivity extends AppCompatActivity {
@@ -39,6 +40,8 @@ public class JSWithAndroidActivity extends AppCompatActivity {
         rapidWebView = RapidWebView.with(JSWithAndroidActivity.this)
                 .setWebParent(findViewById(R.id.ll_out_container_js_with_android), new LinearLayout.LayoutParams(-1, -1))
                 .loadUrl(getIntent().getStringExtra(TAG));
+
+        rapidWebView.getRealWebView().addJavascriptInterface(new JSCallAndroidObject(), "jscallandroid");
 
         findViewById(R.id.btn_operation_1).setOnClickListener(new View.OnClickListener() {
             @Override

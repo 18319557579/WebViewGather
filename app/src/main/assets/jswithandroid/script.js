@@ -7,6 +7,11 @@ function calledBy_evaluateJavascript(arguments) {
     return 'Hello Android.'
 }
 
+
+function callAndroidFrom_addJavaScriptInterface() {
+    var result = jscallandroid.executeHello('通过addJavaScriptInterface()对象映射')
+    console.log("JS获得了Android的返回值: " + result)
+}
 function callAndroidFrom_documentlocation() {
     document.location = "daisyscheme://daisyhost?daisyarg1=123&daisyarg2=321"
 }

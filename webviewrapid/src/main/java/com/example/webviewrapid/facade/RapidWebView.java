@@ -1,12 +1,15 @@
 package com.example.webviewrapid.facade;
 
+//import android.annotation.Nullable;
 import android.view.ViewGroup;
+import android.webkit.ValueCallback;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.webviewrapid.base.BaseWebView;
+import com.example.webviewrapid.client.RapidWebChromeClient;
 import com.example.webviewrapid.client.RapidWebViewClient;
 import com.example.webviewrapid.client.WebViewClientCallback;
 import com.example.webviewrapid.webview_manager.WebViewManager;
@@ -23,6 +26,8 @@ public class RapidWebView {
         rapidWebViewClient.setWebViewClientCallback(builder.mWebViewClientCallback);
         theWebView.setWebViewClient(rapidWebViewClient);
 
+        theWebView.setWebChromeClient(new RapidWebChromeClient());
+
         parentLayout.addView(theWebView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         builder.mWebContainer.addView(parentLayout, builder.mLayoutParams);
@@ -34,6 +39,9 @@ public class RapidWebView {
 
     public void loadUrl(String url) {
         theWebView.loadUrl(url);
+    }
+    public void evaluateJavascript(String script, ValueCallback<String> resultCallback) {
+        theWebView.evaluateJavascript(script, resultCallback);
     }
 
     public boolean canGoBackReal() {

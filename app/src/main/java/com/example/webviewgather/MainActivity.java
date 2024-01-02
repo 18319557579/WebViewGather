@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (checkedId == R.id.rb_four) {
                     editText.setText("https://m.weibo.cn");
                 } else if (checkedId == R.id.rb_five) {
-                    editText.setText("file:///android_asset/myjs.html");
+                    editText.setText("file:///android_asset/jswithandroid/host.html");
                 } else if (checkedId == R.id.rb_six) {
                     editText.setText("https://www.128bet.cc/?pl_props=go0Xk5Gn8lcJD3SveyJjaHRfY29kZSI6IjY0NzIwNzg2In0=");
                 }
@@ -103,6 +103,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        findViewById(R.id.btn_js_with_android).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSWithAndroidActivity.start(MainActivity.this, getUrl());
+            }
+        });
+
     }
 
     private String getUrl() {

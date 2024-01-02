@@ -110,6 +110,12 @@
         android:layout_height="wrap_content"
         android:text="跳转Activity"/>
 
+    <Button
+        android:id="@+id/btn_js_with_android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="JS与Android互调"/>
+
 
 
 </LinearLayout>

@@ -21,6 +21,10 @@
         <activity android:name=".PracticeActivity">
 
         </activity>
+
+        <activity android:name=".JSWithAndroidActivity">
+
+        </activity>
     </application>
 
 </manifest>

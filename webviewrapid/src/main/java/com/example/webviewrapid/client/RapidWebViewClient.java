@@ -53,6 +53,7 @@ public class RapidWebViewClient extends WebViewClient {
     /**
      * 我发现在webView.loadUrl()加载的url是不会回调到这里的，说白了这里就是在WebView中点击的链接才会在这里进行回调，给开发者一个控制的机会
      * 无论回调true/false，都将会把该url交给webview进行处理，而不是跳转到其他的浏览器（前提是setWebViewClient被调用）
+     * @return 返回true会导致当前WebView中止加载URL(适用于那种并不是真正加载网页的情况,而只是处理数据)，而返回false会导致WebView继续像往常一样加载URL。
      */
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
@@ -72,7 +73,7 @@ public class RapidWebViewClient extends WebViewClient {
                     LogUtil.d("key: " + queryKey + ", value: " + uri.getQueryParameter(queryKey));
                 }
             }
-            return true;
+            return true;  //这里要返回true,中止加载url.因为这里并不是真正去加载url
         }
 
 //        WebViewActivity webViewActivity = (WebViewActivity) ContextUtil.getCurrentActivity();
@@ -92,7 +93,7 @@ public class RapidWebViewClient extends WebViewClient {
         //todo 1.如果手机里没有该应用，应该怎么处理 2.还是遇到很多看起来是无效的url
         FloatLayoutManager.getInstance().show(JumpFloatLayerParams.getJumpConfig(), floatLayer, JumpFloatLayerParams.jumpLabel, 0);
 
-        return true;
+        return true;  //这里要返回true,因为仅仅是为了弹这个浮层,并不是要加载url
     }
 
     @Override

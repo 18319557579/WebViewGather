@@ -10,3 +10,7 @@ function calledBy_evaluateJavascript(arguments) {
 function callAndroidFrom_documentlocation() {
     document.location = "daisyscheme://daisyhost?daisyarg1=123&daisyarg2=321"
 }
+function callAndroidFrom_prompt() {
+    var result = prompt("daisyscheme://daisyhost?daisyarg1=123&daisyarg2=我是来自prompt")
+    console.log("JS获得了Android的返回值: " + result)
+}

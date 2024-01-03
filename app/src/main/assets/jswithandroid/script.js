@@ -22,7 +22,24 @@ function calledBy_evaluateJavascript(arguments) {
 
 
 function callAndroidFrom_addJavaScriptInterface() {
-    var result = jscallandroid.executeHello('通过addJavaScriptInterface()对象映射')
+    var obj = {}
+    obj.page = 'pagefirst'
+    obj.code = 6
+
+    var dataObj = {}
+    dataObj.weight = 50.5
+    var personArray = []
+    personArray.push("hsf")
+    var personArrayObj = {}
+    personArrayObj.name = "hwt"
+    personArrayObj.nickname = null
+    personArray.push(personArrayObj)
+
+    dataObj.person = personArray
+
+    obj.data = dataObj
+
+    var result = jscallandroid.executeHello(JSON.stringify(obj))
     console.log("JS获得了Android的返回值: " + result)
 }
 function callAndroidFrom_documentlocation() {

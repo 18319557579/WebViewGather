@@ -21,14 +21,14 @@
                 android:id="@+id/btn_operation_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="JS调用Android 使用loalUrl"
+                android:text="Android调用JS 使用loalUrl"
                 android:textAllCaps="false"/>
 
             <Button
                 android:id="@+id/btn_operation_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="JS调用Android 使用evaluateJavaScript"
+                android:text="Android调用JS 使用evaluateJavaScript"
                 android:textAllCaps="false"/>
 
             <Button

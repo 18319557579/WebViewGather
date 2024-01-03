@@ -19,6 +19,10 @@ import com.example.utilsgather.ui.screen.ScreenFunctionUtils;
 import com.example.webviewgather.interaction.JSCallAndroidObject;
 import com.example.webviewrapid.facade.RapidWebView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class JSWithAndroidActivity extends AppCompatActivity {
 
     public static final String TAG = "PASSED_URL";  //用于每个不同url之间的分隔
@@ -52,7 +56,35 @@ public class JSWithAndroidActivity extends AppCompatActivity {
         findViewById(R.id.btn_operation_2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rapidWebView.evaluateJavascript("javascript:calledBy_evaluateJavascript('Hello JS, I am from evaluateJavascript().')", new ValueCallback<String>() {
+                //{"page": "pagefirst", "code": 6, "data":{"weigth": 50.5, "person": ["hsf", {"name": "hwt", "nickname": null}]}}
+                JSONObject jsonObj = new JSONObject();
+                try {
+                    jsonObj.put("page", "pagefirst");
+                    jsonObj.put("code", 6);
+
+                    JSONObject jsonObjInner = new JSONObject();
+                    jsonObjInner.put("weight", 50.5);
+
+                    JSONArray jsonArrayInner = new JSONArray();
+                    jsonArrayInner.put("hsf");
+                    JSONObject jsonArrayInnerObj = new JSONObject();
+                    jsonArrayInnerObj.put("name", "hwt");
+                    jsonArrayInnerObj.put("nickname", JSONObject.NULL);
+                    jsonArrayInner.put(jsonArrayInnerObj);
+
+                    jsonObjInner.put("person", jsonArrayInner);
+
+                    jsonObj.put("data", jsonObjInner);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+                StringBuffer stringBuffer = new StringBuffer();
+                stringBuffer.append("javascript:calledBy_evaluateJavascript('");
+                stringBuffer.append(jsonObj.toString());
+                stringBuffer.append("')");
+
+                rapidWebView.evaluateJavascript(stringBuffer.toString(), new ValueCallback<String>() {
                     @Override
                     public void onReceiveValue(String value) {
                         LogUtil.d("Android得到了JS的返回值: " + value);

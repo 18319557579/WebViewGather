@@ -43,6 +43,7 @@ public class JSWithAndroidActivity extends AppCompatActivity {
 
         rapidWebView = RapidWebView.with(JSWithAndroidActivity.this)
                 .setWebParent(findViewById(R.id.ll_out_container_js_with_android), new LinearLayout.LayoutParams(-1, -1))
+                .addJavascriptInterface(new JSCallAndroidObject(), "jscallandroid")
                 .loadUrl(getIntent().getStringExtra(TAG));
 
         rapidWebView.getRealWebView().addJavascriptInterface(new JSCallAndroidObject(), "jscallandroid");

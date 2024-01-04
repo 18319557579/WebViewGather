@@ -1,7 +1,10 @@
 package com.example.webviewrapid.facade;
 
 //import android.annotation.Nullable;
+import android.annotation.SuppressLint;
+import android.text.TextUtils;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.widget.FrameLayout;
 
@@ -13,6 +16,9 @@ import com.example.webviewrapid.client.RapidWebChromeClient;
 import com.example.webviewrapid.client.RapidWebViewClient;
 import com.example.webviewrapid.client.WebViewClientCallback;
 import com.example.webviewrapid.webview_manager.WebViewManager;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 
 public class RapidWebView {
 
@@ -28,13 +34,44 @@ public class RapidWebView {
 
         theWebView.setWebChromeClient(new RapidWebChromeClient());
 
-        parentLayout.addView(theWebView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        checkThenAddJavascriptInterface(builder.mInterfaceObj, builder.mInterfaceName);
 
+        parentLayout.addView(theWebView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         builder.mWebContainer.addView(parentLayout, builder.mLayoutParams);
 
         //用于自动去感知Activity的生命周期，以此来调用WebView中的生命周期
         builder.mActivity.getLifecycle().addObserver(new ActivityObserver(theWebView));
 
+    }
+
+    @SuppressLint("JavascriptInterface")
+    private void checkThenAddJavascriptInterface(Object interfaceObj, String interfaceName) {
+        //先检查是否为空,如果都不为空则继续
+        if (TextUtils.isEmpty(interfaceName) || interfaceObj == null) {
+            return;
+        }
+
+        //检查映射的对象中是否有@JavascriptInterface注释
+        Class clazz = interfaceObj.getClass();
+        Method[] methods = clazz.getMethods();
+
+        boolean atLeastOneAnnotation = false;
+        outerLoop: for (Method method : methods) {
+            Annotation[] annotations = method.getAnnotations();
+            for (Annotation annotation : annotations) {
+                if (annotation instanceof JavascriptInterface) {
+                    atLeastOneAnnotation = true;
+                    break outerLoop;
+                }
+            }
+        }
+
+        if (!atLeastOneAnnotation) {
+            throw new RuntimeException("This object has ont offer javascript to call, please check addJavascriptInterface annotation was be added");
+        }
+
+        //正式注入映射对象
+        theWebView.addJavascriptInterface(interfaceObj, interfaceName);
     }
 
     public void loadUrl(String url) {
@@ -63,9 +100,13 @@ public class RapidWebView {
 
     public static class Builder {
         private AppCompatActivity mActivity;  //加载WebView的Activity
-        private ViewGroup mWebContainer;
-        private ViewGroup.LayoutParams mLayoutParams;
+        private ViewGroup mWebContainer;  //宿主布局
+        private ViewGroup.LayoutParams mLayoutParams;  //布局参数
         private WebViewClientCallback mWebViewClientCallback;
+
+        private String mInterfaceName = null;  //映射的对象名
+        private Object mInterfaceObj = null;  //映射的对象
+
 
         public Builder(AppCompatActivity activity) {
             mActivity = activity;
@@ -79,6 +120,15 @@ public class RapidWebView {
 
         public Builder setWebViewClientCallback(WebViewClientCallback webViewClientCallback) {
             this.mWebViewClientCallback = webViewClientCallback;
+            return this;
+        }
+
+        /**
+         * 添加Js监听
+         */
+        public Builder addJavascriptInterface(Object interfaceObj, String interfaceName) {
+            this.mInterfaceName = interfaceName;
+            this.mInterfaceObj = interfaceObj;
             return this;
         }
 

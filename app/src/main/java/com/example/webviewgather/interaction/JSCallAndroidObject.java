@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class JSCallAndroidObject extends Object{
+public class JSCallAndroidObject extends Object {
 
     @JavascriptInterface
     public String executeHello(String parameters) {

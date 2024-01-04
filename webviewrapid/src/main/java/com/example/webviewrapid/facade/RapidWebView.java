@@ -36,6 +36,11 @@ public class RapidWebView {
 
         checkThenAddJavascriptInterface(builder.mInterfaceObj, builder.mInterfaceName);
 
+        // 移除有风险的WebView系统隐藏接口
+        theWebView.removeJavascriptInterface("searchBoxJavaBridge_");
+        theWebView.removeJavascriptInterface("accessibility");
+        theWebView.removeJavascriptInterface("accessibilityTraversal");
+
         parentLayout.addView(theWebView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         builder.mWebContainer.addView(parentLayout, builder.mLayoutParams);
 

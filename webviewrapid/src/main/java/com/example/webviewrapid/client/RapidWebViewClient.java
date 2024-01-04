@@ -213,19 +213,16 @@ public class RapidWebViewClient extends WebViewClient {
     public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
         LogUtil.d("SSL证书校验错误 " + error.getUrl() + " | " + error.getPrimaryError());
         new AlertDialog.Builder(view.getContext())
-                .setTitle("提示")
                 .setMessage("当前网站安全证书已过期或不可信\n是否继续浏览?")
                 .setPositiveButton("继续浏览", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
                         handler.proceed();
                     }
                 })
                 .setNegativeButton("返回上一页", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
                         handler.cancel();
                     }
                 })

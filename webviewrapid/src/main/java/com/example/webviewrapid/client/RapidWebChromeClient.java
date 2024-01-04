@@ -7,8 +7,16 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.example.utilsgather.logcat.LogUtil;
+import com.example.webviewrapid.facade.RapidWebView;
+import com.example.webviewrapid.floatlayer.WebProgress;
 
 public class RapidWebChromeClient extends WebChromeClient {
+    private RapidWebView mRapidWebView;
+
+    public RapidWebChromeClient(RapidWebView mRapidWebView) {
+        this.mRapidWebView = mRapidWebView;
+    }
+
     @Override
     public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
         LogUtil.i(consoleMessage.message());
@@ -30,5 +38,14 @@ public class RapidWebChromeClient extends WebChromeClient {
             return true;  //这里要返回true,中止加载url.因为这里并不是真正去加载url
         }
         return super.onJsPrompt(view, url, message, defaultValue, result);
+    }
+
+    @Override
+    public void onProgressChanged(WebView view, int newProgress) {
+        super.onProgressChanged(view, newProgress);
+        LogUtil.d("进度发生变化: " + newProgress);
+        if (mRapidWebView.getWebProgress() != null) {
+            mRapidWebView.getWebProgress().setWebProgress(newProgress);
+        }
     }
 }

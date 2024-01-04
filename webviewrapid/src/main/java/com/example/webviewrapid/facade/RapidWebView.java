@@ -3,18 +3,22 @@ package com.example.webviewrapid.facade;
 //import android.annotation.Nullable;
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.widget.FrameLayout;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.utilsgather.ui.SizeTransferUtil;
 import com.example.webviewrapid.base.BaseWebView;
 import com.example.webviewrapid.client.RapidWebChromeClient;
 import com.example.webviewrapid.client.RapidWebViewClient;
 import com.example.webviewrapid.client.WebViewClientCallback;
+import com.example.webviewrapid.floatlayer.WebProgress;
 import com.example.webviewrapid.webview_manager.WebViewManager;
 
 import java.lang.annotation.Annotation;
@@ -23,16 +27,22 @@ import java.lang.reflect.Method;
 public class RapidWebView {
 
     private BaseWebView theWebView;  //真实的WebView
+    private WebProgress theWebProgress;  //进度条
 
     public RapidWebView(Builder builder) {
         FrameLayout parentLayout = new FrameLayout(builder.mActivity);
         theWebView = WebViewManager.doObtain(builder.mActivity);
 
+        parentLayout.addView(theWebView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        builder.mWebContainer.addView(parentLayout, builder.mLayoutParams);
+
+        setWebProgress(builder, parentLayout);
+
         RapidWebViewClient rapidWebViewClient = new RapidWebViewClient();
         rapidWebViewClient.setWebViewClientCallback(builder.mWebViewClientCallback);
         theWebView.setWebViewClient(rapidWebViewClient);
 
-        theWebView.setWebChromeClient(new RapidWebChromeClient());
+        theWebView.setWebChromeClient(new RapidWebChromeClient(this));
 
         checkThenAddJavascriptInterface(builder.mInterfaceObj, builder.mInterfaceName);
 
@@ -41,8 +51,7 @@ public class RapidWebView {
         theWebView.removeJavascriptInterface("accessibility");
         theWebView.removeJavascriptInterface("accessibilityTraversal");
 
-        parentLayout.addView(theWebView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        builder.mWebContainer.addView(parentLayout, builder.mLayoutParams);
+
 
         //用于自动去感知Activity的生命周期，以此来调用WebView中的生命周期
         builder.mActivity.getLifecycle().addObserver(new ActivityObserver(theWebView));
@@ -79,9 +88,37 @@ public class RapidWebView {
         theWebView.addJavascriptInterface(interfaceObj, interfaceName);
     }
 
+    private void setWebProgress(Builder builder, FrameLayout parentLayout) {
+        if (! builder.mProgressUse) {
+            return;
+        }
+
+        WebProgress webProgress = new WebProgress(builder.mActivity);  //todo 如果WebView进行服用的话,我感觉WebProgress也能复用
+        if (builder.mProgressEndColor == 0) {
+            webProgress.setColor(builder.mProgressColor);
+        } else {
+            webProgress.setColor(builder.mProgressColor, builder.mProgressEndColor);
+        }
+
+        webProgress.setHeight(builder.mProgressHeight_dp);
+        webProgress.setVisibility(View.GONE);
+        parentLayout.addView(webProgress, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SizeTransferUtil.dip2px(builder.mProgressHeight_dp, parentLayout.getContext())));
+
+        theWebProgress = webProgress;
+    }
+
     public void loadUrl(String url) {
         theWebView.loadUrl(url);
+
+        if (theWebProgress != null) {
+            theWebProgress.show();
+        }
     }
+
+    public WebProgress getWebProgress() {
+        return theWebProgress;
+    }
+
     public void evaluateJavascript(String script, ValueCallback<String> resultCallback) {
         theWebView.evaluateJavascript(script, resultCallback);
     }
@@ -112,6 +149,12 @@ public class RapidWebView {
         private String mInterfaceName = null;  //映射的对象名
         private Object mInterfaceObj = null;  //映射的对象
 
+        private boolean mProgressUse = true;  //默认展示进度条
+        private int mProgressColor = 0xFFFF0000;  //进度条纯色 / 渐变的起始色. 默认红色
+        private int mProgressEndColor;  //渐变的结束色.
+        private int mProgressHeight_dp = 3;  //进度条高度. 默认3dp
+
+
 
         public Builder(AppCompatActivity activity) {
             mActivity = activity;
@@ -134,6 +177,31 @@ public class RapidWebView {
         public Builder addJavascriptInterface(Object interfaceObj, String interfaceName) {
             this.mInterfaceName = interfaceName;
             this.mInterfaceObj = interfaceObj;
+            return this;
+        }
+
+        /**
+         * 是否使用进度条. 默认为true
+         * @param progressUse 如果为false, 那么就不会展示. 后续的进度条设置都会无效
+         */
+        public Builder setProgressUse(boolean progressUse) {
+            this.mProgressUse = progressUse;
+            return this;
+        }
+
+        public Builder setProgressColor(@ColorInt int color) {
+            this.mProgressColor = color;
+            return this;
+        }
+
+        public Builder setProgressGradientColor(int startColor, int endColor) {
+            this.mProgressColor = startColor;
+            this.mProgressEndColor = endColor;
+            return this;
+        }
+
+        public Builder setProgressHeight_dp(int height_dp) {
+            this.mProgressHeight_dp = height_dp;
             return this;
         }
 

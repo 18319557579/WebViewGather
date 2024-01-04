@@ -1,5 +1,6 @@
 package com.example.webviewgather;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.LinearLayout;
@@ -25,6 +26,7 @@ public class PracticeActivity extends AppCompatActivity {
 
         rapidWebView = RapidWebView.with(PracticeActivity.this)
                 .setWebParent(findViewById(R.id.ll_out_container), new LinearLayout.LayoutParams(-1, -1))
+                .setProgressGradientColor(Color.parseColor("#FF8C00"), Color.parseColor("#FF0000"))
                 .loadUrl(getIntent().getStringExtra(TAG));
     }
 

@@ -147,6 +147,14 @@ public class RapidWebView {
         return false;
     }
 
+    public String getTitle() {
+        return theWebView.getTitle();
+    }
+
+    public String getUrl() {
+        return theWebView.getUrl();
+    }
+
 //----------------------------------------------Builder-------------------------------------------------
 
     public static Builder with(@NonNull AppCompatActivity activity) {

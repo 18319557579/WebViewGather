@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.utilsgather.share.SystemShareUtil;
 import com.example.utilsgather.ui.status.OtherStatusBarUtil;
 import com.example.webviewrapid.facade.RapidWebView;
 import com.example.webviewrapid.webchrome_client.WebChromeClientCallback;
@@ -78,6 +79,10 @@ public class PracticeActivity extends AppCompatActivity {
                 if (! rapidWebView.handleBack()) {
                     finish();
                 }
+                break;
+            case R.id.actionbar_share:
+                String sharedText = rapidWebView.getTitle() + "\n" + rapidWebView.getUrl();
+                SystemShareUtil.textShare(this, sharedText);
                 break;
         }
         return super.onOptionsItemSelected(item);

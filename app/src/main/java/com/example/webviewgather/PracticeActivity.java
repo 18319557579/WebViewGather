@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.utilsgather.browser.BrowserUtil;
 import com.example.utilsgather.clipboard.ClipboardUtil;
 import com.example.utilsgather.share.SystemShareUtil;
 import com.example.utilsgather.ui.status.OtherStatusBarUtil;
@@ -92,6 +93,9 @@ public class PracticeActivity extends AppCompatActivity {
                 break;
             case R.id.actionbar_webview_refresh:
                 rapidWebView.reload();
+                break;
+            case R.id.actionbar_open:
+                BrowserUtil.jumpBrowser(rapidWebView.getUrl(), this);
                 break;
         }
         return super.onOptionsItemSelected(item);

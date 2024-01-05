@@ -1,4 +1,4 @@
-package com.example.webviewrapid.client;
+package com.example.webviewrapid.webchrome_client;
 
 import android.net.Uri;
 import android.webkit.ConsoleMessage;
@@ -12,9 +12,11 @@ import com.example.webviewrapid.floatlayer.WebProgress;
 
 public class RapidWebChromeClient extends WebChromeClient {
     private RapidWebView mRapidWebView;
+    private WebChromeClientCallback mWebChromeClientCallback;
 
-    public RapidWebChromeClient(RapidWebView mRapidWebView) {
+    public RapidWebChromeClient(RapidWebView mRapidWebView, WebChromeClientCallback webChromeClientCallback) {
         this.mRapidWebView = mRapidWebView;
+        this.mWebChromeClientCallback = webChromeClientCallback;
     }
 
     @Override
@@ -46,6 +48,14 @@ public class RapidWebChromeClient extends WebChromeClient {
         LogUtil.d("进度发生变化: " + newProgress);
         if (mRapidWebView.getWebProgress() != null) {
             mRapidWebView.getWebProgress().setWebProgress(newProgress);
+        }
+    }
+
+    @Override
+    public void onReceivedTitle(WebView view, String title) {
+        super.onReceivedTitle(view, title);
+        if (mWebChromeClientCallback != null) {
+            mWebChromeClientCallback.onReceivedTitle(title);
         }
     }
 }

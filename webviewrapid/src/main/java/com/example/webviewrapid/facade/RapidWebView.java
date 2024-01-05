@@ -15,9 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.utilsgather.ui.SizeTransferUtil;
 import com.example.webviewrapid.base.BaseWebView;
-import com.example.webviewrapid.client.RapidWebChromeClient;
-import com.example.webviewrapid.client.RapidWebViewClient;
-import com.example.webviewrapid.client.WebViewClientCallback;
+import com.example.webviewrapid.webchrome_client.RapidWebChromeClient;
+import com.example.webviewrapid.webchrome_client.WebChromeClientCallback;
+import com.example.webviewrapid.webview_client.RapidWebViewClient;
+import com.example.webviewrapid.webview_client.WebViewClientCallback;
 import com.example.webviewrapid.floatlayer.WebProgress;
 import com.example.webviewrapid.webview_manager.WebViewManager;
 
@@ -42,7 +43,7 @@ public class RapidWebView {
         rapidWebViewClient.setWebViewClientCallback(builder.mWebViewClientCallback);
         theWebView.setWebViewClient(rapidWebViewClient);
 
-        theWebView.setWebChromeClient(new RapidWebChromeClient(this));
+        theWebView.setWebChromeClient(new RapidWebChromeClient(this, builder.mWebChromeClientCallback));
 
         checkThenAddJavascriptInterface(builder.mInterfaceObj, builder.mInterfaceName);
 
@@ -145,6 +146,7 @@ public class RapidWebView {
         private ViewGroup mWebContainer;  //宿主布局
         private ViewGroup.LayoutParams mLayoutParams;  //布局参数
         private WebViewClientCallback mWebViewClientCallback;
+        private WebChromeClientCallback mWebChromeClientCallback;
 
         private String mInterfaceName = null;  //映射的对象名
         private Object mInterfaceObj = null;  //映射的对象
@@ -168,6 +170,11 @@ public class RapidWebView {
 
         public Builder setWebViewClientCallback(WebViewClientCallback webViewClientCallback) {
             this.mWebViewClientCallback = webViewClientCallback;
+            return this;
+        }
+
+        public Builder setWebChromeClientCallback(WebChromeClientCallback webChromeClientCallback) {
+            this.mWebChromeClientCallback = webChromeClientCallback;
             return this;
         }
 

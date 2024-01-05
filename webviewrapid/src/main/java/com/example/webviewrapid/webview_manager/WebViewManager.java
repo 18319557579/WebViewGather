@@ -10,10 +10,8 @@ import android.view.ViewGroup;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebHistoryItem;
 
-import com.example.utilsgather.handler.HandlerUI;
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.webviewrapid.base.BaseWebView;
-import com.example.webviewrapid.client.RapidWebViewClient;
 import com.example.webviewrapid.webview_settings.WebSettingsConfiguration;
 
 import java.util.ArrayList;

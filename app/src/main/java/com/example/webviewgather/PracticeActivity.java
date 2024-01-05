@@ -18,6 +18,7 @@ import com.example.utilsgather.ui.screen.ScreenFunctionUtils;
 import com.example.utilsgather.ui.status.OtherStatusBarUtil;
 import com.example.webviewrapid.base.BaseWebView;
 import com.example.webviewrapid.facade.RapidWebView;
+import com.example.webviewrapid.webchrome_client.WebChromeClientCallback;
 
 public class PracticeActivity extends AppCompatActivity {
 
@@ -31,7 +32,6 @@ public class PracticeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_practice);
 
-//        ScreenFunctionUtils.hideActionBar(this);
         OtherStatusBarUtil.setColor(this, 0xFF2483D9, 0);
 
         initTitle();
@@ -39,17 +39,13 @@ public class PracticeActivity extends AppCompatActivity {
         rapidWebView = RapidWebView.with(PracticeActivity.this)
                 .setWebParent(findViewById(R.id.ll_out_container), new LinearLayout.LayoutParams(-1, -1))
                 .setProgressGradientColor(Color.parseColor("#FF8C00"), Color.parseColor("#FF0000"))
+                .setWebChromeClientCallback(webChromeClientCallback)
                 .loadUrl(getIntent().getStringExtra(TAG));
     }
 
     private void initTitle() {
         Toolbar mTitleToolBar = findViewById(R.id.practice_tool_bar);
         setSupportActionBar(mTitleToolBar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            //去除默认Title显示
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
 
         toolBarTv = findViewById(R.id.practice_tool_bar_tv);
         toolBarTv.post(new Runnable() {
@@ -58,7 +54,6 @@ public class PracticeActivity extends AppCompatActivity {
                 toolBarTv.setSelected(true);
             }
         });
-        toolBarTv.setText("年会上佛教撒旦佛i就撒旦佛爱睡觉的佛i就哦按时间段佛加哦就氨基酸的泼妇撒旦佛");
 
 
     }
@@ -88,4 +83,11 @@ public class PracticeActivity extends AppCompatActivity {
     public boolean onMenuOpened(int featureId, Menu menu) {
         return super.onMenuOpened(featureId, menu);
     }
+
+    private WebChromeClientCallback webChromeClientCallback = new WebChromeClientCallback() {
+        @Override
+        public void onReceivedTitle(String title) {
+            toolBarTv.setText(title);
+        }
+    };
 }

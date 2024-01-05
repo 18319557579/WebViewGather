@@ -90,6 +90,9 @@ public class PracticeActivity extends AppCompatActivity {
                 ClipboardUtil.copyToClipboard(rapidWebView.getUrl(), this);
                 Toast.makeText(this, "复制成功", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.actionbar_webview_refresh:
+                rapidWebView.reload();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

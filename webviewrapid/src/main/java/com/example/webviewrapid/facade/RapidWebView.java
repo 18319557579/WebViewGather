@@ -155,6 +155,10 @@ public class RapidWebView {
         return theWebView.getUrl();
     }
 
+    public void reload() {
+        theWebView.reload();
+    }
+
 //----------------------------------------------Builder-------------------------------------------------
 
     public static Builder with(@NonNull AppCompatActivity activity) {

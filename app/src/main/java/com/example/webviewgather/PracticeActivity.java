@@ -8,11 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.utilsgather.clipboard.ClipboardUtil;
 import com.example.utilsgather.share.SystemShareUtil;
 import com.example.utilsgather.ui.status.OtherStatusBarUtil;
 import com.example.webviewrapid.facade.RapidWebView;
@@ -83,6 +85,10 @@ public class PracticeActivity extends AppCompatActivity {
             case R.id.actionbar_share:
                 String sharedText = rapidWebView.getTitle() + "\n" + rapidWebView.getUrl();
                 SystemShareUtil.textShare(this, sharedText);
+                break;
+            case R.id.actionbar_cope:
+                ClipboardUtil.copyToClipboard(rapidWebView.getUrl(), this);
+                Toast.makeText(this, "复制成功", Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);

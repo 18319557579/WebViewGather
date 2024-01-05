@@ -1,5 +1,6 @@
 package com.example.webviewgather;
 
+import android.app.Instrumentation;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -9,14 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
-import com.example.utilsgather.ui.screen.ScreenFunctionUtils;
 import com.example.utilsgather.ui.status.OtherStatusBarUtil;
-import com.example.webviewrapid.base.BaseWebView;
 import com.example.webviewrapid.facade.RapidWebView;
 import com.example.webviewrapid.webchrome_client.WebChromeClientCallback;
 
@@ -60,9 +57,10 @@ public class PracticeActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && rapidWebView.canGoBackReal()) {
-            rapidWebView.goBack();
-            return true;
+        if (keyCode == KeyEvent.KEYCODE_BACK) {  //首先只有返回键需要进行处理,
+            if (rapidWebView.handleBack()) {  //如果WebView自己进行了处理,那么中断事件传递
+                return true;
+            }
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -75,7 +73,13 @@ public class PracticeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (! rapidWebView.handleBack()) {
+                    finish();
+                }
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 

@@ -135,6 +135,18 @@ public class RapidWebView {
         theWebView.goBack();
     }
 
+    /**
+     * 当触发了返回键时,先给WebView一个处理的时机.如果WebView可以还可以回退的话,那么就进行回退,代表自己处理了
+     * @return true代表WebView自己处理了,false代表WebView没处理
+     */
+    public boolean handleBack() {
+        if (theWebView.canGoBackReal()) {
+            theWebView.goBack();
+            return true;
+        }
+        return false;
+    }
+
 //----------------------------------------------Builder-------------------------------------------------
 
     public static Builder with(@NonNull AppCompatActivity activity) {

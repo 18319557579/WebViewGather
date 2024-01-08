@@ -39,10 +39,6 @@ public class RapidWebView {
         FrameLayout parentLayout = new FrameLayout(builder.mActivity);
         theWebView = WebViewManager.doObtain(builder.mActivity);
 
-        //由于Activity级后退时,为了防止看到系统默认的访问失败丑界面,因此那里的可见性还是为INVISIBLE. 这时就在这里设置为VISIBLE
-        if (theWebView.getVisibility() == View.INVISIBLE) {
-            theWebView.setVisibility(View.VISIBLE);
-        }
         parentLayout.addView(theWebView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         builder.mWebContainer.addView(parentLayout, builder.mLayoutParams);
 

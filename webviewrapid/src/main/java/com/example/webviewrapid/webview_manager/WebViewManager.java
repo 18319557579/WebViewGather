@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Looper;
 import android.os.MessageQueue;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebHistoryItem;
@@ -105,6 +106,12 @@ public enum WebViewManager {
         webView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
         webView.clearHistory();
         webView.pauseTimers();
+
+        //由于Activity级后退时,为了防止看到系统默认的访问失败丑界面,因此那里的可见性还是为INVISIBLE. 这时就在这里回收时设置为VISIBLE
+        if (webView.getVisibility() != View.VISIBLE) {
+            webView.setVisibility(View.VISIBLE);
+        }
+
 //        webView.setWebChromeClient(null);
 //        webView.setWebViewClient(null);  //怎么能传null给非null的呢
         ViewGroup parent = (ViewGroup) webView.getParent();

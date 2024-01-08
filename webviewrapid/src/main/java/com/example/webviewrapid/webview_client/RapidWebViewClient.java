@@ -35,6 +35,7 @@ import com.example.utilsgather.logcat.LogUtil;
 import com.example.utilsgather.package_info.PackageInfoUtil;
 import com.example.webviewrapid.R;
 import com.example.webviewrapid.WebViewActivity;
+import com.example.webviewrapid.facade.RapidWebView;
 import com.example.webviewrapid.floatlayer.JumpFloatLayerParams;
 
 import java.io.InputStream;
@@ -43,10 +44,12 @@ import java.net.URISyntaxException;
 import java.util.Queue;
 
 public class RapidWebViewClient extends WebViewClient {
+    private RapidWebView mRapidWebView;
 
     private WebViewClientCallback webViewClientCallback = null;
 
-    public void setWebViewClientCallback(WebViewClientCallback webViewClientCallback) {
+    public RapidWebViewClient(RapidWebView mRapidWebView, WebViewClientCallback webViewClientCallback) {
+        this.mRapidWebView = mRapidWebView;
         this.webViewClientCallback = webViewClientCallback;
     }
 
@@ -168,16 +171,22 @@ public class RapidWebViewClient extends WebViewClient {
         LogUtil.d("RapidWebViewClient", "onLoadResource的url：" + url);
     }
 
-    /*@Override
+    @Override
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            LogUtil.i( "RapidWebViewClient", "onReceivedError:" + error.getDescription() + " code:" + error.getErrorCode() + " failingUrl:" + request.getUrl().toString() + " getUrl:" + view.getUrl() + " getOriginalUrl:" + view.getOriginalUrl());
+            LogUtil.i( "onReceivedError:" + error.getDescription() + " code:" + error.getErrorCode() + " failingUrl:" + request.getUrl().toString() + " getUrl:" + view.getUrl() + " getOriginalUrl:" + view.getOriginalUrl());
+
         }
+
+        if (request.isForMainFrame()) {
+            mRapidWebView.showErrorView(request.getUrl().toString(), error.getDescription().toString(), error.getErrorCode());
+        }
+
         //用这种方式的会造成死循环，用户从错误页面返回后，由于出错，又会回到这个页面
 //        view.loadUrl("file:///android_asset/webviewrapid_error_handle.html");
 
 
-        //todo 这里存在一个bug，包括AgentWeb都存在该bug，就是长按后可以选择到地下的内容
+        /*//todo 这里存在一个bug，包括AgentWeb都存在该bug，就是长按后可以选择到地下的内容
         Activity activity = ContextUtil.getCurrentActivity();
         FrameLayout frameLayoutContainer = activity.findViewById(R.id.webviewrapid_rl_container);
 
@@ -196,10 +205,10 @@ public class RapidWebViewClient extends WebViewClient {
             public void onClick(View v) {
                 view.reload();
             }
-        });
-    }*/
+        });*/
+    }
 
-    /*void hideErrorLayout() {
+/*    void hideErrorLayout() {
         View mView = null;
         if ((mView = this.findViewById(R.id.mainframe_error_container_id)) != null) {
             mView.setVisibility(View.GONE);

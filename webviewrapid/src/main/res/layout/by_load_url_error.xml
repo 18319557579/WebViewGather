@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_centerInParent="true"
+    android:padding="25dp">
+
+
+    <ImageView
+        android:id="@+id/wera_error_iv"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/visit_error"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/wera_error_text_ll"
+        app:layout_constraintVertical_chainStyle="spread"/>
+
+    <LinearLayout
+        android:id="@+id/wera_error_text_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/wera_error_iv"
+        app:layout_constraintBottom_toTopOf="@id/wera_error_refresh_ll"
+        android:layout_marginBottom="40dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:text="网页无法打开"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/wera_error_origin_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="目标网址: www.baidu.com"
+            android:layout_marginTop="3dp"/>
+        <TextView
+            android:id="@+id/wera_error_description_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="错误原因: sdaeffe"
+            android:layout_marginTop="3dp"/>
+        <TextView
+            android:id="@+id/wera_error_code_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="错误码: 4541"
+            android:layout_marginTop="3dp"/>
+
+
+    </LinearLayout>
+
+    <!--<Button
+        android:id="@+id/wera_error_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="点击重新加载"
+        app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+    <LinearLayout
+        android:id="@+id/wera_error_refresh_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.6"
+        >
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:src="@drawable/wera_error_fresh" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingTop="5dp"
+            android:text="点击重新加载"
+            android:textColor="#8E8E8E"
+            android:textSize="15sp"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

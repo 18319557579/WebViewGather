@@ -2,10 +2,14 @@ package com.example.webviewgather;
 
 import android.app.Instrumentation;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebBackForwardList;
+import android.webkit.WebHistoryItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.utilsgather.browser.BrowserUtil;
 import com.example.utilsgather.clipboard.ClipboardUtil;
+import com.example.utilsgather.logcat.LogUtil;
 import com.example.utilsgather.share.SystemShareUtil;
 import com.example.utilsgather.ui.status.OtherStatusBarUtil;
 import com.example.webviewrapid.facade.RapidWebView;
@@ -96,6 +101,22 @@ public class PracticeActivity extends AppCompatActivity {
                 break;
             case R.id.actionbar_open:
                 BrowserUtil.jumpBrowser(rapidWebView.getUrl(), this);
+                break;
+            case R.id.actionbar_list:
+                WebBackForwardList webBackForwardList = rapidWebView.getRealWebView().copyBackForwardList();
+                for (int i = 0; i < webBackForwardList.getSize(); i++) {
+                    WebHistoryItem webHistoryItem = webBackForwardList.getItemAtIndex(i);
+                    LogUtil.d("index：" + i + ", webHistoryItem:" + webHistoryItem.getUrl() + " | " +
+                            webHistoryItem.getOriginalUrl() + " | " + webHistoryItem.getTitle() + " | " +
+                            webHistoryItem.getFavicon());
+
+                    String host = Uri.parse(webHistoryItem.getUrl()).getHost();
+                    LogUtil.d("打印host：" + host);
+                    if (TextUtils.isEmpty(host)) {
+                        LogUtil.d("该页面是空的页面");
+                    }
+
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);

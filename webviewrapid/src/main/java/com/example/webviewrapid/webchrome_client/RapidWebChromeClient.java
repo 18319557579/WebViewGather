@@ -1,6 +1,7 @@
 package com.example.webviewrapid.webchrome_client;
 
 import android.net.Uri;
+import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.JsPromptResult;
 import android.webkit.WebChromeClient;
@@ -46,8 +47,14 @@ public class RapidWebChromeClient extends WebChromeClient {
     public void onProgressChanged(WebView view, int newProgress) {
         super.onProgressChanged(view, newProgress);
         LogUtil.d("进度发生变化: " + newProgress);
-        if (mRapidWebView.getWebProgress() != null) {
+        if (mRapidWebView.getWebProgress() != null) {  //如果有进度条的话, 则设置进度
             mRapidWebView.getWebProgress().setWebProgress(newProgress);
+        }
+
+        if (mRapidWebView.getRealWebView().getVisibility() == View.INVISIBLE  //如果WebView隐藏起来了, 即刚刚为错误页面时
+                && (mRapidWebView.getErrorManager() == null || mRapidWebView.getErrorManager().isHide())
+            && newProgress == 100 ) {  //当显示错误页面时，进度达到100才显示网页
+            mRapidWebView.getRealWebView().setVisibility(View.VISIBLE);
         }
     }
 

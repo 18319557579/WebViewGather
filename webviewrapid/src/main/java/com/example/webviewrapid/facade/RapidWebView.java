@@ -3,6 +3,7 @@ package com.example.webviewrapid.facade;
 //import android.annotation.Nullable;
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
@@ -13,10 +14,13 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.utilsgather.logcat.LogUtil;
 import com.example.utilsgather.ui.SizeTransferUtil;
+import com.example.webviewrapid.R;
 import com.example.webviewrapid.base.BaseWebView;
 import com.example.webviewrapid.webchrome_client.RapidWebChromeClient;
 import com.example.webviewrapid.webchrome_client.WebChromeClientCallback;
+import com.example.webviewrapid.webview_client.ErrorManager;
 import com.example.webviewrapid.webview_client.RapidWebViewClient;
 import com.example.webviewrapid.webview_client.WebViewClientCallback;
 import com.example.webviewrapid.floatlayer.WebProgress;
@@ -29,18 +33,22 @@ public class RapidWebView {
 
     private BaseWebView theWebView;  //真实的WebView
     private WebProgress theWebProgress;  //进度条
+    private ErrorManager theErrorManager;
 
     public RapidWebView(Builder builder) {
         FrameLayout parentLayout = new FrameLayout(builder.mActivity);
         theWebView = WebViewManager.doObtain(builder.mActivity);
 
+        //由于Activity级后退时,为了防止看到系统默认的访问失败丑界面,因此那里的可见性还是为INVISIBLE. 这时就在这里设置为VISIBLE
+        if (theWebView.getVisibility() == View.INVISIBLE) {
+            theWebView.setVisibility(View.VISIBLE);
+        }
         parentLayout.addView(theWebView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         builder.mWebContainer.addView(parentLayout, builder.mLayoutParams);
 
         setWebProgress(builder, parentLayout);
 
-        RapidWebViewClient rapidWebViewClient = new RapidWebViewClient();
-        rapidWebViewClient.setWebViewClientCallback(builder.mWebViewClientCallback);
+        RapidWebViewClient rapidWebViewClient = new RapidWebViewClient(this, builder.mWebViewClientCallback);
         theWebView.setWebViewClient(rapidWebViewClient);
 
         theWebView.setWebChromeClient(new RapidWebChromeClient(this, builder.mWebChromeClientCallback));
@@ -114,6 +122,8 @@ public class RapidWebView {
         if (theWebProgress != null) {
             theWebProgress.show();
         }
+
+        hideErrorView();
     }
 
     public WebProgress getWebProgress() {
@@ -140,10 +150,15 @@ public class RapidWebView {
      * @return true代表WebView自己处理了,false代表WebView没处理
      */
     public boolean handleBack() {
+        hideErrorView();
+
         if (theWebView.canGoBackReal()) {
             theWebView.goBack();
             return true;
         }
+        /*if (theWebView.getVisibility() == View.INVISIBLE) {
+            theWebView.setVisibility(View.VISIBLE);
+        }*/
         return false;
     }
 
@@ -156,7 +171,37 @@ public class RapidWebView {
     }
 
     public void reload() {
+        hideErrorView();
         theWebView.reload();
+        LogUtil.d("点击了刷新");
+    }
+
+    //显示错误布局
+    public void showErrorView(String errorUrl, String errorDescription, int errorCode) {
+        if (theErrorManager == null) {
+            theErrorManager = new ErrorManager(theWebView, this::reload);
+        } else {
+            theErrorManager.show();
+        }
+        theErrorManager.setErrorInfo(errorUrl, errorDescription, errorCode);
+
+        theWebView.setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     * 将错误页面隐藏起来,有3种方式:
+     * 1.loadUrl
+     * 2.reload
+     * 3.goBack返回上一个页面时
+     */
+    public void hideErrorView() {
+        if (theErrorManager != null) {
+            theErrorManager.hide();
+        }
+    }
+
+    public ErrorManager getErrorManager() {
+        return theErrorManager;
     }
 
 //----------------------------------------------Builder-------------------------------------------------

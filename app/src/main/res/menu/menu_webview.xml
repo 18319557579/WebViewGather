@@ -26,4 +26,11 @@
         android:orderInCategory="1"
         android:title="@string/actionbar_webview_open"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/actionbar_list"
+        android:orderInCategory="1"
+        android:title="打印list"
+        app:showAsAction="never" />
+
 </menu>

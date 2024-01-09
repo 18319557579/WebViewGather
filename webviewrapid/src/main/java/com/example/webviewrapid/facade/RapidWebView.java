@@ -21,7 +21,7 @@ import com.example.webviewrapid.webchrome_client.WebChromeClientCallback;
 import com.example.webviewrapid.webview_client.RapidWebViewClient;
 import com.example.webviewrapid.webview_client.WebViewClientCallback;
 import com.example.webviewrapid.floatlayer.WebProgress;
-import com.example.webviewrapid.webview_client.page.PageState;
+import com.example.webviewrapid.error.PageState;
 import com.example.webviewrapid.webview_manager.WebViewManager;
 
 import java.lang.annotation.Annotation;

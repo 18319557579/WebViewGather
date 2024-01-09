@@ -1,16 +1,15 @@
-package com.example.webviewrapid.webview_client.page;
+package com.example.webviewrapid.error;
 
 import android.view.View;
 
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.webviewrapid.facade.RapidWebView;
-import com.example.webviewrapid.webview_client.ErrorManager;
 
 public class PageState {
     protected RapidWebView mRapidWebView;
-    public ErrorManager theErrorManager;
+    public ErrorViewManager theErrorViewManager;
 
-    public MyState currentState = MyState.NORMAL;
+    public MyState currentState = MyState.NORMAL;  //保存当前的状态
 
     public PageState(RapidWebView mRapidWebView) {
         this.mRapidWebView = mRapidWebView;
@@ -22,8 +21,8 @@ public class PageState {
         switch (myState) {
             case NORMAL:  //只有等待才会切为正常状态
                 mRapidWebView.getRealWebView().setVisibility(View.VISIBLE);
-                if (theErrorManager != null) {
-                    theErrorManager.hide();
+                if (theErrorViewManager != null) {
+                    theErrorViewManager.hide();
                 }
                 break;
 
@@ -33,13 +32,13 @@ public class PageState {
                 }
 
                 makeErrorViewShow();
-                theErrorManager.setErrorInfo(myState.errorUrl, myState.errorDescription, myState.errorCode);
+                theErrorViewManager.setErrorInfo(myState.errorUrl, myState.errorDescription, myState.errorCode);
 
                 break;
 
             case WAITING:  //只有错误的状态才会切为等待
-                if (theErrorManager != null) {
-                    theErrorManager.hide();
+                if (theErrorViewManager != null) {
+                    theErrorViewManager.hide();
                 }
 
                 break;
@@ -49,10 +48,10 @@ public class PageState {
     }
 
     private void makeErrorViewShow() {
-        if (theErrorManager == null) {
-            theErrorManager = new ErrorManager(mRapidWebView.getRealWebView(), () -> mRapidWebView.reload());
+        if (theErrorViewManager == null) {
+            theErrorViewManager = new ErrorViewManager(mRapidWebView.getRealWebView(), () -> mRapidWebView.reload());
         } else {
-            theErrorManager.show();
+            theErrorViewManager.show();
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.webviewrapid.webview_client;
+package com.example.webviewrapid.error;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.example.webviewrapid.R;
 import com.example.webviewrapid.base.BaseWebView;
 
-public class ErrorManager {
+public class ErrorViewManager {
     private final View mErrorView;  //错误页面
     private TextView tvErrorOrigin;
     private TextView tvErrorDescription;
@@ -17,7 +17,7 @@ public class ErrorManager {
 
     private final OnRefreshClickListener mOnRefreshClickListener;
 
-    public ErrorManager(BaseWebView webView, OnRefreshClickListener onRefreshClickListener) {
+    public ErrorViewManager(BaseWebView webView, OnRefreshClickListener onRefreshClickListener) {
         this.mOnRefreshClickListener = onRefreshClickListener;
 
         FrameLayout webViewParent = (FrameLayout) webView.getParent();

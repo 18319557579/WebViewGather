@@ -1,7 +1,6 @@
 package com.example.webviewrapid.webchrome_client;
 
 import android.net.Uri;
-import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.JsPromptResult;
 import android.webkit.WebChromeClient;
@@ -9,7 +8,6 @@ import android.webkit.WebView;
 
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.webviewrapid.facade.RapidWebView;
-import com.example.webviewrapid.webview_client.page.PageState;
 
 public class RapidWebChromeClient extends WebChromeClient {
     private RapidWebView mRapidWebView;

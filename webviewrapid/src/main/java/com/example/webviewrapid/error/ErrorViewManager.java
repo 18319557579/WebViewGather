@@ -10,7 +10,7 @@ import com.example.webviewrapid.R;
 import com.example.webviewrapid.base.BaseWebView;
 
 public class ErrorViewManager {
-    private View mErrorView;  //错误页面
+    private final View mErrorView;  //错误页面
     private final boolean useDefaultErrorView;
     private TextView tvErrorOrigin;
     private TextView tvErrorDescription;
@@ -63,6 +63,10 @@ public class ErrorViewManager {
 
     public void hide() {
         mErrorView.setVisibility(View.INVISIBLE);
+    }
+
+    public View getErrorView() {
+        return mErrorView;
     }
 
     /**

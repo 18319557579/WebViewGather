@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebHistoryItem;
 import android.widget.LinearLayout;
@@ -23,8 +24,10 @@ import com.example.utilsgather.clipboard.ClipboardUtil;
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.utilsgather.share.SystemShareUtil;
 import com.example.utilsgather.ui.status.OtherStatusBarUtil;
+import com.example.webviewrapid.error.ErrorViewShowListener;
 import com.example.webviewrapid.facade.RapidWebView;
 import com.example.webviewrapid.webchrome_client.WebChromeClientCallback;
+import com.example.webviewrapid.webview_client.WebViewClientCallback;
 
 public class PracticeActivity extends AppCompatActivity {
 
@@ -47,6 +50,7 @@ public class PracticeActivity extends AppCompatActivity {
                 .setProgressGradientColor(Color.parseColor("#FF8C00"), Color.parseColor("#FF0000"))
                 .setWebChromeClientCallback(webChromeClientCallback)
                 .setErrorLayoutId(R.layout.by_load_url_error, R.id.iv_click_refresh)
+                .setErrorViewShowListener(errorViewShowListener)
                 .loadUrl(getIntent().getStringExtra(TAG));
     }
 
@@ -128,10 +132,19 @@ public class PracticeActivity extends AppCompatActivity {
         return super.onMenuOpened(featureId, menu);
     }
 
-    private WebChromeClientCallback webChromeClientCallback = new WebChromeClientCallback() {
+    private final WebChromeClientCallback webChromeClientCallback = new WebChromeClientCallback() {
         @Override
         public void onReceivedTitle(String title) {
             toolBarTv.setText(title);
+        }
+    };
+
+    private final ErrorViewShowListener errorViewShowListener = new ErrorViewShowListener() {
+        @Override
+        public void onErrorViewShow(View errorView, String errorUrl, String errorDescription, int errorCode) {
+            ((TextView) (errorView.findViewById(R.id.app_error_url))).setText(errorUrl);
+            ((TextView) (errorView.findViewById(R.id.app_error_description))).setText(errorDescription);
+            ((TextView) (errorView.findViewById(R.id.app_error_code))).setText(String.valueOf(errorCode));
         }
     };
 }

@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.utilsgather.ui.SizeTransferUtil;
 import com.example.webviewrapid.base.BaseWebView;
+import com.example.webviewrapid.error.ErrorViewShowListener;
 import com.example.webviewrapid.webchrome_client.RapidWebChromeClient;
 import com.example.webviewrapid.webchrome_client.WebChromeClientCallback;
 import com.example.webviewrapid.webview_client.RapidWebViewClient;
@@ -36,6 +37,7 @@ public class RapidWebView {
     private final PageState pageState;  //用于WebView和ErrorView切换的状态管理
     public int theErrorLayoutId;
     public int theClickReloadViewId;
+    public ErrorViewShowListener theErrorViewShowListener;
 
     public RapidWebView(Builder builder) {
         FrameLayout parentLayout = new FrameLayout(builder.mActivity);
@@ -66,7 +68,7 @@ public class RapidWebView {
         theErrorLayoutId = builder.mErrorLayoutId;
         theClickReloadViewId = builder.mClickReloadViewId;
         pageState = new PageState(this);
-
+        theErrorViewShowListener = builder.mErrorViewShowListener;
     }
 
     @SuppressLint("JavascriptInterface")
@@ -183,6 +185,12 @@ public class RapidWebView {
         pageState.handleState(PageState.MyState.ERROR
             .setErrorInfo(errorUrl, errorDescription, errorCode)
         );
+
+        //回调错误页面的展示
+        if (theErrorViewShowListener != null) {
+            theErrorViewShowListener.onErrorViewShow(pageState.getErrorViewManager().getErrorView(),
+                    errorUrl, errorDescription, errorCode);
+        }
     }
 
     /**
@@ -230,6 +238,7 @@ public class RapidWebView {
 
         private int mErrorLayoutId;
         private int mClickReloadViewId;
+        private ErrorViewShowListener mErrorViewShowListener;
 
         public Builder(AppCompatActivity activity) {
             mActivity = activity;
@@ -260,6 +269,11 @@ public class RapidWebView {
         //不传点击重试的id的话, 就点击整体进行重试
         public Builder setErrorLayoutId(@LayoutRes int mErrorLayoutId) {
             this.mErrorLayoutId = mErrorLayoutId;
+            return this;
+        }
+
+        public Builder setErrorViewShowListener(ErrorViewShowListener mErrorViewShowListener) {
+            this.mErrorViewShowListener = mErrorViewShowListener;
             return this;
         }
 

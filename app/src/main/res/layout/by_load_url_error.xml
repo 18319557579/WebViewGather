@@ -13,26 +13,66 @@
      limitations under the License.
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_centerInParent="true"
-    android:gravity="center"
     android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/app_error_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="错误的url: www.kkk.com"/>
+
+    <TextView
+        android:id="@+id/app_error_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="@id/app_error_url"
+        app:layout_constraintTop_toBottomOf="@id/app_error_url"
+        tools:text="错误原因是啥呢"/>
+
+    <TextView
+        android:id="@+id/app_error_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="@id/app_error_url"
+        app:layout_constraintTop_toBottomOf="@id/app_error_description"
+        tools:text="错误id"/>
+
+
 
     <ImageView
         android:id="@+id/iv_click_refresh"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_gravity="center"
-        android:src="@drawable/by_icon_refresh" />
+        android:src="@drawable/by_icon_refresh"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:paddingTop="12dp"
         android:text="点击重试"
         android:textColor="?android:attr/textColorSecondary"
-        android:textSize="15sp" />
-</LinearLayout>
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@id/iv_click_refresh"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

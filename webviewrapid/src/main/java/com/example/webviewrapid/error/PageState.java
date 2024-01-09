@@ -7,7 +7,7 @@ import com.example.webviewrapid.facade.RapidWebView;
 
 public class PageState {
     protected RapidWebView mRapidWebView;
-    public ErrorViewManager theErrorViewManager;
+    private ErrorViewManager theErrorViewManager;
 
     public MyState currentState = MyState.NORMAL;  //保存当前的状态
 
@@ -58,6 +58,10 @@ public class PageState {
         } else {
             theErrorViewManager.show();
         }
+    }
+
+    public ErrorViewManager getErrorViewManager() {
+        return theErrorViewManager;
     }
 
     public enum MyState {

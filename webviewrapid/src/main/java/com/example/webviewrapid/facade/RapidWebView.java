@@ -3,7 +3,6 @@ package com.example.webviewrapid.facade;
 //import android.annotation.Nullable;
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
@@ -16,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.utilsgather.ui.SizeTransferUtil;
-import com.example.webviewrapid.R;
 import com.example.webviewrapid.base.BaseWebView;
 import com.example.webviewrapid.webchrome_client.RapidWebChromeClient;
 import com.example.webviewrapid.webchrome_client.WebChromeClientCallback;
@@ -24,6 +22,7 @@ import com.example.webviewrapid.webview_client.ErrorManager;
 import com.example.webviewrapid.webview_client.RapidWebViewClient;
 import com.example.webviewrapid.webview_client.WebViewClientCallback;
 import com.example.webviewrapid.floatlayer.WebProgress;
+import com.example.webviewrapid.webview_client.page.PageState;
 import com.example.webviewrapid.webview_manager.WebViewManager;
 
 import java.lang.annotation.Annotation;
@@ -33,7 +32,7 @@ public class RapidWebView {
 
     private BaseWebView theWebView;  //真实的WebView
     private WebProgress theWebProgress;  //进度条
-    private ErrorManager theErrorManager;
+    public PageState pageState;  //用于WebView和ErrorView切换的状态管理
 
     public RapidWebView(Builder builder) {
         FrameLayout parentLayout = new FrameLayout(builder.mActivity);
@@ -60,6 +59,8 @@ public class RapidWebView {
 
         //用于自动去感知Activity的生命周期，以此来调用WebView中的生命周期
         builder.mActivity.getLifecycle().addObserver(new ActivityObserver(theWebView));
+
+        pageState = new PageState(this);
 
     }
 
@@ -174,14 +175,18 @@ public class RapidWebView {
 
     //显示错误布局
     public void showErrorView(String errorUrl, String errorDescription, int errorCode) {
-        if (theErrorManager == null) {
+        /*if (theErrorManager == null) {
             theErrorManager = new ErrorManager(theWebView, this::reload);
         } else {
             theErrorManager.show();
         }
         theErrorManager.setErrorInfo(errorUrl, errorDescription, errorCode);
 
-        theWebView.setVisibility(View.INVISIBLE);
+        theWebView.setVisibility(View.INVISIBLE);*/
+
+        pageState.handleState(PageState.MyState.ERROR
+            .setErrorInfo(errorUrl, errorDescription, errorCode)
+        );
     }
 
     /**
@@ -191,13 +196,19 @@ public class RapidWebView {
      * 3.goBack返回上一个页面时
      */
     public void hideErrorView() {
-        if (theErrorManager != null) {
+        /*if (theErrorManager != null) {
             theErrorManager.hide();
-        }
+        }*/
+
+        pageState.handleState(PageState.MyState.WAITING);
     }
 
-    public ErrorManager getErrorManager() {
-        return theErrorManager;
+    public void determineWaitingToNormal() {
+        if (pageState.currentState.equals(PageState.MyState.WAITING)) {
+            pageState.handleState(PageState.MyState.NORMAL);
+            return;
+        }
+        LogUtil.d("当前不是等待状态, 不用切为正常状态 (可能为正常: 正常页面的进度变化; 可能为错误: 错误的回调总是比progress100来得更早)");
     }
 
 //----------------------------------------------Builder-------------------------------------------------

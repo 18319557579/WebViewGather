@@ -9,7 +9,7 @@ import android.webkit.WebView;
 
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.webviewrapid.facade.RapidWebView;
-import com.example.webviewrapid.floatlayer.WebProgress;
+import com.example.webviewrapid.webview_client.page.PageState;
 
 public class RapidWebChromeClient extends WebChromeClient {
     private RapidWebView mRapidWebView;
@@ -51,11 +51,17 @@ public class RapidWebChromeClient extends WebChromeClient {
             mRapidWebView.getWebProgress().setWebProgress(newProgress);
         }
 
-        if (mRapidWebView.getRealWebView().getVisibility() == View.INVISIBLE  //如果WebView隐藏起来了, 即刚刚为错误页面时
-                && (mRapidWebView.getErrorManager() == null || mRapidWebView.getErrorManager().isHide())
-            && newProgress == 100 ) {  //当显示错误页面时，进度达到100才显示网页
-            mRapidWebView.getRealWebView().setVisibility(View.VISIBLE);
+        if (newProgress == 100) {
+            mRapidWebView.determineWaitingToNormal();
         }
+
+/*        if (mRapidWebView.getRealWebView().getVisibility() == View.INVISIBLE  //如果WebView隐藏起来了, 即刚刚为错误页面时
+//                && (mRapidWebView.getErrorManager() == null || mRapidWebView.getErrorManager().isHide())
+                && (mRapidWebView.pageState.theErrorManager == null || mRapidWebView.pageState.theErrorManager.isHide())
+            && newProgress == 100 ) {  //当显示错误页面时，进度达到100才显示网页
+//            mRapidWebView.getRealWebView().setVisibility(View.VISIBLE);
+            mRapidWebView.pageState.handleState(PageState.MyState.NORMAL);
+        }*/
     }
 
     @Override

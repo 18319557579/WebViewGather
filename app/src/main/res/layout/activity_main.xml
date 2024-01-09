@@ -114,7 +114,7 @@
         android:id="@+id/btn_js_with_android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="JS与Android互调"/>
+        android:text="JS与Android互调的Activity"/>
 
 
 

@@ -49,7 +49,12 @@ public class PageState {
 
     private void makeErrorViewShow() {
         if (theErrorViewManager == null) {
-            theErrorViewManager = new ErrorViewManager(mRapidWebView.getRealWebView(), () -> mRapidWebView.reload());
+            theErrorViewManager = new ErrorViewManager(
+                mRapidWebView.getRealWebView(),
+                mRapidWebView.theErrorLayoutId,
+                mRapidWebView.theClickReloadViewId,
+                () -> mRapidWebView.reload()
+            );
         } else {
             theErrorViewManager.show();
         }

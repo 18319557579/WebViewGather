@@ -10,6 +10,8 @@ import android.webkit.ValueCallback;
 import android.widget.FrameLayout;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.IdRes;
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,9 +31,11 @@ import java.lang.reflect.Method;
 
 public class RapidWebView {
 
-    private BaseWebView theWebView;  //真实的WebView
+    private final BaseWebView theWebView;  //真实的WebView
     private WebProgress theWebProgress;  //进度条
-    public PageState pageState;  //用于WebView和ErrorView切换的状态管理
+    private final PageState pageState;  //用于WebView和ErrorView切换的状态管理
+    public int theErrorLayoutId;
+    public int theClickReloadViewId;
 
     public RapidWebView(Builder builder) {
         FrameLayout parentLayout = new FrameLayout(builder.mActivity);
@@ -59,6 +63,8 @@ public class RapidWebView {
         //用于自动去感知Activity的生命周期，以此来调用WebView中的生命周期
         builder.mActivity.getLifecycle().addObserver(new ActivityObserver(theWebView));
 
+        theErrorLayoutId = builder.mErrorLayoutId;
+        theClickReloadViewId = builder.mClickReloadViewId;
         pageState = new PageState(this);
 
     }
@@ -222,7 +228,8 @@ public class RapidWebView {
         private int mProgressEndColor;  //渐变的结束色.
         private int mProgressHeight_dp = 3;  //进度条高度. 默认3dp
 
-
+        private int mErrorLayoutId;
+        private int mClickReloadViewId;
 
         public Builder(AppCompatActivity activity) {
             mActivity = activity;
@@ -241,6 +248,18 @@ public class RapidWebView {
 
         public Builder setWebChromeClientCallback(WebChromeClientCallback webChromeClientCallback) {
             this.mWebChromeClientCallback = webChromeClientCallback;
+            return this;
+        }
+
+        public Builder setErrorLayoutId(@LayoutRes int mErrorLayoutId, @IdRes int mClickReloadViewId) {
+            this.mErrorLayoutId = mErrorLayoutId;
+            this.mClickReloadViewId = mClickReloadViewId;
+            return this;
+        }
+
+        //不传点击重试的id的话, 就点击整体进行重试
+        public Builder setErrorLayoutId(@LayoutRes int mErrorLayoutId) {
+            this.mErrorLayoutId = mErrorLayoutId;
             return this;
         }
 

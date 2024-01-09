@@ -46,6 +46,7 @@ public class PracticeActivity extends AppCompatActivity {
                 .setWebParent(findViewById(R.id.ll_out_container), new LinearLayout.LayoutParams(-1, -1))
                 .setProgressGradientColor(Color.parseColor("#FF8C00"), Color.parseColor("#FF0000"))
                 .setWebChromeClientCallback(webChromeClientCallback)
+                .setErrorLayoutId(R.layout.by_load_url_error, R.id.iv_click_refresh)
                 .loadUrl(getIntent().getStringExtra(TAG));
     }
 

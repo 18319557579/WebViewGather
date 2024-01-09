@@ -51,17 +51,9 @@ public class RapidWebChromeClient extends WebChromeClient {
             mRapidWebView.getWebProgress().setWebProgress(newProgress);
         }
 
-        if (newProgress == 100) {
+        if (newProgress == 100) {  //错误 -> 等待 -> 正常 这一过程, 需要进度达到100%才去显示WebView
             mRapidWebView.determineWaitingToNormal();
         }
-
-/*        if (mRapidWebView.getRealWebView().getVisibility() == View.INVISIBLE  //如果WebView隐藏起来了, 即刚刚为错误页面时
-//                && (mRapidWebView.getErrorManager() == null || mRapidWebView.getErrorManager().isHide())
-                && (mRapidWebView.pageState.theErrorManager == null || mRapidWebView.pageState.theErrorManager.isHide())
-            && newProgress == 100 ) {  //当显示错误页面时，进度达到100才显示网页
-//            mRapidWebView.getRealWebView().setVisibility(View.VISIBLE);
-            mRapidWebView.pageState.handleState(PageState.MyState.NORMAL);
-        }*/
     }
 
     @Override

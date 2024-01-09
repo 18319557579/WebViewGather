@@ -1,18 +1,13 @@
 package com.example.webviewrapid.webview_client;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -21,27 +16,18 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.floatlayer.FloatLayoutManager;
 import com.example.floatlayer.layer.FloatLayer;
-import com.example.utilsgather.context.ApplicationGlobal;
-import com.example.utilsgather.context.ContextUtil;
 import com.example.utilsgather.jump.JumpActivityUtils;
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.utilsgather.package_info.PackageInfoUtil;
 import com.example.webviewrapid.R;
-import com.example.webviewrapid.WebViewActivity;
 import com.example.webviewrapid.facade.RapidWebView;
 import com.example.webviewrapid.floatlayer.JumpFloatLayerParams;
-
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Queue;
 
 public class RapidWebViewClient extends WebViewClient {
     private RapidWebView mRapidWebView;
@@ -179,7 +165,7 @@ public class RapidWebViewClient extends WebViewClient {
         }
 
         if (request.isForMainFrame()) {
-            mRapidWebView.showErrorView(request.getUrl().toString(), error.getDescription().toString(), error.getErrorCode());
+            mRapidWebView.toError(request.getUrl().toString(), error.getDescription().toString(), error.getErrorCode());
         }
 
         //用这种方式的会造成死循环，用户从错误页面返回后，由于出错，又会回到这个页面

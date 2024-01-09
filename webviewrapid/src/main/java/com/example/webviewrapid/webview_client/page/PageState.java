@@ -38,10 +38,6 @@ public class PageState {
                 break;
 
             case WAITING:  //只有错误的状态才会切为等待
-                if (! currentState.equals(MyState.ERROR)) {
-                    LogUtil.d("当前是非错误状态, 不用切状态 (讲道理是正常状态了)");
-                    return;
-                }
                 if (theErrorManager != null) {
                     theErrorManager.hide();
                 }

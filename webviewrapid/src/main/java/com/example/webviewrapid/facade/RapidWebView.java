@@ -18,7 +18,6 @@ import com.example.utilsgather.ui.SizeTransferUtil;
 import com.example.webviewrapid.base.BaseWebView;
 import com.example.webviewrapid.webchrome_client.RapidWebChromeClient;
 import com.example.webviewrapid.webchrome_client.WebChromeClientCallback;
-import com.example.webviewrapid.webview_client.ErrorManager;
 import com.example.webviewrapid.webview_client.RapidWebViewClient;
 import com.example.webviewrapid.webview_client.WebViewClientCallback;
 import com.example.webviewrapid.floatlayer.WebProgress;
@@ -120,7 +119,7 @@ public class RapidWebView {
             theWebProgress.show();
         }
 
-        hideErrorView();
+        determineErrorToWaiting();
     }
 
     public WebProgress getWebProgress() {
@@ -147,7 +146,7 @@ public class RapidWebView {
      * @return true代表WebView自己处理了,false代表WebView没处理
      */
     public boolean handleBack() {
-        hideErrorView();
+        determineErrorToWaiting();
 
         if (theWebView.canGoBackReal()) {
             theWebView.goBack();
@@ -168,39 +167,30 @@ public class RapidWebView {
     }
 
     public void reload() {
-        hideErrorView();
+        determineErrorToWaiting();
         theWebView.reload();
         LogUtil.d("点击了刷新");
     }
 
     //显示错误布局
-    public void showErrorView(String errorUrl, String errorDescription, int errorCode) {
-        /*if (theErrorManager == null) {
-            theErrorManager = new ErrorManager(theWebView, this::reload);
-        } else {
-            theErrorManager.show();
-        }
-        theErrorManager.setErrorInfo(errorUrl, errorDescription, errorCode);
-
-        theWebView.setVisibility(View.INVISIBLE);*/
-
+    public void toError(String errorUrl, String errorDescription, int errorCode) {
         pageState.handleState(PageState.MyState.ERROR
             .setErrorInfo(errorUrl, errorDescription, errorCode)
         );
     }
 
     /**
-     * 将错误页面隐藏起来,有3种方式:
+     * 在错误状态下转为等待状态, 有3种情况
      * 1.loadUrl
      * 2.reload
      * 3.goBack返回上一个页面时
      */
-    public void hideErrorView() {
-        /*if (theErrorManager != null) {
-            theErrorManager.hide();
-        }*/
-
-        pageState.handleState(PageState.MyState.WAITING);
+    public void determineErrorToWaiting() {
+        if (pageState.currentState.equals(PageState.MyState.ERROR)) {
+            pageState.handleState(PageState.MyState.WAITING);
+            return;
+        }
+        LogUtil.d("当前非错误状态, 不用切为等待状态 (讲道理是正常状态了)");
     }
 
     public void determineWaitingToNormal() {
@@ -208,7 +198,7 @@ public class RapidWebView {
             pageState.handleState(PageState.MyState.NORMAL);
             return;
         }
-        LogUtil.d("当前不是等待状态, 不用切为正常状态 (可能为正常: 正常页面的进度变化; 可能为错误: 错误的回调总是比progress100来得更早)");
+        LogUtil.d("当前非等待状态, 不用切为正常状态 (可能为正常: 正常页面的进度变化; 可能为错误: 错误的回调总是比progress100来得更早)");
     }
 
 //----------------------------------------------Builder-------------------------------------------------

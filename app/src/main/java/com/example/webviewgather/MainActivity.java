@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.example.middleagent.OpenWebActivity;
+import com.example.utilsgather.exit.ExitUtil;
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.webviewrapid.facade.RapidWebView;
 import com.example.webviewrapid.WebViewActivity;
@@ -121,5 +122,13 @@ public class MainActivity extends AppCompatActivity {
             urlTarget = editText.getText().toString();
         }
         return urlTarget;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (ExitUtil.handle(this, ExitUtil.Action.SYSTEM_HANDLE)) {
+            return;
+        }
+        super.onBackPressed();
     }
 }

@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
                     editText.setText("https://www.128bet.cc/?pl_props=go0Xk5Gn8lcJD3SveyJjaHRfY29kZSI6IjY0NzIwNzg2In0=");
                 } else if (checkedId == R.id.rb_seven) {
                     editText.setText("https://haokan.baidu.com/?subTab=homeindex#homeindex");
+                } else if (checkedId == R.id.rb_eight) {
+                    editText.setText("file:///android_asset/organic-158bet/index.html");
                 }
             }
         });

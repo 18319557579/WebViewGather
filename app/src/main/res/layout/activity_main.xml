@@ -58,6 +58,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="本地页面"/>
+            <RadioButton
+                android:id="@+id/rb_nine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="内部存储的页面"/>
+
 
         </RadioGroup>
     </HorizontalScrollView>

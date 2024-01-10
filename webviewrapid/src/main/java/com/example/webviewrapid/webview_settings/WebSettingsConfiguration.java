@@ -55,6 +55,8 @@ public class WebSettingsConfiguration {
 //        //不保存密码
 //        webSettings.setSavePassword(false);
 
+        webSettings.setAllowFileAccess(true);  //让WebView可以通过loadUrl()去加载sd卡中的网页
+
         webSettings.setAllowFileAccessFromFileURLs(false);
         webSettings.setAllowUniversalAccessFromFileURLs(false);
 

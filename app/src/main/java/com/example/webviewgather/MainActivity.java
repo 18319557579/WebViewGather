@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
                     editText.setText("https://haokan.baidu.com/?subTab=homeindex#homeindex");
                 } else if (checkedId == R.id.rb_eight) {
                     editText.setText("file:///android_asset/organic-158bet/index.html");
+                } else if (checkedId == R.id.rb_nine) {
+                    editText.setText("file:///data/data/com.example.webviewgather/organic-158bet/index.html");
                 }
             }
         });

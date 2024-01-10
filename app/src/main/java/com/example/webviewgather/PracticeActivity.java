@@ -70,13 +70,11 @@ public class PracticeActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {  //首先只有返回键需要进行处理,
-            if (rapidWebView.handleBack()) {  //如果WebView自己进行了处理,那么中断事件传递
-                return true;
-            }
+    public void onBackPressed() {
+        if (rapidWebView.handleBack()) {  //如果WebView自己进行了处理,那么中断事件传递
+            return;
         }
-        return super.onKeyDown(keyCode, event);
+        super.onBackPressed();
     }
 
     @Override

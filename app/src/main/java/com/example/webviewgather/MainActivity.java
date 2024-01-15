@@ -70,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
                             folderName + File.separator +
                             "index.html";
                     editText.setText(url);
+
+                } else if (checkedId == R.id.rb_eleven) {
+                    editText.setText("http://192.168.8.124:8383?pl_props=yDGmTfXpKegr03dkeyJjaHRfcG4iOiJjb20uaDVzcGluLmNvdTEyIiwiY2h0X2lkIjoib3JnbmljIiwiY2h0X2NoIjoib3JnbmljIn0=&microport=1");
                 }
             }
         });

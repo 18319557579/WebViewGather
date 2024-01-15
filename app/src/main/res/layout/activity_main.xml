@@ -24,6 +24,12 @@
                 android:layout_height="wrap_content"
                 android:text="公司"/>
             <RadioButton
+                android:id="@+id/rb_eleven"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="158bet"/>
+
+            <RadioButton
                 android:id="@+id/rb_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

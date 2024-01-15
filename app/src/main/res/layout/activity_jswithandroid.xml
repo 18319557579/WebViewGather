@@ -32,6 +32,14 @@
                 android:textAllCaps="false"/>
 
             <Button
+                android:id="@+id/btn_operation_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Android调用JS 使用evaluateJavaScript 158bet网页"
+                android:textAllCaps="false"/>
+
+
+            <Button
                 android:id="@+id/btn_operation_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

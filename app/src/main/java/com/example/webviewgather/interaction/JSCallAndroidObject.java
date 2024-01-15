@@ -36,5 +36,12 @@ public class JSCallAndroidObject extends Object {
         return "Hello JS.";
     }
 
+    @JavascriptInterface
+    public String executeHello(String parameters) {
+        LogUtil.d("Android得到JS的传值（158bet）: " + parameters);
+
+        return "Hello JS.";
+    }
+
 
 }

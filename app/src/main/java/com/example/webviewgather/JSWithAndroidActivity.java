@@ -113,6 +113,18 @@ public class JSWithAndroidActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.btn_operation_4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rapidWebView.evaluateJavascript("javascript:microport('xxxxx')", new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String value) {
+                        LogUtil.d("Android得到了JS的返回值: " + value);
+                    }
+                });
+            }
+        });
+
 
     }
 

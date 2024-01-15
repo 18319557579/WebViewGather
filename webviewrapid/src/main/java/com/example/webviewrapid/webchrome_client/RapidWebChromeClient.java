@@ -20,7 +20,7 @@ public class RapidWebChromeClient extends WebChromeClient {
 
     @Override
     public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-        LogUtil.i(consoleMessage.message());
+        LogUtil.v(consoleMessage.message());
         return true;
     }
 

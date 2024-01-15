@@ -103,7 +103,7 @@ public class RapidWebViewClient extends WebViewClient {
         LogUtil.d("RapidWebViewClient", "onPageFinished 当前的线程信息：" + Thread.currentThread());
 
         if (webViewClientCallback != null) {
-            webViewClientCallback.onPageFinished();
+            webViewClientCallback.onPageFinished(url);
         }
     }
 

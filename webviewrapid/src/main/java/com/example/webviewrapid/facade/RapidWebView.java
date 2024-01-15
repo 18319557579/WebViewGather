@@ -42,6 +42,9 @@ public class RapidWebView {
     public RapidWebView(Builder builder) {
         FrameLayout parentLayout = new FrameLayout(builder.mActivity);
         theWebView = WebViewManager.doObtain(builder.mActivity);
+        if (builder.mWebViewBackgroundColor != 0) {
+            theWebView.setBackgroundColor(builder.mWebViewBackgroundColor);
+        }
 
         parentLayout.addView(theWebView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         builder.mWebContainer.addView(parentLayout, builder.mLayoutParams);
@@ -240,6 +243,8 @@ public class RapidWebView {
         private int mClickReloadViewId;
         private ErrorViewShowListener mErrorViewShowListener;
 
+        private int mWebViewBackgroundColor;
+
         public Builder(AppCompatActivity activity) {
             mActivity = activity;
         }
@@ -308,6 +313,11 @@ public class RapidWebView {
 
         public Builder setProgressHeight_dp(int height_dp) {
             this.mProgressHeight_dp = height_dp;
+            return this;
+        }
+
+        public Builder setWebViewBackgroundColor(int mWebViewBackgroundColor) {
+            this.mWebViewBackgroundColor = mWebViewBackgroundColor;
             return this;
         }
 

@@ -111,6 +111,7 @@ public enum WebViewManager {
         if (webView.getVisibility() != View.VISIBLE) {
             webView.setVisibility(View.VISIBLE);
         }
+        webView.setBackground(null);  //同样防止设置了webview的背景
 
 //        webView.setWebChromeClient(null);
 //        webView.setWebViewClient(null);  //怎么能传null给非null的呢

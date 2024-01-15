@@ -46,7 +46,7 @@ public class JSWithAndroidActivity extends AppCompatActivity {
                 .addJavascriptInterface(new JSCallAndroidObject(), "jscallandroid")
                 .loadUrl(getIntent().getStringExtra(TAG));
 
-        rapidWebView.getRealWebView().addJavascriptInterface(new JSCallAndroidObject(), "jscallandroid");
+//        rapidWebView.getRealWebView().addJavascriptInterface(new JSCallAndroidObject(), "jscallandroid");
 
         findViewById(R.id.btn_operation_1).setOnClickListener(new View.OnClickListener() {
             @Override

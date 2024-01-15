@@ -39,7 +39,7 @@ function callAndroidFrom_addJavaScriptInterface() {
 
     obj.data = dataObj
 
-    var result = jscallandroid.executeHello(JSON.stringify(obj))
+    var result = jscallandroid.executeGreet(JSON.stringify(obj))
     console.log("JS获得了Android的返回值: " + result)
 }
 function callAndroidFrom_documentlocation() {

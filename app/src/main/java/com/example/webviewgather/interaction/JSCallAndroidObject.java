@@ -12,7 +12,7 @@ import org.json.JSONObject;
 public class JSCallAndroidObject extends Object {
 
     @JavascriptInterface
-    public String executeHello(String parameters) {
+    public String executeGreet(String parameters) {
         LogUtil.d("Android得到JS的传值: " + parameters);
 
         try {
@@ -35,4 +35,6 @@ public class JSCallAndroidObject extends Object {
 
         return "Hello JS.";
     }
+
+
 }

@@ -22,9 +22,9 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.floatlayer.FloatLayoutManager;
 import com.example.floatlayer.layer.FloatLayer;
+import com.example.utilsgather.interaction.SniffingAppUtil;
 import com.example.utilsgather.jump.JumpActivityUtils;
 import com.example.utilsgather.logcat.LogUtil;
-import com.example.utilsgather.package_info.PackageInfoUtil;
 import com.example.webviewrapid.R;
 import com.example.webviewrapid.facade.RapidWebView;
 import com.example.webviewrapid.floatlayer.JumpFloatLayerParams;
@@ -69,7 +69,7 @@ public class RapidWebViewClient extends WebViewClient {
         ViewGroup parent = (ViewGroup) view.getParent();
 
         FloatLayer floatLayer = new FloatLayer((FrameLayout) parent, R.layout.medi_tiny_message_bar);
-        String appName = PackageInfoUtil.getAppNameByUrl(url);
+        String appName = SniffingAppUtil.getAppNameByUrl(url);
         ((TextView) floatLayer.findView(R.id.flla_jump_title_tv)).setText(String.format("允许网站打开 %s 吗？", appName));
         ((TextView) floatLayer.findView(R.id.fila_jump_confirm_tv)).setOnClickListener(new View.OnClickListener() {
             @Override

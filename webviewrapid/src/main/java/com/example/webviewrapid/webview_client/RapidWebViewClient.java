@@ -64,9 +64,10 @@ public class RapidWebViewClient extends WebViewClient {
             return true;  //这里要返回true,中止加载url.因为这里并不是真正去加载url
         }
 
-        //如果不展示浮层的话，那么结束
+        //如果不展示浮层的话，那么return true,不进行处理，否则会报错，因为webview压根加载不了
         if (! mRapidWebView.theShowJumpOtherAppFloatLayout) {
-            return false;
+            LogUtil.d("WebView无法处理的特殊url，由于展示浮层为false，直接不处理");
+            return true;
         }
 
 //        WebViewActivity webViewActivity = (WebViewActivity) ContextUtil.getCurrentActivity();

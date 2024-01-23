@@ -327,8 +327,9 @@ public class RapidWebView {
             return this;
         }
 
-        public void setShowJumpOtherAppFloatLayer(boolean showJumpOtherAppFloatLayer) {
+        public Builder setShowJumpOtherAppFloatLayer(boolean showJumpOtherAppFloatLayer) {
             this.mShowJumpOtherAppFloatLayer = showJumpOtherAppFloatLayer;
+            return this;
         }
 
         //在这一步才实例化了一个RapidWebView

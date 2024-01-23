@@ -35,9 +35,11 @@ public class RapidWebView {
     private final BaseWebView theWebView;  //真实的WebView
     private WebProgress theWebProgress;  //进度条
     private final PageState pageState;  //用于WebView和ErrorView切换的状态管理
-    public int theErrorLayoutId;
-    public int theClickReloadViewId;
-    public ErrorViewShowListener theErrorViewShowListener;
+    public int theErrorLayoutId;  //错误内容的layout id
+    public int theClickReloadViewId;  //点击重试控件的id
+    public ErrorViewShowListener theErrorViewShowListener;  //当显示错误页面时的回调
+
+    public boolean theShowJumpOtherAppFloatLayout;
 
     public RapidWebView(Builder builder) {
         FrameLayout parentLayout = new FrameLayout(builder.mActivity);
@@ -72,6 +74,8 @@ public class RapidWebView {
         theClickReloadViewId = builder.mClickReloadViewId;
         pageState = new PageState(this);
         theErrorViewShowListener = builder.mErrorViewShowListener;
+
+        theShowJumpOtherAppFloatLayout = builder.mShowJumpOtherAppFloatLayer;
     }
 
     @SuppressLint("JavascriptInterface")
@@ -243,7 +247,9 @@ public class RapidWebView {
         private int mClickReloadViewId;
         private ErrorViewShowListener mErrorViewShowListener;
 
-        private int mWebViewBackgroundColor;
+        private int mWebViewBackgroundColor;  //WebView的背景颜色（在内容还没上屏的时候可能会用到）
+
+        private boolean mShowJumpOtherAppFloatLayer = true;  //当加载的url不为http/https时，是否显示跳转其他App的浮层。默认显示
 
         public Builder(AppCompatActivity activity) {
             mActivity = activity;
@@ -319,6 +325,10 @@ public class RapidWebView {
         public Builder setWebViewBackgroundColor(int mWebViewBackgroundColor) {
             this.mWebViewBackgroundColor = mWebViewBackgroundColor;
             return this;
+        }
+
+        public void setShowJumpOtherAppFloatLayer(boolean showJumpOtherAppFloatLayer) {
+            this.mShowJumpOtherAppFloatLayer = showJumpOtherAppFloatLayer;
         }
 
         //在这一步才实例化了一个RapidWebView

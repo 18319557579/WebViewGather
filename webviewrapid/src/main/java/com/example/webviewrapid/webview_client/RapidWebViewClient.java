@@ -54,8 +54,7 @@ public class RapidWebViewClient extends WebViewClient {
         String scheme = uri.getScheme();
         if ("http".equals(scheme) || "https".equals(scheme)) {
             return false;
-        }
-        else if ("daisyscheme".equals(scheme)) {  //这里专门是用于测试Js使用document.location调用Android的
+        } else if ("daisyscheme".equals(scheme)) {  //这里专门是用于测试Js使用document.location调用Android的
             LogUtil.d("Android响应到了JS的调用");
             if ("daisyhost".equals(uri.getHost())) {
                 for (String queryKey : uri.getQueryParameterNames()) {
@@ -63,6 +62,11 @@ public class RapidWebViewClient extends WebViewClient {
                 }
             }
             return true;  //这里要返回true,中止加载url.因为这里并不是真正去加载url
+        }
+
+        //如果不展示浮层的话，那么结束
+        if (! mRapidWebView.theShowJumpOtherAppFloatLayout) {
+            return false;
         }
 
 //        WebViewActivity webViewActivity = (WebViewActivity) ContextUtil.getCurrentActivity();

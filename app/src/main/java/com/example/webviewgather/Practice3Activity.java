@@ -1,13 +1,10 @@
 package com.example.webviewgather;
 
-import android.app.Instrumentation;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Message;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,9 +30,8 @@ import com.example.webviewrapid.error.ErrorViewShowListener;
 import com.example.webviewrapid.facade.RapidWebView;
 import com.example.webviewrapid.webchrome_client.ShowFileChooserCallback;
 import com.example.webviewrapid.webchrome_client.WebChromeClientCallback;
-import com.example.webviewrapid.webview_client.WebViewClientCallback;
 
-public class PracticeActivity extends AppCompatActivity {
+public class Practice3Activity extends AppCompatActivity {
 
     public static final String TAG = "PracticeActivity";  //用于每个不同url之间的分隔
     RapidWebView rapidWebView;
@@ -53,29 +49,12 @@ public class PracticeActivity extends AppCompatActivity {
 
         initTitle();
 
-        rapidWebView = RapidWebView.with(PracticeActivity.this)
+        rapidWebView = RapidWebView.with(Practice3Activity.this)
                 .setWebParent(findViewById(R.id.ll_out_container), new LinearLayout.LayoutParams(-1, -1))
                 .setProgressGradientColor(Color.parseColor("#FF8C00"), Color.parseColor("#FF0000"))
                 .setWebChromeClientCallback(webChromeClientCallback)
                 .setErrorLayoutId(R.layout.by_load_url_error, R.id.iv_click_refresh)
                 .setErrorViewShowListener(errorViewShowListener)
-                .setmShowFileChooserCallback(new ShowFileChooserCallback() {
-                    @Override
-                    public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
-                        fileUploadCallback = filePathCallback;
-
-                        // 创建一个文件选择的Intent
-                        Intent intent = fileChooserParams.createIntent();
-                        try {
-                            startActivityForResult(intent, 7777);
-                        } catch (Exception e) {
-                            fileUploadCallback = null;
-                            return false;
-                        }
-
-                        return true;
-                    }
-                })
                 .loadUrl(getIntent().getStringExtra(TAG));
     }
 
@@ -170,34 +149,4 @@ public class PracticeActivity extends AppCompatActivity {
             ((TextView) (errorView.findViewById(R.id.app_error_code))).setText(String.valueOf(errorCode));
         }
     };
-
-    // 处理文件选择的结果
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        LogUtil.d("选择图片后回调 requestCode：" + requestCode + ", resultCode: " + resultCode);
-
-        if (requestCode == 7777) {
-            if (fileUploadCallback == null) {
-                return;
-            }
-
-            switch (resultCode) {
-                case RESULT_OK:
-                    if (data != null) {
-                        String dataString = data.getDataString();
-                        if (dataString != null) {
-                            Uri[] results = new Uri[]{Uri.parse(dataString)};
-                            fileUploadCallback.onReceiveValue(results);
-                        }
-                    }
-                    break;
-                case RESULT_CANCELED:
-                    fileUploadCallback.onReceiveValue(null);
-                    break;
-            }
-            fileUploadCallback = null;
-        }
-    }
 }

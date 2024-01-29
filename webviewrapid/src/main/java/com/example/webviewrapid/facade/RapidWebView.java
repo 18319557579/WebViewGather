@@ -2,6 +2,7 @@ package com.example.webviewrapid.facade;
 
 //import android.annotation.Nullable;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.example.utilsgather.ui.SizeTransferUtil;
 import com.example.webviewrapid.base.BaseWebView;
 import com.example.webviewrapid.error.ErrorViewShowListener;
 import com.example.webviewrapid.webchrome_client.RapidWebChromeClient;
+import com.example.webviewrapid.webchrome_client.ShowFileChooserCallback;
 import com.example.webviewrapid.webchrome_client.WebChromeClientCallback;
 import com.example.webviewrapid.webview_client.RapidWebViewClient;
 import com.example.webviewrapid.webview_client.WebViewClientCallback;
@@ -41,6 +43,8 @@ public class RapidWebView {
 
     public boolean theShowJumpOtherAppFloatLayout;
 
+    private RapidWebChromeClient theRapidWebChromeClient;
+
     public RapidWebView(Builder builder) {
         FrameLayout parentLayout = new FrameLayout(builder.mActivity);
         theWebView = WebViewManager.doObtain(builder.mActivity);
@@ -56,7 +60,9 @@ public class RapidWebView {
         RapidWebViewClient rapidWebViewClient = new RapidWebViewClient(this, builder.mWebViewClientCallback);
         theWebView.setWebViewClient(rapidWebViewClient);
 
-        theWebView.setWebChromeClient(new RapidWebChromeClient(this, builder.mWebChromeClientCallback));
+        theRapidWebChromeClient = new RapidWebChromeClient(this, builder.mWebChromeClientCallback,
+                builder.mActivity, builder.mShowFileChooserCallback, builder.openFileChooserFunction);
+        theWebView.setWebChromeClient(theRapidWebChromeClient);
 
         checkThenAddJavascriptInterface(builder.mInterfaceObj, builder.mInterfaceName);
 
@@ -222,7 +228,14 @@ public class RapidWebView {
         LogUtil.d("当前非等待状态, 不用切为正常状态 (可能为正常: 正常页面的进度变化; 可能为错误: 错误的回调总是比progress100来得更早)");
     }
 
-//----------------------------------------------Builder-------------------------------------------------
+    /**
+     * 选择图片之后的回调，在Activity里onActivityResult调用
+     */
+    public void handleFileChooser(int requestCode, int resultCode, Intent data) {
+        theRapidWebChromeClient.handleFileChooser(requestCode, resultCode, data);
+    }
+
+//-------------------------------------------------------------Builder----------------------------------------------------------------
 
     public static Builder with(@NonNull AppCompatActivity activity) {
         return new Builder(activity);
@@ -250,6 +263,10 @@ public class RapidWebView {
         private int mWebViewBackgroundColor;  //WebView的背景颜色（在内容还没上屏的时候可能会用到）
 
         private boolean mShowJumpOtherAppFloatLayer = true;  //当加载的url不为http/https时，是否显示跳转其他App的浮层。默认显示
+
+        private ShowFileChooserCallback mShowFileChooserCallback;
+
+        private boolean openFileChooserFunction = false;
 
         public Builder(AppCompatActivity activity) {
             mActivity = activity;
@@ -285,6 +302,16 @@ public class RapidWebView {
 
         public Builder setErrorViewShowListener(ErrorViewShowListener mErrorViewShowListener) {
             this.mErrorViewShowListener = mErrorViewShowListener;
+            return this;
+        }
+
+        public Builder setmShowFileChooserCallback(ShowFileChooserCallback mShowFileChooserCallback) {
+            this.mShowFileChooserCallback = mShowFileChooserCallback;
+            return this;
+        }
+
+        public Builder setOpenFileChooserFunction(boolean openFileChooserFunction) {
+            this.openFileChooserFunction = openFileChooserFunction;
             return this;
         }
 

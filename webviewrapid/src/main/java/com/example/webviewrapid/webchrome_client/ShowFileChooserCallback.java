@@ -5,7 +5,6 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-public abstract class WebChromeClientCallback {
-    public void onReceivedTitle(String title) {
-    }
+public interface ShowFileChooserCallback {
+    boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams);
 }

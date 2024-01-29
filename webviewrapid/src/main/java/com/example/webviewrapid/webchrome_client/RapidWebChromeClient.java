@@ -1,5 +1,7 @@
 package com.example.webviewrapid.webchrome_client;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.webkit.ConsoleMessage;
 import android.webkit.JsPromptResult;
@@ -10,13 +12,26 @@ import android.webkit.WebView;
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.webviewrapid.facade.RapidWebView;
 
+import java.lang.ref.WeakReference;
+
 public class RapidWebChromeClient extends WebChromeClient {
     private RapidWebView mRapidWebView;
     private WebChromeClientCallback mWebChromeClientCallback;
 
-    public RapidWebChromeClient(RapidWebView mRapidWebView, WebChromeClientCallback webChromeClientCallback) {
+    private ValueCallback<Uri[]> fileUploadCallback;
+
+    private WeakReference<Activity> mActivityWeakReference;
+
+    private ShowFileChooserCallback mShowFileChooserCallback;
+    private boolean mOpenFileChooserFunction;
+
+    public RapidWebChromeClient(RapidWebView mRapidWebView, WebChromeClientCallback webChromeClientCallback,
+                                Activity activity, ShowFileChooserCallback showFileChooserCallback, boolean mOpenFileChooserFunction) {
         this.mRapidWebView = mRapidWebView;
         this.mWebChromeClientCallback = webChromeClientCallback;
+        this.mActivityWeakReference = new WeakReference<Activity>(activity);
+        this.mShowFileChooserCallback = showFileChooserCallback;
+        this.mOpenFileChooserFunction = mOpenFileChooserFunction;
     }
 
     @Override
@@ -66,9 +81,53 @@ public class RapidWebChromeClient extends WebChromeClient {
     @Override
     public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
         LogUtil.d("上传图片请求，回调到了");
-        if (mWebChromeClientCallback != null) {
-            return mWebChromeClientCallback.onShowFileChooser(webView, filePathCallback, fileChooserParams);
+
+        //如果mShowFileChooserCallback不为空，那么代表用户自定义图片上传功能
+        if (mShowFileChooserCallback != null) {
+            return mShowFileChooserCallback.onShowFileChooser(webView, filePathCallback, fileChooserParams);
         }
+
+        //如果开启图片上传功能，那么使用默认的上传功能
+        if (mOpenFileChooserFunction) {
+            fileUploadCallback = filePathCallback;
+
+            // 创建一个文件选择的Intent
+            Intent intent = fileChooserParams.createIntent();
+            try {
+                mActivityWeakReference.get().startActivityForResult(intent, 8383);
+            } catch (Exception e) {
+                fileUploadCallback = null;
+                return false;
+            }
+
+            return true;
+        }
+
         return super.onShowFileChooser(webView, filePathCallback, fileChooserParams);
+    }
+
+    public void handleFileChooser(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 8383) {
+            if (fileUploadCallback == null) {
+                return;
+            }
+
+            switch (resultCode) {
+                case Activity.RESULT_OK:
+
+                    if (data != null) {
+                        String dataString = data.getDataString();
+                        if (dataString != null) {
+                            Uri[] results = new Uri[]{Uri.parse(dataString)};
+                            fileUploadCallback.onReceiveValue(results);
+                        }
+                    }
+                    break;
+                case Activity.RESULT_CANCELED:
+                    fileUploadCallback.onReceiveValue(null);
+                    break;
+            }
+            fileUploadCallback = null;
+        }
     }
 }

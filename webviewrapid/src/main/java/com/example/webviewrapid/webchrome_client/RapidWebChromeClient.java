@@ -3,6 +3,7 @@ package com.example.webviewrapid.webchrome_client;
 import android.net.Uri;
 import android.webkit.ConsoleMessage;
 import android.webkit.JsPromptResult;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
@@ -60,5 +61,14 @@ public class RapidWebChromeClient extends WebChromeClient {
         if (mWebChromeClientCallback != null) {
             mWebChromeClientCallback.onReceivedTitle(title);
         }
+    }
+
+    @Override
+    public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
+        LogUtil.d("上传图片请求，回调到了");
+        if (mWebChromeClientCallback != null) {
+            return mWebChromeClientCallback.onShowFileChooser(webView, filePathCallback, fileChooserParams);
+        }
+        return super.onShowFileChooser(webView, filePathCallback, fileChooserParams);
     }
 }

@@ -1,16 +1,21 @@
 package com.example.webviewgather;
 
 import android.app.Instrumentation;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.ValueCallback;
 import android.webkit.WebBackForwardList;
+import android.webkit.WebChromeClient;
 import android.webkit.WebHistoryItem;
+import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +41,8 @@ public class PracticeActivity extends AppCompatActivity {
 
     private TextView toolBarTv;
 
+    private ValueCallback<Uri[]> fileUploadCallback;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +58,23 @@ public class PracticeActivity extends AppCompatActivity {
                 .setWebChromeClientCallback(webChromeClientCallback)
                 .setErrorLayoutId(R.layout.by_load_url_error, R.id.iv_click_refresh)
                 .setErrorViewShowListener(errorViewShowListener)
+                .setWebChromeClientCallback(new WebChromeClientCallback() {
+                    @Override
+                    public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
+                        fileUploadCallback = filePathCallback;
+
+                        // 创建一个文件选择的Intent
+                        Intent intent = fileChooserParams.createIntent();
+                        try {
+                            startActivityForResult(intent, 8383);
+                        } catch (Exception e) {
+                            fileUploadCallback = null;
+                            return false;
+                        }
+
+                        return true;
+                    }
+                })
                 .loadUrl(getIntent().getStringExtra(TAG));
     }
 
@@ -145,4 +169,34 @@ public class PracticeActivity extends AppCompatActivity {
             ((TextView) (errorView.findViewById(R.id.app_error_code))).setText(String.valueOf(errorCode));
         }
     };
+
+    // 处理文件选择的结果
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        LogUtil.d("选择图片后回调 requestCode：" + requestCode + ", resultCode: " + resultCode);
+
+        if (requestCode == 8383) {
+            if (fileUploadCallback == null) {
+                return;
+            }
+
+            switch (resultCode) {
+                case RESULT_OK:
+                    if (data != null) {
+                        String dataString = data.getDataString();
+                        if (dataString != null) {
+                            Uri[] results = new Uri[]{Uri.parse(dataString)};
+                            fileUploadCallback.onReceiveValue(results);
+                        }
+                    }
+                    break;
+                case RESULT_CANCELED:
+                    fileUploadCallback.onReceiveValue(null);
+                    break;
+            }
+            fileUploadCallback = null;
+        }
+    }
 }

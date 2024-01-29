@@ -2,12 +2,15 @@ package com.example.webviewrapid.facade;
 
 //import android.annotation.Nullable;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.widget.FrameLayout;
 
 import androidx.annotation.ColorInt;
@@ -45,7 +48,12 @@ public class RapidWebView {
 
     private RapidWebChromeClient theRapidWebChromeClient;
 
+    public FileChooserManager theFileChooserManager;
+
+    public Activity theActivity;
+
     public RapidWebView(Builder builder) {
+        theActivity = builder.mActivity;
         FrameLayout parentLayout = new FrameLayout(builder.mActivity);
         theWebView = WebViewManager.doObtain(builder.mActivity);
         if (builder.mWebViewBackgroundColor != 0) {
@@ -61,7 +69,7 @@ public class RapidWebView {
         theWebView.setWebViewClient(rapidWebViewClient);
 
         theRapidWebChromeClient = new RapidWebChromeClient(this, builder.mWebChromeClientCallback,
-                builder.mActivity, builder.mShowFileChooserCallback, builder.openFileChooserFunction);
+                builder.mShowFileChooserCallback, builder.openFileChooserFunction);
         theWebView.setWebChromeClient(theRapidWebChromeClient);
 
         checkThenAddJavascriptInterface(builder.mInterfaceObj, builder.mInterfaceName);
@@ -228,11 +236,19 @@ public class RapidWebView {
         LogUtil.d("当前非等待状态, 不用切为正常状态 (可能为正常: 正常页面的进度变化; 可能为错误: 错误的回调总是比progress100来得更早)");
     }
 
+    public boolean showFileChooser(ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
+        theFileChooserManager = new FileChooserManager(filePathCallback, fileChooserParams, theActivity);
+        return theFileChooserManager.open();
+    }
+
     /**
      * 选择图片之后的回调，在Activity里onActivityResult调用
      */
     public void handleFileChooser(int requestCode, int resultCode, Intent data) {
-        theRapidWebChromeClient.handleFileChooser(requestCode, resultCode, data);
+//        theRapidWebChromeClient.handleFileChooser(requestCode, resultCode, data);
+        if (theFileChooserManager != null) {
+            theFileChooserManager.handleFileChooser(requestCode, resultCode, data);
+        }
     }
 
 //-------------------------------------------------------------Builder----------------------------------------------------------------

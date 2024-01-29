@@ -17,19 +17,13 @@ import java.lang.ref.WeakReference;
 public class RapidWebChromeClient extends WebChromeClient {
     private RapidWebView mRapidWebView;
     private WebChromeClientCallback mWebChromeClientCallback;
-
-    private ValueCallback<Uri[]> fileUploadCallback;
-
-    private WeakReference<Activity> mActivityWeakReference;
-
     private ShowFileChooserCallback mShowFileChooserCallback;
     private boolean mOpenFileChooserFunction;
 
     public RapidWebChromeClient(RapidWebView mRapidWebView, WebChromeClientCallback webChromeClientCallback,
-                                Activity activity, ShowFileChooserCallback showFileChooserCallback, boolean mOpenFileChooserFunction) {
+                                ShowFileChooserCallback showFileChooserCallback, boolean mOpenFileChooserFunction) {
         this.mRapidWebView = mRapidWebView;
         this.mWebChromeClientCallback = webChromeClientCallback;
-        this.mActivityWeakReference = new WeakReference<Activity>(activity);
         this.mShowFileChooserCallback = showFileChooserCallback;
         this.mOpenFileChooserFunction = mOpenFileChooserFunction;
     }
@@ -89,45 +83,9 @@ public class RapidWebChromeClient extends WebChromeClient {
 
         //如果开启图片上传功能，那么使用默认的上传功能
         if (mOpenFileChooserFunction) {
-            fileUploadCallback = filePathCallback;
-
-            // 创建一个文件选择的Intent
-            Intent intent = fileChooserParams.createIntent();
-            try {
-                mActivityWeakReference.get().startActivityForResult(intent, 8383);
-            } catch (Exception e) {
-                fileUploadCallback = null;
-                return false;
-            }
-
-            return true;
+            return mRapidWebView.showFileChooser(filePathCallback, fileChooserParams);
         }
 
         return super.onShowFileChooser(webView, filePathCallback, fileChooserParams);
-    }
-
-    public void handleFileChooser(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 8383) {
-            if (fileUploadCallback == null) {
-                return;
-            }
-
-            switch (resultCode) {
-                case Activity.RESULT_OK:
-
-                    if (data != null) {
-                        String dataString = data.getDataString();
-                        if (dataString != null) {
-                            Uri[] results = new Uri[]{Uri.parse(dataString)};
-                            fileUploadCallback.onReceiveValue(results);
-                        }
-                    }
-                    break;
-                case Activity.RESULT_CANCELED:
-                    fileUploadCallback.onReceiveValue(null);
-                    break;
-            }
-            fileUploadCallback = null;
-        }
     }
 }

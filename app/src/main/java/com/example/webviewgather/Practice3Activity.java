@@ -60,7 +60,7 @@ public class Practice3Activity extends AppCompatActivity {
                 .setProgressGradientColor(Color.parseColor("#FF8C00"), Color.parseColor("#FF0000"))
                 .setWebChromeClientCallback(new MineWebChromeClientCallback(Practice3Activity.this))
                 .setErrorLayoutId(R.layout.by_load_url_error, R.id.iv_click_refresh)
-                .setErrorViewShowListener(errorViewShowListener)
+                .setErrorViewShowListener(new AnonymousErrorViewShowListener())
                 .loadUrl(getIntent().getStringExtra(TAG));
     }
 
@@ -159,12 +159,21 @@ public class Practice3Activity extends AppCompatActivity {
         }
     }
 
-    private final ErrorViewShowListener errorViewShowListener = new ErrorViewShowListener() {
+/*    private final ErrorViewShowListener errorViewShowListener = new ErrorViewShowListener() {
         @Override
         public void onErrorViewShow(View errorView, String errorUrl, String errorDescription, int errorCode) {
             ((TextView) (errorView.findViewById(R.id.app_error_url))).setText(errorUrl);
             ((TextView) (errorView.findViewById(R.id.app_error_description))).setText(errorDescription);
             ((TextView) (errorView.findViewById(R.id.app_error_code))).setText(String.valueOf(errorCode));
         }
-    };
+    };*/
+
+    static class AnonymousErrorViewShowListener implements ErrorViewShowListener {
+        @Override
+        public void onErrorViewShow(View errorView, String errorUrl, String errorDescription, int errorCode) {
+            ((TextView) (errorView.findViewById(R.id.app_error_url))).setText(errorUrl);
+            ((TextView) (errorView.findViewById(R.id.app_error_description))).setText(errorDescription);
+            ((TextView) (errorView.findViewById(R.id.app_error_code))).setText(String.valueOf(errorCode));
+        }
+    }
 }

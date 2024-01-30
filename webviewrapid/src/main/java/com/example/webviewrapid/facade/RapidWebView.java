@@ -51,12 +51,13 @@ public class RapidWebView {
 
     public FileChooserManager theFileChooserManager;
 
-    public WeakReference<Activity> theActivity;
+    public WeakReference<AppCompatActivity> theActivity;
 
     public RapidWebView(Builder builder) {
         theActivity = new WeakReference<>(builder.mActivity);
-        FrameLayout parentLayout = new FrameLayout(builder.mActivity);
-        theWebView = WebViewManager.doObtain(builder.mActivity);
+
+        FrameLayout parentLayout = new FrameLayout(theActivity.get());
+        theWebView = WebViewManager.doObtain(theActivity.get());
         if (builder.mWebViewBackgroundColor != 0) {
             theWebView.setBackgroundColor(builder.mWebViewBackgroundColor);
         }
@@ -83,7 +84,7 @@ public class RapidWebView {
 
 
         //用于自动去感知Activity的生命周期，以此来调用WebView中的生命周期
-        builder.mActivity.getLifecycle().addObserver(new ActivityObserver(theWebView));
+        theActivity.get().getLifecycle().addObserver(new ActivityObserver(theWebView));
 
         theErrorLayoutId = builder.mErrorLayoutId;
         theClickReloadViewId = builder.mClickReloadViewId;
@@ -128,7 +129,7 @@ public class RapidWebView {
             return;
         }
 
-        WebProgress webProgress = new WebProgress(builder.mActivity);  //todo 如果WebView进行服用的话,我感觉WebProgress也能复用
+        WebProgress webProgress = new WebProgress(theActivity.get());  //todo 如果WebView进行服用的话,我感觉WebProgress也能复用
         if (builder.mProgressEndColor == 0) {
             webProgress.setColor(builder.mProgressColor);
         } else {

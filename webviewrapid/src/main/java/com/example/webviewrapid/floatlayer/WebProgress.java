@@ -12,12 +12,15 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
+
+import com.example.utilsgather.logcat.LogUtil;
 
 /**
  * WebView进度条，原作者: cenxiaozhong，在此基础上修改优化：
@@ -271,6 +274,7 @@ public class WebProgress extends FrameLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        LogUtil.d("已经将WebProgress干掉了");
         /**
          * animator cause leak , if not cancel;
          */

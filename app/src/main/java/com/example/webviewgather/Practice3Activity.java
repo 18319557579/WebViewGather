@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.ValueCallback;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
@@ -176,4 +177,23 @@ public class Practice3Activity extends AppCompatActivity {
             ((TextView) (errorView.findViewById(R.id.app_error_code))).setText(String.valueOf(errorCode));
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        View ll = findViewById(R.id.ll_out_container);
+        if (ll != null) {
+            ViewGroup parentView = (ViewGroup) ll.getParent();
+            if (parentView != null) {
+                parentView.removeView(ll);
+            }
+        }
+    }
+
+    /*@Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        ViewGroup parentView = findViewById(R.id.ll_out_container);
+        parentView.removeAllViews();
+    }*/
 }

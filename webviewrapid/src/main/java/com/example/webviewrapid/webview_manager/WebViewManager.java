@@ -75,7 +75,7 @@ public enum WebViewManager {
     public BaseWebView obtain(Context context) {
         //在准备完成了之后应该不会为空了
         if (webViewCache.isEmpty()) {
-            webViewCache.add(create(new MutableContextWrapper(context)));
+            webViewCache.add(create(new MutableContextWrapper(context.getApplicationContext())));
         }
         BaseWebView webView = webViewCache.remove(0);
 

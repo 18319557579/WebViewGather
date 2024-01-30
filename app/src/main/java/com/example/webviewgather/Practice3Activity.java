@@ -31,6 +31,8 @@ import com.example.webviewrapid.facade.RapidWebView;
 import com.example.webviewrapid.webchrome_client.ShowFileChooserCallback;
 import com.example.webviewrapid.webchrome_client.WebChromeClientCallback;
 
+import java.lang.ref.WeakReference;
+
 public class Practice3Activity extends AppCompatActivity {
 
     public static final String TAG = "PracticeActivity";  //用于每个不同url之间的分隔
@@ -38,7 +40,11 @@ public class Practice3Activity extends AppCompatActivity {
 
     private TextView toolBarTv;
 
-    private ValueCallback<Uri[]> fileUploadCallback;
+/*    private WeakReference<Practice3Activity> mActivityRef;
+
+    {
+        mActivityRef = new WeakReference<>(this);
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +58,7 @@ public class Practice3Activity extends AppCompatActivity {
         rapidWebView = RapidWebView.with(Practice3Activity.this)
                 .setWebParent(findViewById(R.id.ll_out_container), new LinearLayout.LayoutParams(-1, -1))
                 .setProgressGradientColor(Color.parseColor("#FF8C00"), Color.parseColor("#FF0000"))
-                .setWebChromeClientCallback(webChromeClientCallback)
+                .setWebChromeClientCallback(new MineWebChromeClientCallback(Practice3Activity.this))
                 .setErrorLayoutId(R.layout.by_load_url_error, R.id.iv_click_refresh)
                 .setErrorViewShowListener(errorViewShowListener)
                 .loadUrl(getIntent().getStringExtra(TAG));
@@ -134,12 +140,24 @@ public class Practice3Activity extends AppCompatActivity {
         return super.onMenuOpened(featureId, menu);
     }
 
-    private final WebChromeClientCallback webChromeClientCallback = new WebChromeClientCallback() {
+/*    private WebChromeClientCallback webChromeClientCallback = new WebChromeClientCallback() {
         @Override
         public void onReceivedTitle(String title) {
             toolBarTv.setText(title);
         }
-    };
+    };*/
+
+    static class MineWebChromeClientCallback extends WebChromeClientCallback {
+        private final WeakReference<Practice3Activity> mActivityRef;
+        public MineWebChromeClientCallback(Practice3Activity activity) {
+            mActivityRef = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void onReceivedTitle(String title) {
+            mActivityRef.get().toolBarTv.setText(title);
+        }
+    }
 
     private final ErrorViewShowListener errorViewShowListener = new ErrorViewShowListener() {
         @Override

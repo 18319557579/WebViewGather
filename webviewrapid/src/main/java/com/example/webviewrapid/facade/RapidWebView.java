@@ -33,6 +33,7 @@ import com.example.webviewrapid.error.PageState;
 import com.example.webviewrapid.webview_manager.WebViewManager;
 
 import java.lang.annotation.Annotation;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 
 public class RapidWebView {
@@ -50,10 +51,10 @@ public class RapidWebView {
 
     public FileChooserManager theFileChooserManager;
 
-    public Activity theActivity;
+    public WeakReference<Activity> theActivity;
 
     public RapidWebView(Builder builder) {
-        theActivity = builder.mActivity;
+        theActivity = new WeakReference<>(builder.mActivity);
         FrameLayout parentLayout = new FrameLayout(builder.mActivity);
         theWebView = WebViewManager.doObtain(builder.mActivity);
         if (builder.mWebViewBackgroundColor != 0) {
@@ -237,7 +238,7 @@ public class RapidWebView {
     }
 
     public boolean showFileChooser(ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
-        theFileChooserManager = new FileChooserManager(filePathCallback, fileChooserParams, theActivity);
+        theFileChooserManager = new FileChooserManager(filePathCallback, fileChooserParams, theActivity.get());
         return theFileChooserManager.open();
     }
 

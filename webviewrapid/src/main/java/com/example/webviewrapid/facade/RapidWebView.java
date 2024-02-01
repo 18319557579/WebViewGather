@@ -243,7 +243,7 @@ public class RapidWebView {
         LogUtil.d("当前非等待状态, 不用切为正常状态 (可能为正常: 正常页面的进度变化; 可能为错误: 错误的回调总是比progress100来得更早)");
     }
 
-    //使用内置图片上传功能时，调用的防方法
+    //使用内置图片上传功能时，调用的方法
     public boolean showFileChooser(ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
         theFileChooserManager = new FileChooserManager(filePathCallback, fileChooserParams, theActivity.get());
         return theFileChooserManager.open(theOpenFileChooserFunction);

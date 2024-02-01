@@ -20,10 +20,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class FileChooserManager {
-    public ValueCallback<Uri[]> filePathCallback;
+    public ValueCallback<Uri[]> filePathCallback;  //用于开发者回调结果给WebView的
     public WebChromeClient.FileChooserParams fileChooserParams;
-    private WeakReference<Activity> mActivityWeakReference;
-    private int FILE_CHOOSE = 9001;
+    private final WeakReference<Activity> mActivityWeakReference;
+    private final int FILE_CHOOSE = 9001;
 
     private Uri captureImageUri;
 
@@ -53,20 +53,22 @@ public class FileChooserManager {
 
             Intent intentTaskPic = new Intent();
             intentTaskPic.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (intentTaskPic.resolveActivity(mActivityWeakReference.get().getPackageManager()) != null) {
-                File photoFile;
-                try {
-                    photoFile = createImageFile();
-                } catch (IOException e) {
-                    LogUtil.d("调用createImageFile出错了");
-                    return false;
-                }
-
-                Uri photoURI = getUriForFile(photoFile);
-                intentTaskPic.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            if (intentTaskPic.resolveActivity(mActivityWeakReference.get().getPackageManager()) == null) {
+                LogUtil.d("找不到处理拍照的程序");
+                return false;
             }
+            File photoFile;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException e) {
+                LogUtil.d("调用createImageFile出错了");
+                return false;
+            }
+            Uri photoURI = getUriForFile(photoFile);
+            //设置拍照的输出位置为得到的URI
+            intentTaskPic.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
 
-            intentChooser = Intent.createChooser(intentPickPhoto, "请选择吧hh");
+            intentChooser = Intent.createChooser(intentPickPhoto, "请选择");
             intentChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Parcelable[]{intentTaskPic});
         }
 
@@ -107,33 +109,36 @@ public class FileChooserManager {
      * 处理onActivityResult()的结果
      */
     public void handleFileChooser(int requestCode, int resultCode, Intent data) {
-        if (requestCode == FILE_CHOOSE) {
-            if (filePathCallback == null) {
-                return;
-            }
-
-            switch (resultCode) {
-                case Activity.RESULT_OK:
-                    LogUtil.d("intent: " + data);
-                    if (data == null || data.getDataString() == null) {
-                        //如果没有数据，基本可以判断是拍照的情况
-                        LogUtil.d("图片拍照的结果：" + captureImageUri);
-                        filePathCallback.onReceiveValue(new Uri[]{captureImageUri});
-                    } else {
-                        //有数据的话，是选择图片的情况
-                        String dataString = data.getDataString();
-                        LogUtil.d("获取到的dataString: " + dataString);
-                        if (dataString != null) {
-                            Uri[] results = new Uri[]{Uri.parse(dataString)};
-                            filePathCallback.onReceiveValue(results);
-                        }
-                    }
-                    break;
-                case Activity.RESULT_CANCELED:
-                    filePathCallback.onReceiveValue(null);
-                    break;
-            }
-            filePathCallback = null;
+        if (requestCode != FILE_CHOOSE) {  //不处理非图片选择的回调
+            return;
         }
+
+        if (filePathCallback == null) {
+            return;
+        }
+
+        switch (resultCode) {
+            case Activity.RESULT_OK:
+                LogUtil.d("intent: " + data);
+                if (data == null || data.getDataString() == null) {
+                    //如果没有数据，基本可以判断是拍照的情况
+                    LogUtil.d("图片拍照的结果：" + captureImageUri);
+                    filePathCallback.onReceiveValue(new Uri[]{captureImageUri});
+                } else {
+                    //有数据的话，是选择图片的情况
+                    String dataString = data.getDataString();
+                    LogUtil.d("获取到的dataString: " + dataString);
+                    if (dataString != null) {
+                        Uri[] results = new Uri[]{Uri.parse(dataString)};
+                        filePathCallback.onReceiveValue(results);
+                    }
+                }
+                break;
+
+            case Activity.RESULT_CANCELED:
+                filePathCallback.onReceiveValue(null);
+                break;
+        }
+        filePathCallback = null;
     }
 }

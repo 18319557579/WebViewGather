@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.IdRes;
+import androidx.annotation.IntRange;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -333,7 +334,7 @@ public class RapidWebView {
             return this;
         }
 
-        public Builder setOpenFileChooserFunction(int openFileChooserFunction) {
+        public Builder setOpenFileChooserFunction(@IntRange(from = 0, to = 2) int openFileChooserFunction) {
             this.openFileChooserFunction = openFileChooserFunction;
             return this;
         }

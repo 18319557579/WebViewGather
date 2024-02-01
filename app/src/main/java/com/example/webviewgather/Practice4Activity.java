@@ -10,9 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebBackForwardList;
-import android.webkit.WebChromeClient;
 import android.webkit.WebHistoryItem;
-import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,10 +26,9 @@ import com.example.utilsgather.share.SystemShareUtil;
 import com.example.utilsgather.ui.status.OtherStatusBarUtil;
 import com.example.webviewrapid.error.ErrorViewShowListener;
 import com.example.webviewrapid.facade.RapidWebView;
-import com.example.webviewrapid.webchrome_client.ShowFileChooserCallback;
 import com.example.webviewrapid.webchrome_client.WebChromeClientCallback;
 
-public class Practice2Activity extends AppCompatActivity {
+public class Practice4Activity extends AppCompatActivity {
 
     public static final String TAG = "PracticeActivity";  //用于每个不同url之间的分隔
     RapidWebView rapidWebView;
@@ -49,13 +46,13 @@ public class Practice2Activity extends AppCompatActivity {
 
         initTitle();
 
-        rapidWebView = RapidWebView.with(Practice2Activity.this)
+        rapidWebView = RapidWebView.with(Practice4Activity.this)
                 .setWebParent(findViewById(R.id.ll_out_container), new LinearLayout.LayoutParams(-1, -1))
                 .setProgressGradientColor(Color.parseColor("#FF8C00"), Color.parseColor("#FF0000"))
                 .setWebChromeClientCallback(webChromeClientCallback)
                 .setErrorLayoutId(R.layout.by_load_url_error, R.id.iv_click_refresh)
                 .setErrorViewShowListener(errorViewShowListener)
-                .setOpenFileChooserFunction(1)
+                .setOpenFileChooserFunction(2)
                 .loadUrl(getIntent().getStringExtra(TAG));
     }
 

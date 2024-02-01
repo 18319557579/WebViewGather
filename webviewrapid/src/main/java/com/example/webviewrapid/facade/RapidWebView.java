@@ -49,9 +49,11 @@ public class RapidWebView {
 
     private RapidWebChromeClient theRapidWebChromeClient;
 
-    public FileChooserManager theFileChooserManager;
+    public FileChooserManager theFileChooserManager;  //管理图片上传的类
 
     public WeakReference<AppCompatActivity> theActivity;
+
+    public int theOpenFileChooserFunction;
 
     public RapidWebView(Builder builder) {
         theActivity = new WeakReference<>(builder.mActivity);
@@ -71,7 +73,7 @@ public class RapidWebView {
         theWebView.setWebViewClient(rapidWebViewClient);
 
         theRapidWebChromeClient = new RapidWebChromeClient(this, builder.mWebChromeClientCallback,
-                builder.mShowFileChooserCallback, builder.openFileChooserFunction);
+                builder.mShowFileChooserCallback);
         theWebView.setWebChromeClient(theRapidWebChromeClient);
 
         checkThenAddJavascriptInterface(builder.mInterfaceObj, builder.mInterfaceName);
@@ -92,6 +94,8 @@ public class RapidWebView {
         theErrorViewShowListener = builder.mErrorViewShowListener;
 
         theShowJumpOtherAppFloatLayout = builder.mShowJumpOtherAppFloatLayer;
+
+        theOpenFileChooserFunction = builder.openFileChooserFunction;
     }
 
     @SuppressLint("JavascriptInterface")
@@ -238,16 +242,16 @@ public class RapidWebView {
         LogUtil.d("当前非等待状态, 不用切为正常状态 (可能为正常: 正常页面的进度变化; 可能为错误: 错误的回调总是比progress100来得更早)");
     }
 
+    //使用内置图片上传功能时，调用的防方法
     public boolean showFileChooser(ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
         theFileChooserManager = new FileChooserManager(filePathCallback, fileChooserParams, theActivity.get());
-        return theFileChooserManager.open();
+        return theFileChooserManager.open(theOpenFileChooserFunction);
     }
 
     /**
      * 选择图片之后的回调，在Activity里onActivityResult调用
      */
     public void handleFileChooser(int requestCode, int resultCode, Intent data) {
-//        theRapidWebChromeClient.handleFileChooser(requestCode, resultCode, data);
         if (theFileChooserManager != null) {
             theFileChooserManager.handleFileChooser(requestCode, resultCode, data);
         }
@@ -284,7 +288,8 @@ public class RapidWebView {
 
         private ShowFileChooserCallback mShowFileChooserCallback;
 
-        private boolean openFileChooserFunction = false;
+        //0代表不开启图片上传功能；1代表使用内置的图片上传功能，Intent使用WebView提供的；2代表使用内置的图片上传功能，同时提供拍照和相册
+        private int openFileChooserFunction = 0;
 
         public Builder(AppCompatActivity activity) {
             mActivity = activity;
@@ -328,7 +333,7 @@ public class RapidWebView {
             return this;
         }
 
-        public Builder setOpenFileChooserFunction(boolean openFileChooserFunction) {
+        public Builder setOpenFileChooserFunction(int openFileChooserFunction) {
             this.openFileChooserFunction = openFileChooserFunction;
             return this;
         }

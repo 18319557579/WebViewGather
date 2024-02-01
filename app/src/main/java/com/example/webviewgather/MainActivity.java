@@ -148,6 +148,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        findViewById(R.id.btn_load_url_4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Practice4Activity.class);
+                intent.putExtra(Practice4Activity.TAG, getUrl());
+                startActivity(intent);
+            }
+        });
 
         findViewById(R.id.btn_js_with_android).setOnClickListener(new View.OnClickListener() {
             @Override

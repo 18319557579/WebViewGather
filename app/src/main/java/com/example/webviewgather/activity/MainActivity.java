@@ -20,7 +20,6 @@ import com.example.webviewgather.R;
 import com.example.webviewgather.packet.StartDownloadEntry;
 import com.example.webviewgather.packet.other.ImplementFile;
 import com.example.webviewgather.packet.unzip_inter.TheEntryCallback;
-import com.example.webviewrapid.WebViewActivity;
 import com.example.webviewrapid.base.BaseWebView;
 import com.example.webviewrapid.webview_manager.WebViewManager;
 

@@ -4,9 +4,6 @@
 
     <application
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".WebViewActivity"
-            android:exported="false" />
 
         <provider
             android:authorities="com.example.android.fileprovider"

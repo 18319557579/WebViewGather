@@ -1,4 +1,4 @@
-package com.example.webviewrapid;
+package com.example.webviewgather.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,16 +13,12 @@ import android.webkit.WebBackForwardList;
 import android.webkit.WebHistoryItem;
 import android.widget.FrameLayout;
 
-
-import com.example.utilsgather.lifecycle_callback.CallbackActivity;
 import com.example.utilsgather.logcat.LogUtil;
-
 import com.example.utilsgather.ui.screen.ScreenFunctionUtils;
+import com.example.webviewgather.R;
+import com.example.webviewgather.databinding.ActivityWebViewBinding;
 import com.example.webviewrapid.base.BaseWebView;
-import com.example.webviewrapid.base_activity.BaseWebViewActivity;
-import com.example.webviewrapid.databinding.ActivityWebViewBinding;
 import com.example.webviewrapid.webview_manager.WebViewManager;
-import com.example.webviewrapid.webview_settings.WebSettingsConfiguration;
 
 public class WebViewActivity extends BaseWebViewActivity {
 

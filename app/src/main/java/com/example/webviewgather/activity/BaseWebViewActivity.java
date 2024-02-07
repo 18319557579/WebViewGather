@@ -1,4 +1,4 @@
-package com.example.webviewrapid.base_activity;
+package com.example.webviewgather.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

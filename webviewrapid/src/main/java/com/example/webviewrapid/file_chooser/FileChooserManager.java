@@ -1,4 +1,4 @@
-package com.example.webviewrapid.facade;
+package com.example.webviewrapid.file_chooser;
 
 import android.app.Activity;
 import android.content.Intent;

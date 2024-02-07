@@ -1,4 +1,4 @@
-package com.example.webviewrapid.floatlayer;
+package com.example.webviewrapid.upper_ui;
 
 import com.example.floatlayer.Config;
 

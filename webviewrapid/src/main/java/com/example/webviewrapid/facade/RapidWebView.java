@@ -2,7 +2,6 @@ package com.example.webviewrapid.facade;
 
 //import android.annotation.Nullable;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -24,12 +23,13 @@ import com.example.utilsgather.logcat.LogUtil;
 import com.example.utilsgather.ui.SizeTransferUtil;
 import com.example.webviewrapid.base.BaseWebView;
 import com.example.webviewrapid.error.ErrorViewShowListener;
+import com.example.webviewrapid.file_chooser.FileChooserManager;
 import com.example.webviewrapid.webchrome_client.RapidWebChromeClient;
 import com.example.webviewrapid.webchrome_client.ShowFileChooserCallback;
 import com.example.webviewrapid.webchrome_client.WebChromeClientCallback;
 import com.example.webviewrapid.webview_client.RapidWebViewClient;
 import com.example.webviewrapid.webview_client.WebViewClientCallback;
-import com.example.webviewrapid.floatlayer.WebProgress;
+import com.example.webviewrapid.upper_ui.WebProgress;
 import com.example.webviewrapid.error.PageState;
 import com.example.webviewrapid.webview_manager.WebViewManager;
 

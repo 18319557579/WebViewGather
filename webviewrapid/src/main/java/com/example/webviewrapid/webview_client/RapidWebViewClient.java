@@ -27,7 +27,7 @@ import com.example.utilsgather.jump.JumpActivityUtils;
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.webviewrapid.R;
 import com.example.webviewrapid.facade.RapidWebView;
-import com.example.webviewrapid.floatlayer.JumpFloatLayerParams;
+import com.example.webviewrapid.upper_ui.JumpFloatLayerParams;
 
 public class RapidWebViewClient extends WebViewClient {
     private RapidWebView mRapidWebView;

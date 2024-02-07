@@ -1,7 +1,5 @@
 package com.example.webviewrapid.webchrome_client;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
 import android.webkit.ConsoleMessage;
 import android.webkit.JsPromptResult;
@@ -10,12 +8,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.example.utilsgather.logcat.LogUtil;
-import com.example.webviewrapid.facade.FileChooserManager;
 import com.example.webviewrapid.facade.RapidWebView;
 
-import java.lang.ref.WeakReference;
-
-    public class RapidWebChromeClient extends WebChromeClient {
+public class RapidWebChromeClient extends WebChromeClient {
     private RapidWebView mRapidWebView;
     private WebChromeClientCallback mWebChromeClientCallback;
     private ShowFileChooserCallback mShowFileChooserCallback;

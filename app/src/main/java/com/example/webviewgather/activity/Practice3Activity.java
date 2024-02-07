@@ -1,6 +1,5 @@
-package com.example.webviewgather;
+package com.example.webviewgather.activity;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,11 +7,9 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.ValueCallback;
+import android.view.ViewGroup;
 import android.webkit.WebBackForwardList;
-import android.webkit.WebChromeClient;
 import android.webkit.WebHistoryItem;
-import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,19 +23,25 @@ import com.example.utilsgather.clipboard.ClipboardUtil;
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.utilsgather.share.SystemShareUtil;
 import com.example.utilsgather.ui.status.OtherStatusBarUtil;
+import com.example.webviewgather.R;
 import com.example.webviewrapid.error.ErrorViewShowListener;
 import com.example.webviewrapid.facade.RapidWebView;
-import com.example.webviewrapid.webchrome_client.ShowFileChooserCallback;
 import com.example.webviewrapid.webchrome_client.WebChromeClientCallback;
 
-public class Practice2Activity extends AppCompatActivity {
+import java.lang.ref.WeakReference;
+
+public class Practice3Activity extends AppCompatActivity {
 
     public static final String TAG = "PracticeActivity";  //用于每个不同url之间的分隔
     RapidWebView rapidWebView;
 
     private TextView toolBarTv;
 
-    private ValueCallback<Uri[]> fileUploadCallback;
+/*    private WeakReference<Practice3Activity> mActivityRef;
+
+    {
+        mActivityRef = new WeakReference<>(this);
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +52,12 @@ public class Practice2Activity extends AppCompatActivity {
 
         initTitle();
 
-        rapidWebView = RapidWebView.with(Practice2Activity.this)
+        rapidWebView = RapidWebView.with(Practice3Activity.this)
                 .setWebParent(findViewById(R.id.ll_out_container), new LinearLayout.LayoutParams(-1, -1))
                 .setProgressGradientColor(Color.parseColor("#FF8C00"), Color.parseColor("#FF0000"))
-                .setWebChromeClientCallback(webChromeClientCallback)
+                .setWebChromeClientCallback(new MineWebChromeClientCallback(Practice3Activity.this))
                 .setErrorLayoutId(R.layout.by_load_url_error, R.id.iv_click_refresh)
-                .setErrorViewShowListener(errorViewShowListener)
-                .setOpenFileChooserFunction(1)
+                .setErrorViewShowListener(new AnonymousErrorViewShowListener())
                 .loadUrl(getIntent().getStringExtra(TAG));
     }
 
@@ -135,29 +137,59 @@ public class Practice2Activity extends AppCompatActivity {
         return super.onMenuOpened(featureId, menu);
     }
 
-    private final WebChromeClientCallback webChromeClientCallback = new WebChromeClientCallback() {
+/*    private WebChromeClientCallback webChromeClientCallback = new WebChromeClientCallback() {
         @Override
         public void onReceivedTitle(String title) {
             toolBarTv.setText(title);
         }
-    };
+    };*/
 
-    private final ErrorViewShowListener errorViewShowListener = new ErrorViewShowListener() {
+    static class MineWebChromeClientCallback extends WebChromeClientCallback {
+        private final WeakReference<Practice3Activity> mActivityRef;
+        public MineWebChromeClientCallback(Practice3Activity activity) {
+            mActivityRef = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void onReceivedTitle(String title) {
+            mActivityRef.get().toolBarTv.setText(title);
+        }
+    }
+
+/*    private final ErrorViewShowListener errorViewShowListener = new ErrorViewShowListener() {
         @Override
         public void onErrorViewShow(View errorView, String errorUrl, String errorDescription, int errorCode) {
             ((TextView) (errorView.findViewById(R.id.app_error_url))).setText(errorUrl);
             ((TextView) (errorView.findViewById(R.id.app_error_description))).setText(errorDescription);
             ((TextView) (errorView.findViewById(R.id.app_error_code))).setText(String.valueOf(errorCode));
         }
-    };
+    };*/
 
-    // 处理文件选择的结果
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        LogUtil.d("Practice2Activity 选择图片后回调 requestCode：" + requestCode + ", resultCode: " + resultCode);
-
-        rapidWebView.handleFileChooser(requestCode, resultCode, data);
+    static class AnonymousErrorViewShowListener implements ErrorViewShowListener {
+        @Override
+        public void onErrorViewShow(View errorView, String errorUrl, String errorDescription, int errorCode) {
+            ((TextView) (errorView.findViewById(R.id.app_error_url))).setText(errorUrl);
+            ((TextView) (errorView.findViewById(R.id.app_error_description))).setText(errorDescription);
+            ((TextView) (errorView.findViewById(R.id.app_error_code))).setText(String.valueOf(errorCode));
+        }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        View ll = findViewById(R.id.ll_out_container);
+        if (ll != null) {
+            ViewGroup parentView = (ViewGroup) ll.getParent();
+            if (parentView != null) {
+                parentView.removeView(ll);
+            }
+        }
+    }
+
+    /*@Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        ViewGroup parentView = findViewById(R.id.ll_out_container);
+        parentView.removeAllViews();
+    }*/
 }

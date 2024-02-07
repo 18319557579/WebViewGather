@@ -1,4 +1,4 @@
-package com.example.webviewgather;
+package com.example.webviewgather.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -24,11 +24,12 @@ import com.example.utilsgather.clipboard.ClipboardUtil;
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.utilsgather.share.SystemShareUtil;
 import com.example.utilsgather.ui.status.OtherStatusBarUtil;
+import com.example.webviewgather.R;
 import com.example.webviewrapid.error.ErrorViewShowListener;
 import com.example.webviewrapid.facade.RapidWebView;
 import com.example.webviewrapid.webchrome_client.WebChromeClientCallback;
 
-public class Practice4Activity extends AppCompatActivity {
+public class Practice2Activity extends AppCompatActivity {
 
     public static final String TAG = "PracticeActivity";  //用于每个不同url之间的分隔
     RapidWebView rapidWebView;
@@ -46,13 +47,13 @@ public class Practice4Activity extends AppCompatActivity {
 
         initTitle();
 
-        rapidWebView = RapidWebView.with(Practice4Activity.this)
+        rapidWebView = RapidWebView.with(Practice2Activity.this)
                 .setWebParent(findViewById(R.id.ll_out_container), new LinearLayout.LayoutParams(-1, -1))
                 .setProgressGradientColor(Color.parseColor("#FF8C00"), Color.parseColor("#FF0000"))
                 .setWebChromeClientCallback(webChromeClientCallback)
                 .setErrorLayoutId(R.layout.by_load_url_error, R.id.iv_click_refresh)
                 .setErrorViewShowListener(errorViewShowListener)
-                .setOpenFileChooserFunction(2)
+                .setOpenFileChooserFunction(1)
                 .loadUrl(getIntent().getStringExtra(TAG));
     }
 

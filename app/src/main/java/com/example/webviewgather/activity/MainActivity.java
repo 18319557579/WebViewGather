@@ -1,4 +1,4 @@
-package com.example.webviewgather;
+package com.example.webviewgather.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebHistoryItem;
@@ -17,10 +16,10 @@ import android.widget.TextView;
 import com.example.middleagent.OpenWebActivity;
 import com.example.utilsgather.exit.ExitUtil;
 import com.example.utilsgather.logcat.LogUtil;
+import com.example.webviewgather.R;
 import com.example.webviewgather.packet.StartDownloadEntry;
 import com.example.webviewgather.packet.other.ImplementFile;
 import com.example.webviewgather.packet.unzip_inter.TheEntryCallback;
-import com.example.webviewrapid.facade.RapidWebView;
 import com.example.webviewrapid.WebViewActivity;
 import com.example.webviewrapid.base.BaseWebView;
 import com.example.webviewrapid.webview_manager.WebViewManager;

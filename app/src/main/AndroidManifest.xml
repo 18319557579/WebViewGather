@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WebViewGather" >
-        <activity android:name=".MainActivity"
+        <activity android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,18 +21,18 @@
         </activity>
 
         <!--使用自定义的图片上传功能-->
-        <activity android:name=".PracticeActivity"></activity>
+        <activity android:name=".activity.PracticeActivity"></activity>
 
         <!--使用内置的图片上传，1-->
-        <activity android:name=".Practice2Activity"></activity>
+        <activity android:name=".activity.Practice2Activity"></activity>
 
         <!--不开启图片上传-->
-        <activity android:name=".Practice3Activity"></activity>
+        <activity android:name=".activity.Practice3Activity"></activity>
 
         <!--使用内置的图片上传，2-->
-        <activity android:name=".Practice4Activity"></activity>
+        <activity android:name=".activity.Practice4Activity"></activity>
 
-        <activity android:name=".JSWithAndroidActivity">
+        <activity android:name=".activity.JSWithAndroidActivity">
 
         </activity>
     </application>

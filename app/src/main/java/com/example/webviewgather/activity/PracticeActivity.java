@@ -1,13 +1,10 @@
-package com.example.webviewgather;
+package com.example.webviewgather.activity;
 
-import android.app.Instrumentation;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Message;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,11 +26,11 @@ import com.example.utilsgather.clipboard.ClipboardUtil;
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.utilsgather.share.SystemShareUtil;
 import com.example.utilsgather.ui.status.OtherStatusBarUtil;
+import com.example.webviewgather.R;
 import com.example.webviewrapid.error.ErrorViewShowListener;
 import com.example.webviewrapid.facade.RapidWebView;
 import com.example.webviewrapid.webchrome_client.ShowFileChooserCallback;
 import com.example.webviewrapid.webchrome_client.WebChromeClientCallback;
-import com.example.webviewrapid.webview_client.WebViewClientCallback;
 
 public class PracticeActivity extends AppCompatActivity {
 

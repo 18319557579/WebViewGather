@@ -1,4 +1,4 @@
-package com.example.webviewgather;
+package com.example.webviewgather.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.utilsgather.ui.screen.ScreenFunctionUtils;
+import com.example.webviewgather.R;
 import com.example.webviewgather.interaction.JSCallAndroidObject;
 import com.example.webviewrapid.facade.RapidWebView;
 

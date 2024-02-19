@@ -64,6 +64,9 @@ public class WebSettingsConfiguration {
 //        MIXED_CONTENT_NEVER_ALLOW 不允许Https加载Http的内容，即不允许从安全的起源去加载一个不安全的资源；
 //        MIXED_CONTENT_COMPLTIBILITY_MODE 当涉及到混合式内容时，WebView会尝试去兼容最新Web浏览器的风格；
         webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+
+        //使媒体自动播放（包括音频）
+        webSettings.setMediaPlaybackRequiresUserGesture(false);
     }
 
 }

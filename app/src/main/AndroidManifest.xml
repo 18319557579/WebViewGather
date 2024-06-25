@@ -22,11 +22,14 @@
         <!--使用自定义的图片上传功能-->
         <activity android:name=".PracticeActivity"></activity>
 
-        <!--使用默认的图片上传-->
+        <!--使用内置的图片上传，1-->
         <activity android:name=".Practice2Activity"></activity>
 
         <!--不开启图片上传-->
         <activity android:name=".Practice3Activity"></activity>
+
+        <!--使用内置的图片上传，2-->
+        <activity android:name=".Practice4Activity"></activity>
 
         <activity android:name=".JSWithAndroidActivity">
 

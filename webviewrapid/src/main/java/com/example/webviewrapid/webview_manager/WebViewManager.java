@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebHistoryItem;
+import android.webkit.WebViewClient;
 
 import com.example.utilsgather.logcat.LogUtil;
 import com.example.webviewrapid.base.BaseWebView;
@@ -113,8 +114,9 @@ public enum WebViewManager {
         }
         webView.setBackground(null);  //同样防止设置了webview的背景
 
-//        webView.setWebChromeClient(null);
-//        webView.setWebViewClient(null);  //怎么能传null给非null的呢
+        webView.setWebChromeClient(null);
+        webView.setWebViewClient(new EmptyWebViewClient());  //怎么能传null给非null的呢
+
         ViewGroup parent = (ViewGroup) webView.getParent();
         if (parent != null) {
             parent.removeView(webView);
@@ -135,4 +137,6 @@ public enum WebViewManager {
         }
         webViewCache.clear();
     }
+
+    private static class EmptyWebViewClient extends WebViewClient {}
 }

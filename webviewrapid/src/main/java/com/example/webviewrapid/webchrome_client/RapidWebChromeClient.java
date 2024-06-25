@@ -10,22 +10,21 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.example.utilsgather.logcat.LogUtil;
+import com.example.webviewrapid.facade.FileChooserManager;
 import com.example.webviewrapid.facade.RapidWebView;
 
 import java.lang.ref.WeakReference;
 
-public class RapidWebChromeClient extends WebChromeClient {
+    public class RapidWebChromeClient extends WebChromeClient {
     private RapidWebView mRapidWebView;
     private WebChromeClientCallback mWebChromeClientCallback;
     private ShowFileChooserCallback mShowFileChooserCallback;
-    private boolean mOpenFileChooserFunction;
 
     public RapidWebChromeClient(RapidWebView mRapidWebView, WebChromeClientCallback webChromeClientCallback,
-                                ShowFileChooserCallback showFileChooserCallback, boolean mOpenFileChooserFunction) {
+                                ShowFileChooserCallback showFileChooserCallback) {
         this.mRapidWebView = mRapidWebView;
         this.mWebChromeClientCallback = webChromeClientCallback;
         this.mShowFileChooserCallback = showFileChooserCallback;
-        this.mOpenFileChooserFunction = mOpenFileChooserFunction;
     }
 
     @Override
@@ -81,8 +80,8 @@ public class RapidWebChromeClient extends WebChromeClient {
             return mShowFileChooserCallback.onShowFileChooser(webView, filePathCallback, fileChooserParams);
         }
 
-        //如果开启图片上传功能，那么使用默认的上传功能
-        if (mOpenFileChooserFunction) {
+        //使用内置图片上传功能
+        if (mRapidWebView.theOpenFileChooserFunction != 0) {
             return mRapidWebView.showFileChooser(filePathCallback, fileChooserParams);
         }
 

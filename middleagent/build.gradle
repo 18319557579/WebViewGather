@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-//    namespace 'com.example.middleagent'
+    namespace 'com.example.middleagent'
     compileSdkVersion 34
 
     defaultConfig {

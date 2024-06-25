@@ -110,42 +110,36 @@ public class PracticeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if (! rapidWebView.handleBack()) {
-                    finish();
-                }
-                break;
-            case R.id.actionbar_share:
-                String sharedText = rapidWebView.getTitle() + "\n" + rapidWebView.getUrl();
-                SystemShareUtil.textShare(this, sharedText);
-                break;
-            case R.id.actionbar_cope:
-                ClipboardUtil.copyToClipboard(rapidWebView.getUrl(), this);
-                Toast.makeText(this, "复制成功", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.actionbar_webview_refresh:
-                rapidWebView.reload();
-                break;
-            case R.id.actionbar_open:
-                BrowserUtil.jumpBrowser(rapidWebView.getUrl(), this);
-                break;
-            case R.id.actionbar_list:
-                WebBackForwardList webBackForwardList = rapidWebView.getRealWebView().copyBackForwardList();
-                for (int i = 0; i < webBackForwardList.getSize(); i++) {
-                    WebHistoryItem webHistoryItem = webBackForwardList.getItemAtIndex(i);
-                    LogUtil.d("index：" + i + ", webHistoryItem:" + webHistoryItem.getUrl() + " | " +
-                            webHistoryItem.getOriginalUrl() + " | " + webHistoryItem.getTitle() + " | " +
-                            webHistoryItem.getFavicon());
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            if (! rapidWebView.handleBack()) {
+                finish();
+            }
+        } else if (itemId == R.id.actionbar_share) {
+            String sharedText = rapidWebView.getTitle() + "\n" + rapidWebView.getUrl();
+            SystemShareUtil.textShare(this, sharedText);
+        } else if (itemId == R.id.actionbar_cope) {
+            ClipboardUtil.copyToClipboard(rapidWebView.getUrl(), this);
+            Toast.makeText(this, "复制成功", Toast.LENGTH_SHORT).show();
+        } else if (itemId == R.id.actionbar_webview_refresh) {
+            rapidWebView.reload();
+        } else if (itemId == R.id.actionbar_open) {
+            BrowserUtil.jumpBrowser(rapidWebView.getUrl(), this);
+        } else if (itemId == R.id.actionbar_list) {
+            WebBackForwardList webBackForwardList = rapidWebView.getRealWebView().copyBackForwardList();
+            for (int i = 0; i < webBackForwardList.getSize(); i++) {
+                WebHistoryItem webHistoryItem = webBackForwardList.getItemAtIndex(i);
+                LogUtil.d("index：" + i + ", webHistoryItem:" + webHistoryItem.getUrl() + " | " +
+                        webHistoryItem.getOriginalUrl() + " | " + webHistoryItem.getTitle() + " | " +
+                        webHistoryItem.getFavicon());
 
-                    String host = Uri.parse(webHistoryItem.getUrl()).getHost();
-                    LogUtil.d("打印host：" + host);
-                    if (TextUtils.isEmpty(host)) {
-                        LogUtil.d("该页面是空的页面");
-                    }
-
+                String host = Uri.parse(webHistoryItem.getUrl()).getHost();
+                LogUtil.d("打印host：" + host);
+                if (TextUtils.isEmpty(host)) {
+                    LogUtil.d("该页面是空的页面");
                 }
-                break;
+
+            }
         }
         return super.onOptionsItemSelected(item);
     }

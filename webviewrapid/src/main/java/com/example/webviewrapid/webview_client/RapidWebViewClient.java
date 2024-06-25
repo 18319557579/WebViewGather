@@ -73,10 +73,10 @@ public class RapidWebViewClient extends WebViewClient {
 //        WebViewActivity webViewActivity = (WebViewActivity) ContextUtil.getCurrentActivity();
         ViewGroup parent = (ViewGroup) view.getParent();
 
-        FloatLayer floatLayer = new FloatLayer((FrameLayout) parent, R.layout.medi_tiny_message_bar);
+        FloatLayer floatLayer = new FloatLayer((FrameLayout) parent, com.example.floatlayer.R.layout.medi_tiny_message_bar);
         String appName = SniffingAppUtil.getAppNameByUrl(url);
-        ((TextView) floatLayer.findView(R.id.flla_jump_title_tv)).setText(String.format("允许网站打开 %s 吗？", appName));
-        ((TextView) floatLayer.findView(R.id.fila_jump_confirm_tv)).setOnClickListener(new View.OnClickListener() {
+        ((TextView) floatLayer.findView(com.example.floatlayer.R.id.flla_jump_title_tv)).setText(String.format("允许网站打开 %s 吗？", appName));
+        ((TextView) floatLayer.findView(com.example.floatlayer.R.id.fila_jump_confirm_tv)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 JumpActivityUtils.startApp(view.getContext(), url);

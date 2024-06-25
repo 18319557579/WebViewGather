@@ -6,6 +6,7 @@ plugins {
 android {
     compileSdkVersion 34
     buildToolsVersion "34.0.0"
+    namespace "com.example.webviewgather"
 
     defaultConfig {
         applicationId "com.example.webviewgather"
@@ -35,8 +36,10 @@ android {
 dependencies {
     implementation project(":middleagent")
     implementation project(":webviewrapid")
-    implementation 'androidx.core:core-ktx:+'
     compileOnly project(":utilsgather")
+
+    //    implementation 'androidx.core:core-ktx:+'
+    implementation 'androidx.core:core-ktx:1.12.0'
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.6.0'

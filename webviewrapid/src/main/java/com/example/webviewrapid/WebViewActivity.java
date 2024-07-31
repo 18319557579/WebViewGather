@@ -14,7 +14,7 @@ import android.webkit.WebHistoryItem;
 import android.widget.FrameLayout;
 
 
-import com.example.utilsgather.lifecycle_callback.CallbackActivity;
+
 import com.example.utilsgather.logcat.LogUtil;
 
 import com.example.utilsgather.ui.screen.ScreenFunctionUtils;

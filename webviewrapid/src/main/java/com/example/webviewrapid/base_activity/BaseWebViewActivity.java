@@ -5,9 +5,9 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
-import com.example.utilsgather.lifecycle_callback.CallbackActivity;
+import com.example.utilsgather.lifecycle_callback.LifecycleLogActivity;
 
-public class BaseWebViewActivity extends CallbackActivity {
+public class BaseWebViewActivity extends LifecycleLogActivity {
     public static final String KEY_URL = "KEY_URL";
 
     private String targetUrl;

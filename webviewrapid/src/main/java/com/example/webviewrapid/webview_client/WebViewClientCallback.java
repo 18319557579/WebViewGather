@@ -1,5 +1,6 @@
 package com.example.webviewrapid.webview_client;
 
 public interface WebViewClientCallback {
-    public void onPageFinished(String url);
+    void onPageStarted(String url);
+    void onPageFinished(String url);
 }

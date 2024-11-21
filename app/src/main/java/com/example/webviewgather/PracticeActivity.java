@@ -76,6 +76,21 @@ public class PracticeActivity extends AppCompatActivity {
                         return true;
                     }
                 })
+                .setWebViewClientCallback(new WebViewClientCallback() {
+                    @Override
+                    public void onPageFinished(String url) {
+                        rapidWebView.evaluateJavascript(
+                                "document.body.style.webkitUserSelect = 'none'; ", null
+                        );
+                    }
+
+                    @Override
+                    public void onPageStarted(String url) {
+                        rapidWebView.evaluateJavascript(
+                                "document.body.style.webkitUserSelect = 'none'; ", null
+                        );
+                    }
+                })
                 .loadUrl(getIntent().getStringExtra(TAG));
     }
 

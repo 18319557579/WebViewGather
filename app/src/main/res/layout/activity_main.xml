@@ -80,6 +80,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="下载的页面"/>
+            <RadioButton
+                android:id="@+id/rb_non"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="无感的"/>
+            <RadioButton
+                android:id="@+id/rb_non"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="无感的"/>
+
+            <RadioButton
+                android:id="@+id/rb_7k"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7k7k"/>
+
+            <RadioButton
+                android:id="@+id/rb_4399"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4399"/>
 
 
 

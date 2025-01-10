@@ -75,6 +75,16 @@ public class MainActivity extends AppCompatActivity {
 
                 } else if (checkedId == R.id.rb_eleven) {
                     editText.setText("http://192.168.8.124:8383?pl_props=yDGmTfXpKegr03dkeyJjaHRfcG4iOiJjb20uaDVzcGluLmNvdTEyIiwiY2h0X2lkIjoib3JnbmljIiwiY2h0X2NoIjoib3JnbmljIn0=&microport=1");
+                }else if (checkedId == R.id.rb_non) {
+                    // https://bj7.bjsvp37.space/?portal=1192
+                    editText.setText("https://game-bj7.bjsvp37.space/urls/MotoRacer/index.html?portal=1192");
+                }else if (checkedId == R.id.rb_7k) {
+                    // https://bj7.bjsvp37.space/?portal=1192
+                    editText.setText("https://www.7k7k.com");
+                }
+                else if (checkedId == R.id.rb_4399) {
+                    // https://bj7.bjsvp37.space/?portal=1192
+                    editText.setText("https://www.4399.com");
                 }
             }
         });
